@@ -7,7 +7,7 @@ on:
 
 jobs:
   to_github:
-    if: github.repository != secrets.REPO_NAME
+    if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
     runs-on: ubuntu-latest
     steps: # <-- must use actions/checkout before mirroring!
       - uses: actions/checkout@v2
