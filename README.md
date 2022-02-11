@@ -1,21 +1,32 @@
 # CSS 410 Research tools and methods
+
+## Warning
+
+This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Saqta
+
 ## Team members
-+ **Jet Lee** (*180100012*)- Backend Developer (GitHub account: *jetlee*)
-+ **Jacky Chan** (*180100013*) - Frontend Developer (GitHub account: *jackychan*)
+
+- **Jet Lee** (_180100012_)- Backend Developer (GitHub account: _jetlee_)
+- **Jacky Chan** (_180100013_) - Frontend Developer (GitHub account: _jackychan_)
 
 ## Project
+
 This project is yet-another clone of Instagram
 
 ## Alternatives / Market research
+
 | Research alternatives
 
 ## Goals
 
 ## Technologies
+
 In our project we use **Laravel**, **VueJS**
 
-## Pages / Activities 
+## Pages / Activities
+
 We will have following pages:
+
 - Latest posts of friends
 - Posts from location of user
 - Take a photo page
@@ -23,30 +34,36 @@ We will have following pages:
 - Settings page
 
 ## Goals
-* What is the purpose of this project?
-* What are the problems it will solve?
-* How will it streamline or improve the current process or facilitate a new process?
-* What is the product vision?
+
+- What is the purpose of this project?
+- What are the problems it will solve?
+- How will it streamline or improve the current process or facilitate a new process?
+- What is the product vision?
 
 ## User Personas
-*Write description of user personas here*  
+
+_Write description of user personas here_
 
 ## User stories
 
-*Write your user stories here*
+_Write your user stories here_
 
 ## Sitemap, Page descriptions
 
-*Display sitemap here*
+_Display sitemap here_
 
 ## Non-Functional requirements
-*Write non-functional requirements*
+
+_Write non-functional requirements_
 
 ## Risks
-*What are the risks?*
+
+_What are the risks?_
 
 ## Mockups, Wireframes
-*Put here images of your wireframes*
+
+_Put here images of your wireframes_
 
 ## Future iterations
-*Write your future iterations*
+
+_Write your future iterations_
