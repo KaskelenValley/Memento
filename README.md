@@ -19,6 +19,8 @@ Memento - a mobile application that helps you to remember your daily highlights.
 ## Alternatives / Market research
 
 | Research alternatives
+- Journify
+- VK audio messages
 
 ## Goals
 
