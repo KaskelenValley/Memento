@@ -107,7 +107,9 @@ _Write non-functional requirements_
 
 ## Risks
 
-_What are the risks?_
+- There may be problems integrating the [Yandex SpeechKit](https://cloud.yandex.ru/services/speechkit) voice recognition framework
+- There may be problems with recognition of names, company names and the like, which can frustrate the user
+- Speech recognition performance may not be good enough that the user may prefer to write by hand rather than record the voice
 
 ## Mockups, Wireframes
 
