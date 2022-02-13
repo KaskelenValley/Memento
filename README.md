@@ -24,7 +24,15 @@ This project is yet-another clone of Instagram
 
 ## Technologies
 
-In our project we use **Laravel**, **VueJS**
+In our project we use:
+- React
+- Nodejs
+- Golang
+- MongoDB
+- Figma
+- Python 
+   
+Will be updated during development
 
 ## Pages / Activities
 
