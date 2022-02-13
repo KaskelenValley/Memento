@@ -146,4 +146,7 @@ _Put here images of your wireframes_
 
 ## Future iterations
 
-_Write your future iterations_
+- Mood manager/analyzer
+- Translator
+- Summary of the record
+- Integration with OK Google and Siri
