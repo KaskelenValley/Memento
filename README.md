@@ -2,7 +2,7 @@
 
 ## Warning
 
-This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Saqta
+This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Memento
 
 ## Team members
 
