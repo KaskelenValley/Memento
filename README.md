@@ -23,7 +23,7 @@ Memento - an application that helps you to remember your daily highlights. Basic
 - VK audio messages
 - Telegram saved messages
 
-|Market Research:
+| Market Research:
 
 - About 10,000 people in Kazakhstan are diagnosed with some type of dementia. The Ministry of Health predicts approximately 150-200 thousand patients in the country, and if they are identified, then the state will definitely think about this problem.
 - In Kazakhstan, for 30 years of independence, the study of the problem of dyslexia has not yet begun. The country has never conducted research on the number of dyslexics, moreover, there are no recommendations for working with children with such a developmental feature. 
