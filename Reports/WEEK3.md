@@ -13,3 +13,15 @@
 * Add project description
 * Add technologies
 * Add goals
+
+# Balzhan Jumabekova
+* Creted user personas
+* Provided market research 
+* Provided competitor analysis
+* Created low fidelity prototypes
+* Updated Future iterations
+
+# Aruzhan Makhmutova
+* Provided design research
+* Updated user personas and user stories
+* Updated sitemaps and wireframes
