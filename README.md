@@ -100,7 +100,7 @@ The 3d user: Alina the student
 
 ## Sitemap, Page descriptions
 
-_Display sitemap here_
+![sitemap](https://user-images.githubusercontent.com/49468087/153760602-6a2d0ca3-e1bc-4480-8646-f72d2fbd3db4.png)
 
 ## Non-Functional requirements
 
