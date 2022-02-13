@@ -48,10 +48,13 @@ We will have following pages:
 
 ## Goals
 
-- What is the purpose of this project?
-- What are the problems it will solve?
-- How will it streamline or improve the current process or facilitate a new process?
-- What is the product vision?
+- To help people to remember their daily activities
+- To help people with cognitive/visual/other disabilities to facilitate their lives
+- Instead of writing manually the user will be able to record their voice and save it in a cloud
+- To help people to find their memories
+- To help people record lectures and other important events
+
+Will be updated during development
 
 ## User Personas
 
