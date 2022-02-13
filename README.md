@@ -7,7 +7,7 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 ## Team members
 
 - **Adil Akhmetov** (_180103095_)- DevOps (GitHub account: @weeebdev)
-- **Aruzhan Makhmutova** (_180103156_) - UI&UX Designer (GitHub account: @)
+- **Aruzhan Makhmutova** (_180103156_) - UI&UX Designer (GitHub account: @aruzhanm)
 - **Balzhan Jumabekova** (_180103008_) - Project Manager (GitHub account: @balzhann)
 - **Madiyar Mukushev** (_180113016_) - ML Engineer (GitHub account: @truebeliever17)
 - **Timur Demenov** (_180103284_) - FullStack Developer (GitHub account: @timmydream)
