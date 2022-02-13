@@ -25,4 +25,4 @@
 * Updated user personas and user stories
 * Updated sitemaps and wireframes
 
-Meeting recording: https://www.youtube.com/channel/UCrhYCccd2FuWHSgmmtGAjzA
+Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
