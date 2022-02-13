@@ -20,7 +20,7 @@ Memento - an application that helps you to remember your daily highlights. Basic
 
 | Research alternatives
 - Journify
-- VK audio messages
+- VK audio messages 
 - Telegram saved messages
 
 | Market Research:
