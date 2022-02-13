@@ -99,7 +99,7 @@ Description: Alina is a student whose studies fell during the pandemic and onlin
 
 ## Sitemap, Page descriptions
 
-_Display sitemap here_
+![sitemap](https://user-images.githubusercontent.com/49468087/153759701-b103e2ad-1903-4d1c-85c0-af4dff204460.png)
 
 ## Non-Functional requirements
 
