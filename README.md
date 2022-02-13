@@ -104,7 +104,10 @@ _Display sitemap here_
 
 ## Non-Functional requirements
 
-_Write non-functional requirements_
+- The application must be built in React
+- The application must be hosted on Heroku
+- The application must use Yandex SpeechKit voice recognition framework
+- The application must use FastAPI for ML backend services
 
 ## Risks
 
