@@ -142,7 +142,10 @@ Description: Alina is a student whose studies fell during the pandemic and onlin
 
 ## Mockups, Wireframes
 
-_Put here images of your wireframes_
+![image](https://user-images.githubusercontent.com/48881444/153762975-29e02513-da71-491d-8d53-4bba412b5f67.png)
+![image](https://user-images.githubusercontent.com/48881444/153762981-2a968166-da08-44ac-a793-e85d7d2ca851.png)
+![image](https://user-images.githubusercontent.com/48881444/153762992-4b734528-ac44-40e1-8864-e6886111f390.png)
+
 
 ## Future iterations
 
