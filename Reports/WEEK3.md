@@ -6,3 +6,10 @@
 * Created Sitemap section
 * Created Pages/Activities Section
 * Updated User Stories section
+
+# Adil Akhmetov
+* Configure mirror repo
+* Add project description
+* Add project description
+* Add technologies
+* Add goals
