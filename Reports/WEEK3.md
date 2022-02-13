@@ -24,3 +24,5 @@
 * Provided design research
 * Updated user personas and user stories
 * Updated sitemaps and wireframes
+
+Meeting recording: https://www.youtube.com/channel/UCrhYCccd2FuWHSgmmtGAjzA
