@@ -53,7 +53,33 @@ We will have following pages:
 
 ## User Personas
 
-_Write description of user personas here_
+The 1st user: Berik the dyslexic
+Occupation: artist/ graphic designer 
+Age: 27
+Gender: male
+Location: Almaty, Kazakhstan
+Education: Art School
+
+Description: Berik is an artist who suffers from dyslexia. He likes to read books, but has to do it by audiobooks. Berik is a creative person that likes to take some quick notes, sketches while he has an inspiration. It would be really easy for him to record his ideas using audio journaling and after that to send the converted text to his clients.
+
+
+The 2nd user: Galmyzhan Ata the pensioner
+Occupation: pensioner
+Age: 67
+Gender: male
+Location: Semey, Kazakhstan
+Education: Polytechnic institute
+
+Description: Galymzhan Ata is a pensioner with dementia. The doctors advised him to write down everything he had done earlier in a diary and reread it. But since Galymzhan gets tired of constantly writing down his thoughts, it is easier for him to record them on a dictaphone. However, listening to your audio recordings is completely inconvenient, so an audio journaling will help him with this, converting speech into text.
+
+The 3d user: Alina the student
+Occupation: -
+Age: 19
+Gender: female
+Location: Nur-Sultan, Kazakhstan
+Education: IT 
+
+Description: Alina is a student whose studies fell during the pandemic and online learning. Due to the huge amount of information, it is very difficult for her to constantly write notes of long lectures. An audio journaling integrated into the zoom will help solve her problem, recording the speech of the teacher and converting it into text.
 
 ## User stories
 
