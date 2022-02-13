@@ -14,13 +14,14 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 
 ## Project
 
-This project is yet-another clone of Instagram
+Memento - an application that helps you to remember your daily highlights. Basically it's an audio diary or journaling app that helps you to record your daily activities and save them in a cloud. With a powerful searching engine you're able to find any memory that you've recorded. You can also share your recordings with your friends and family. *Never forget the matter!*
 
 ## Alternatives / Market research
 
 | Research alternatives
+- Journify
+- VK audio messages
 
-## Goals
 
 ## Technologies
 
@@ -46,10 +47,13 @@ We will have following pages:
 
 ## Goals
 
-- What is the purpose of this project?
-- What are the problems it will solve?
-- How will it streamline or improve the current process or facilitate a new process?
-- What is the product vision?
+- To help people to remember their daily activities
+- To help people with cognitive/visual/other disabilities to facilitate their lives
+- Instead of writing manually the user will be able to record their voice and save it in a cloud
+- To help people to find their memories
+- To help people record lectures and other important events
+
+Will be updated during development
 
 ## User Personas
 
@@ -61,7 +65,6 @@ The 1st user: Berik the dyslexic
   Education: Art School
 
   Description: Berik is an artist who suffers from dyslexia. He likes to read books, but has to do it by audiobooks. Berik is a creative person that likes to take some quick notes, sketches while he has an inspiration. It would be really easy for him to record his ideas using audio journaling and after that to send the converted text to his clients.
-
 
   The 2nd user: Galmyzhan Ata the pensioner
   Occupation: pensioner
