@@ -39,10 +39,12 @@ Will be updated during development
 
 We will have following pages:
 
-- Latest posts of friends
-- Posts from location of user
-- Take a photo page
+- Login page
+- Register page
 - Personal page
+- Journal entries page
+- Record page
+- Statistics page
 - Settings page
 
 ## Goals
