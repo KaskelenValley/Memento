@@ -10,12 +10,11 @@
 # Adil Akhmetov
 * Configure mirror repo
 * Add project description
-* Add project description
 * Add technologies
 * Add goals
 
 # Balzhan Jumabekova
-* Creted user personas
+* Created user personas
 * Provided market research 
 * Provided competitor analysis
 * Created low fidelity prototypes
