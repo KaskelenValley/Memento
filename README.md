@@ -22,7 +22,6 @@ Memento - a mobile application that helps you to remember your daily highlights.
 - Journify
 - VK audio messages
 
-## Goals
 
 ## Technologies
 
