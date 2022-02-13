@@ -57,7 +57,15 @@ _Write description of user personas here_
 
 ## User stories
 
-_Write your user stories here_
+- As a user I want to register in the app
+- As a user I want to record a voice that will automatically be converted to text, so I don't have to write it down manually
+- As a user I want to record lectures, so that I can listen to the recordings later
+- As a user I want to view my old notes with the generated text and original audio, so I can look up what I need or remember something
+- As a user I want to edit the generated text, so that I can correct possible errors
+- As a user I want to delete notes that I don't need
+- As a user I want to share records with others, so that others can view my records
+- As a user I want to find a note by words, so I don't have to go through them all manually
+- As a user I want to filter records by date, so that I can see what I need
 
 ## Sitemap, Page descriptions
 
