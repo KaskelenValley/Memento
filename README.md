@@ -6,8 +6,11 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 
 ## Team members
 
-- **Jet Lee** (_180100012_)- Backend Developer (GitHub account: _jetlee_)
-- **Jacky Chan** (_180100013_) - Frontend Developer (GitHub account: _jackychan_)
+- **Adil Akhmetov** (_180103095_)- DevOps (GitHub account: @weeebdev)
+- **Aruzhan Makhmutova** (_180103156_) - UI&UX Designer (GitHub account: @)
+- **Balzhan Jumabekova** (_180103008_) - Project Manager (GitHub account: @balzhann)
+- **Madiyar Mukushev** (_180113016_) - ML Engineer (GitHub account: @truebeliever17)
+- **Timur Demenov** (_180103284_) - FullStack Developer (GitHub account: @timmydream)
 
 ## Project
 
