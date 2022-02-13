@@ -1,10 +1,10 @@
 name: Mirroring
 
 on:
-  - delete:
-  - push:
-      branches:
-        - main
+  push:
+    branches:
+      - main
+  delete:
 
 jobs:
   to_github:
