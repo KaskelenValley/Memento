@@ -51,12 +51,12 @@ Resources:
 ## Technologies
 
 In our project we use:
-- React
-- Nodejs
-- Golang
-- MongoDB
-- Figma
-- Python 
+- React - for web application enchanced with PWA for mobile	devices
+- Nodejs - the web application and probably the backend runtime
+- Golang - for various microservices
+- MongoDB - for storing the data
+- Figma - the design tool
+- Python - for speech to text service and probably sentiment analyzer
    
 Will be updated during development
 
