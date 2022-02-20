@@ -158,7 +158,7 @@ Description: Alina is a student whose studies fell during the pandemic and onlin
 
 
 ## Future iterations
-
+- Async SRS service
 - Mood manager/analyzer
 - Translator
 - Summary of the record
