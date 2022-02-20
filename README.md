@@ -51,7 +51,7 @@ Resources:
 ## Technologies
 
 In our project we use:
-- React - for web application enchanced with PWA for mobile	devices
+- React - for web application enhanced with PWA for mobile	devices
 - Nodejs - the web application and probably the backend runtime
 - Golang - for various microservices
 - MongoDB - for storing the data
