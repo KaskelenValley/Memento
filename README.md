@@ -14,7 +14,7 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 
 ## Project
 
-Memento - an application that helps you to remember your daily highlights. Basically it's an audio diary or journaling app that helps you to record your daily activities and save them in a cloud. With a powerful searching engine you're able to find any memory that you've recorded. You can also share your recordings with your friends and family. *Never forget the matter!*
+Memento is an application that helps you to remember your daily highlights. Basically it's an audio diary or journaling app that helps you to record your daily activities and save them in a cloud. With a powerful searching engine you're able to find any memory that you've recorded. You can also share your recordings with your friends and family. *Never forget the matter!*
 
 ## Alternatives / Market research
 
@@ -62,15 +62,25 @@ Will be updated during development
 
 ## Pages / Activities
 
-We will have following pages:
+We will have following pages:  
 
-- Login page
-- Register page
-- Personal page
-- Journal entries page
-- Record page
-- Statistics page
-- Settings page
+Login page where user will be able to log in.  
+
+Register page where user will be able to register.  
+
+Personal page where user will be able to keep/edit/save his personal information.  
+
+Journal entries page where user can see the list of his previous entries:  
+
+- play his recordings  
+- transfrom his speech to text and then read it  
+- share with his recordings  
+
+Record page where user will be able to record his voice, save or rerecord it.  
+
+Statistics page where user will be able to see the statistics about app usage.  
+
+Settings page where user will be able to configure the app.  
 
 ## Goals
 
