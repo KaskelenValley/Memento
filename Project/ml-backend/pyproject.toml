@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "ml-backend"
+version = "0.1.0"
+description = "ML Backend for Memento project"
+authors = ["Madiyar Mukushev <madiyar2000@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+fastapi = "^0.74.1"
+uvicorn = {extras = ["standard"], version = "^0.17.5"}
+
+[tool.poetry.dev-dependencies]
+black = "^22.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
