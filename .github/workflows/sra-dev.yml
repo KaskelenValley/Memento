@@ -1,0 +1,20 @@
+name: Deploy dev preview to Heroku (SRA)
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - 'Project/ml-backend/**'
+      - '.github/workflows/sra-dev.yml'
+
+jobs:
+  deploy:
+    if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add ml-backend remote origin
+        run: git remote add heroku-ml-backend https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_SRA_DEV_NAME }}.git
+      - name: Deploy sra dev to Heroku
+        run: git push heroku-ml-backend `git subtree split --prefix Project/ml-backend ${GITHUB_REF##*/}`:refs/heads/main --force
