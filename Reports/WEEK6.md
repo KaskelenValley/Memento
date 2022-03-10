@@ -1,3 +1,8 @@
+# Adil Akhmetov
+* Prepared repo for ci&cd
+* Setup Docker container for PWA
+* Setup Docker container for Python microservice
+* Setup mongodb on mongo.com
 # Timur Demenov
 * Research Web Audio API
 * Investigated the compatibility of the application with mobile browser clients
