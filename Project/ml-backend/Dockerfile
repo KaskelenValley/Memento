@@ -1,14 +1,18 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
+FROM python:3.9
 
-RUN pip3 install pipenv
-
-COPY Pipfile ./
-COPY Pipfile.lock ./
-
-RUN set -ex && pipenv install --deploy --system
+RUN apt-get update && \
+	apt-get install -y libmagic1 libmagic-dev && \
+	pip install poetry 
 
 WORKDIR /app
-COPY ./app .
+
+COPY poetry.lock pyproject.toml requirements.txt ./
+
+RUN poetry config virtualenvs.create false
+
+RUN poetry install --no-dev
+
+COPY . .
 
 EXPOSE $PORT
 
