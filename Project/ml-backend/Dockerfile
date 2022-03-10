@@ -16,4 +16,8 @@ COPY . .
 
 EXPOSE $PORT
 
+ENV FOLDER_ID=${FOLDER_ID}
+
+ENV IAM_TOKEN=${IAM_TOKEN}
+
 CMD uvicorn main:app --host 0.0.0.0 --port $PORT
