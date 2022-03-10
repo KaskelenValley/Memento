@@ -2,11 +2,8 @@ import os
 
 from dotenv import load_dotenv, find_dotenv
 
-load_dotenv(find_dotenv())
+load_dotenv(find_dotenv(), override=True)
 FOLDER_ID = os.environ.get("FOLDER_ID")
-IAM_TOKEN = os.environ.get("IAM_TOKEN")
+API_KEY = os.environ.get("API_KEY")
 
-speechkit_config = {
-    'FOLDER_ID': FOLDER_ID,
-    'IAM_TOKEN': IAM_TOKEN
-}
+speechkit_config = {"FOLDER_ID": FOLDER_ID, "API_KEY": API_KEY}
