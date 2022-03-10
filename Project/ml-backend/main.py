@@ -40,11 +40,12 @@ async def convert_stt_sync(file: UploadFile):
 
     data = await file.read()
     file_ext = magic.from_buffer(data, mime=True)
-    # if file_ext != 'audio/ogg':
-    #     return {"message": f"Only .ogg audio type supported!. Provided file's extension is {file_ext}"}
+    if file_ext != 'audio/ogg':
+        return {"message": f"Only .ogg audio type supported!. Provided file's extension is {file_ext}"}
 
     url = urllib.request.Request("https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?%s" % params, data=data)
     url.add_header("Authorization", "Bearer %s" % IAM_TOKEN)
+
     response_data = urllib.request.urlopen(url).read().decode('UTF-8')
     decoded_data = json.loads(response_data)
     return decoded_data
