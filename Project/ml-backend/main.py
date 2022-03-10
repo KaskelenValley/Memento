@@ -9,7 +9,7 @@ from settings import speechkit_config
 
 FOLDER_ID = speechkit_config["FOLDER_ID"]
 API_KEY = speechkit_config["API_KEY"]
-print(API_KEY)
+
 params = "&".join(["topic=general", "folderId=%s" % FOLDER_ID, "lang=ru-RU"])
 
 app = FastAPI()
