@@ -18,7 +18,7 @@ python-magic-bin = {version = "^0.4.14", optional = true}
 black = "^22.1.0"
 
 [tool.poetry.extras]
-win_tools = ["magic"]
+win_tools = ["python-magic-bin"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
