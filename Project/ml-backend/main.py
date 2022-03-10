@@ -21,7 +21,7 @@ app = FastAPI()
 async def root():
     return {"message": "Memento ML Backend API v0.1"}
 
-@app.post("/stt_sync")
+@app.post("/stt_sync/")
 async def convert_stt_sync(file: UploadFile):
     """Convert speech-to-text using synchronous recognition from SpeechKit API"""
     if not file or not file.filename.strip():
