@@ -30,25 +30,28 @@ const App: FC = () => {
           });
 
           const formData = new FormData();
-          formData.append("file", data[0]);
+          formData.append("file", data[data.length - 1]);
 
-          const res = await fetch("https://memento-speech-recognition-dev.herokuapp.com/stt_sync", {
-            method: "POST",
-            body: formData,
-          });
+          const res = await fetch(
+            "https://memento-speech-recognition-dev.herokuapp.com/stt_sync/",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
           const json = await res.json();
           console.log(json);
           setResult(json.result);
           setLoading(false);
         }}
         render={({
-          state,
+          status,
           start,
           stop,
           pause,
           resume,
         }: {
-          state: any;
+          status: any;
           start: any;
           stop: any;
           pause: any;
@@ -56,13 +59,16 @@ const App: FC = () => {
         }) => (
           <Card sx={{ maxWidth: 500, height: 450 }}>
             <StyledCardContent>
-              <audio controls />
+              <audio
+                src={state.data.length ? URL.createObjectURL(state.blob) : ""}
+                controls
+              />
               <Typography
                 sx={{ fontSize: 14 }}
                 color="text.secondary"
                 gutterBottom
               >
-                {state}
+                {status}
               </Typography>
               <Button onClick={start}>Start Recording</Button>
               <Button onClick={stop}>Stop Recording</Button>
