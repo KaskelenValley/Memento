@@ -32,7 +32,7 @@ const App: FC = () => {
           const formData = new FormData();
           formData.append("file", data[0]);
 
-          const res = await fetch("http://192.168.0.104:8000/stt_sync", {
+          const res = await fetch("https://memento-speech-recognition-dev.herokuapp.com/stt_sync", {
             method: "POST",
             body: formData,
           });
