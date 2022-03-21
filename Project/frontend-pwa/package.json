@@ -21,6 +21,7 @@
     "@types/node": "^12.20.46",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
+    "firebase": "^9.6.9",
     "next": "^12.1.0",
     "next-pwa": "^5.4.6",
     "opus-media-recorder": "^0.8.0",
