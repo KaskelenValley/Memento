@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Box,
@@ -11,9 +11,12 @@ import {
   InputAdornment,
   TextField,
   MenuItem,
+  Modal,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NumberFormat from "react-number-format";
+import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import { Controller, useForm } from "react-hook-form";
 
 import mementoIcon from "../public/memento.svg";
 import googleIcon from "../public/icons/google.svg";
@@ -21,6 +24,8 @@ import facebookIcon from "../public/icons/facebook.svg";
 import passwordIcon from "../public/icons/password.svg";
 import arrowDownIcon from "../public/icons/arrow-down.svg";
 import { countries } from "../utils/countries";
+import { auth } from "../utils/firebase";
+import { useRouter } from "next/router";
 
 const Index: FC = () => {
   const [values, setValues] = useState({
@@ -28,6 +33,22 @@ const Index: FC = () => {
     numberformat: "1320",
     showPassword: false,
   });
+
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+  const [open, setOpen] = useState(false);
+  const [code, setCode] = useState();
+  const [confirm, setConfirm] = useState();
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -44,6 +65,52 @@ const Index: FC = () => {
 
   const mainCountry = countries.find((c) => c.code === "KZ");
 
+  const appVerifier =
+    typeof window !== "undefined" ? (window as any).recaptchaVerifier : [];
+
+  useEffect(() => {
+    (window as any).recaptchaVerifier = new RecaptchaVerifier(
+      "btn",
+      {
+        size: "invisible",
+        callback: (response) => {
+          console.log(response);
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // onSignInSubmit();
+        },
+      },
+      auth
+    );
+  }, []);
+
+  const onSubmit = (data) => {
+    console.log(data);
+    signInWithPhoneNumber(auth, `+7${data.phone}`, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        (window as any).confirmationResult = confirmationResult;
+        // ...
+        console.log(confirmationResult);
+        setConfirm(confirmationResult);
+      })
+      .catch((error) => {
+        // Error; SMS not sent
+        // ...
+        console.log(error);
+      });
+  };
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+  };
+
   return (
     <StyledContainer>
       <StyledBox>
@@ -53,45 +120,105 @@ const Index: FC = () => {
         >
           Sign in
         </Typography>
-        <NumberFormat
-          customInput={StyledTextField}
-          format="### ### ## ##"
-          placeholder="Phone number"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <StyledSelect
-                  variant="standard"
-                  defaultValue={mainCountry.code}
-                  IconComponent={() => <Image src={arrowDownIcon} />}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="phone"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <NumberFormat
+                {...field}
+                customInput={StyledTextField}
+                format="### ### ## ##"
+                placeholder="Phone number"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <StyledSelect
+                        variant="standard"
+                        defaultValue={mainCountry.code}
+                        IconComponent={() => <Image src={arrowDownIcon} />}
+                      >
+                        {countries.map((c) => (
+                          <MenuItem key={c.code} value={c.code}>
+                            +{c.phone}
+                          </MenuItem>
+                        ))}
+                      </StyledSelect>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
+          <StyledInput
+            {...register("password", { required: true })}
+            placeholder="Password"
+            type={values.showPassword ? "text" : "password"}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
                 >
-                  {countries.map((c) => (
-                    <MenuItem key={c.code} value={c.code}>
-                      +{c.phone}
-                    </MenuItem>
-                  ))}
-                </StyledSelect>
+                  <Image src={passwordIcon} />
+                </IconButton>
               </InputAdornment>
-            ),
-          }}
-        />
-        <StyledInput
-          placeholder="Password"
-          type={values.showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
+            }
+          />
+          <StyledButton
+            id="btn"
+            type="submit"
+            variant="contained"
+            onClick={handleOpen}
+          >
+            Sign in
+          </StyledButton>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Введите код
+              </Typography>
+              <TextField onChange={(e: any) => setCode(e.target.value)} />
+              <StyledButton
+                id="btn"
+                type="submit"
+                variant="contained"
+                onClick={() => {
+                  confirm
+                    .confirm(code)
+                    .then((result) => {
+                      // User signed in successfully.
+                      const user = result.user;
+                      // ...
+                      console.log(result);
+                      if (user) {
+                        router.push("main");
+                      }
+                    })
+                    .catch((error) => {
+                      // User couldn't sign in (bad verification code?)
+                      // ...
+                    });
+                }}
               >
-                <Image src={passwordIcon} />
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-        <StyledButton variant="contained" href="main">
-          Sign in
-        </StyledButton>
+                Verify
+              </StyledButton>
+              <StyledIconButton
+                variant="outlined"
+                sx={{ margin: 0 }}
+                onClick={handleClose}
+              >
+                Close
+              </StyledIconButton>
+            </Box>
+          </Modal>
+        </form>
         <Typography
           sx={{
             textTransform: "uppercase",
@@ -176,6 +303,8 @@ const StyledInput = styled(OutlinedInput)`
 `;
 
 const StyledTextField = styled(TextField)`
+  width: 100%;
+
   & > div {
     border-radius: 12px;
   }
