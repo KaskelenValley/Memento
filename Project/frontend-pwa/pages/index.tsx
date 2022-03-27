@@ -45,7 +45,7 @@ const Index: FC = () => {
 
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState();
-  const [confirm, setConfirm] = useState();
+  const [confirm, setConfirm] = useState<any>();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
