@@ -1,7 +1,7 @@
 FROM python:3.9
 
 RUN apt-get update && \
-	apt-get install -y libmagic1 libmagic-dev && \
+	apt-get install -y libmagic1 libmagic-dev ffmpeg && \
 	pip install poetry 
 
 WORKDIR /app

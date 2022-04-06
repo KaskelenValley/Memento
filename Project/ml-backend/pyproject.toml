@@ -13,6 +13,7 @@ python-dotenv = "^0.19.2"
 python-multipart = "^0.0.5"
 python-magic = "^0.4.25"
 python-magic-bin = {version = "^0.4.14", optional = true}
+ffmpeg-python = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
