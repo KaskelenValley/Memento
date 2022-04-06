@@ -15,7 +15,15 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NumberFormat from "react-number-format";
-import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import {
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  linkWithCredential,
+  EmailAuthProvider,
+  signInWithEmailAndPassword,
+  getAuth,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 
 import mementoIcon from "../public/memento.svg";
@@ -40,12 +48,13 @@ const Index: FC = () => {
     register,
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid, isDirty },
+  } = useForm({ mode: "onChange" });
 
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState();
   const [confirm, setConfirm] = useState<any>();
+  const [login, setLogin] = useState<boolean>(true);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -84,21 +93,47 @@ const Index: FC = () => {
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
-    signInWithPhoneNumber(auth, `+7${data.phone}`, appVerifier)
-      .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        (window as any).confirmationResult = confirmationResult;
-        // ...
-        console.log(confirmationResult);
-        setConfirm(confirmationResult);
-      })
-      .catch((error) => {
-        // Error; SMS not sent
-        // ...
-        console.log(error);
-      });
+    // signInWithPhoneNumber(auth, `+7${data.phone}`, appVerifier)
+    //   .then((confirmationResult) => {
+    //     // SMS sent. Prompt user to type the code from the message, then sign the
+    //     // user in with confirmationResult.confirm(code).
+    //     (window as any).confirmationResult = confirmationResult;
+    //     // ...
+    //     console.log(confirmationResult);
+    //     setConfirm(confirmationResult);
+    //   })
+    //   .catch((error) => {
+    //     // Error; SMS not sent
+    //     // ...
+    //     console.log(error);
+    //   });
+
+    login
+      ? signInWithEmailAndPassword(auth, data.email, data.password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            router.push("/main");
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+          })
+      : createUserWithEmailAndPassword(auth, data.email, data.password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+            // ..
+          });
   };
 
   const style = {
@@ -110,6 +145,7 @@ const Index: FC = () => {
     boxShadow: 24,
     p: 4,
   };
+  console.log(errors, isValid, isDirty);
 
   return (
     <StyledContainer>
@@ -118,42 +154,19 @@ const Index: FC = () => {
         <Typography
           sx={{ fontWeight: 600, fontSize: 22, margin: "64px 0 24px" }}
         >
-          Sign in
+          {login ? "Sign in" : "Sign up"}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="phone"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <NumberFormat
-                {...field}
-                customInput={StyledTextField}
-                format="### ### ## ##"
-                placeholder="Phone number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <StyledSelect
-                        variant="standard"
-                        defaultValue={mainCountry.code}
-                        IconComponent={() => <Image src={arrowDownIcon} />}
-                      >
-                        {countries.map((c) => (
-                          <MenuItem key={c.code} value={c.code}>
-                            +{c.phone}
-                          </MenuItem>
-                        ))}
-                      </StyledSelect>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+          <StyledInput
+            {...register("email", { required: true })}
+            placeholder="Email"
+            error={!!errors.email}
+            type="mail"
           />
           <StyledInput
-            {...register("password", { required: true })}
+            {...register("password", { required: true, minLength: 6 })}
             placeholder="Password"
+            error={!!errors.password}
             type={values.showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
@@ -170,17 +183,48 @@ const Index: FC = () => {
             id="btn"
             type="submit"
             variant="contained"
-            onClick={handleOpen}
+            disabled={!isDirty || !isValid}
+            //onClick={handleOpen}
           >
-            Sign in
+            {login ? "Sign in" : "Sign up"}
           </StyledButton>
-          <Modal
+          {/* <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+              <Controller
+                name="phone"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <NumberFormat
+                    {...field}
+                    customInput={StyledTextField}
+                    format="### ### ## ##"
+                    placeholder="Phone number"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <StyledSelect
+                            variant="standard"
+                            defaultValue={mainCountry.code}
+                            IconComponent={() => <Image src={arrowDownIcon} />}
+                          >
+                            {countries.map((c) => (
+                              <MenuItem key={c.code} value={c.code}>
+                                +{c.phone}
+                              </MenuItem>
+                            ))}
+                          </StyledSelect>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Введите код
               </Typography>
@@ -197,9 +241,18 @@ const Index: FC = () => {
                       const user = result.user;
                       // ...
                       console.log(result);
-                      if (user) {
-                        router.push("main");
-                      }
+                      linkWithCredential(auth.currentUser, credential)
+                        .then((usercred) => {
+                          const user = usercred.user;
+                          console.log("Account linking success", user);
+                        })
+                        .catch((error) => {
+                          console.log("Account linking error", error);
+                        });
+                      console.log(user);
+                      // if (user) {
+                      //   router.push("main");
+                      // }
                     })
                     .catch((error) => {
                       // User couldn't sign in (bad verification code?)
@@ -217,7 +270,7 @@ const Index: FC = () => {
                 Close
               </StyledIconButton>
             </Box>
-          </Modal>
+          </Modal> */}
         </form>
         <Typography
           sx={{
@@ -262,8 +315,18 @@ const Index: FC = () => {
             color: "#8C9AA3",
             textAlign: "center",
           }}
+          onClick={() => setLogin(!login)}
         >
-          No account? <span style={{ color: "#1D2022" }}>Registration</span>
+          {login ? (
+            <>
+              No account? <span style={{ color: "#1D2022" }}>Registration</span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span style={{ color: "#1D2022" }}>Login</span>
+            </>
+          )}
         </Typography>
       </Box>
     </StyledContainer>

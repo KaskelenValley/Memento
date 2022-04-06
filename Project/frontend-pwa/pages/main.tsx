@@ -40,10 +40,13 @@ const App: FC = () => {
           const formData = new FormData();
           formData.append("file", data[data.length - 1]);
 
-          await fetch("http://192.168.0.101:8000/ogg_to_wav/", {
-            method: "POST",
-            body: formData,
-          }).then((response) =>
+          await fetch(
+            "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
+            {
+              method: "POST",
+              body: formData,
+            }
+          ).then((response) =>
             response.blob().then((blob) => {
               const objectURL = URL.createObjectURL(blob);
               setAudioSrc(objectURL);
