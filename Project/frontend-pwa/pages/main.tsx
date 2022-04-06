@@ -15,6 +15,7 @@ const App: FC = () => {
   const [state, setState] = useState<any>();
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
+  const [audioSrc, setAudioSrc] = useState<string>();
 
   useEffect(() => {
     setState({ data: [], blob: new Blob([]) });
@@ -38,6 +39,16 @@ const App: FC = () => {
 
           const formData = new FormData();
           formData.append("file", data[data.length - 1]);
+
+          await fetch("http://192.168.0.101:8000/ogg_to_wav/", {
+            method: "POST",
+            body: formData,
+          }).then((response) =>
+            response.blob().then((blob) => {
+              const objectURL = URL.createObjectURL(blob);
+              setAudioSrc(objectURL);
+            })
+          );
 
           const res = await fetch(
             "https://memento-speech-recognition-dev.herokuapp.com/stt_sync/",
@@ -66,10 +77,7 @@ const App: FC = () => {
         }) => (
           <Card sx={{ maxWidth: 500, height: 450 }}>
             <StyledCardContent>
-              <audio
-                src={state?.data.length ? URL.createObjectURL(state.blob) : ""}
-                controls
-              />
+              <audio src={audioSrc ? audioSrc : null} controls />
               <Typography
                 sx={{ fontSize: 14 }}
                 color="text.secondary"
