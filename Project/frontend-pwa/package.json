@@ -2,8 +2,16 @@
   "name": "frontend-pwa",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
+    "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.8.2",
+    "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
     "@mui/material": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.2",
@@ -13,9 +21,14 @@
     "@types/node": "^12.20.46",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
+    "firebase": "^9.6.9",
+    "next": "^12.1.0",
+    "next-pwa": "^5.4.6",
     "opus-media-recorder": "^0.8.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.28.1",
+    "react-number-format": "^4.9.1",
     "react-scripts": "5.0.0",
     "typescript": "^4.6.2",
     "web-vitals": "^0.2.4",
@@ -31,12 +44,6 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

@@ -1,25 +1,32 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
   Typography,
   Button,
   CircularProgress,
+  Box,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import OpusMediaRecorderView from "./utils/OpusMediaRecorderView";
-import "./App.css";
+import OpusMediaRecorderView from "../utils/OpusMediaRecorderView";
 
 const App: FC = () => {
-  const data: any = [];
-
-  const [state, setState] = useState({ data: data, blob: new Blob(data) });
+  const [state, setState] = useState<any>();
   const [result, setResult] = useState();
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    setState({ data: [], blob: new Blob([]) });
+  }, []);
+
   return (
-    <div className="App">
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ minHeight: "100vh" }}
+    >
       <OpusMediaRecorderView
         onDataAvailable={async (e: any) => {
           setLoading(true);
@@ -40,7 +47,7 @@ const App: FC = () => {
             }
           );
           const json = await res.json();
-          console.log(json);
+
           setResult(json.result);
           setLoading(false);
         }}
@@ -60,7 +67,7 @@ const App: FC = () => {
           <Card sx={{ maxWidth: 500, height: 450 }}>
             <StyledCardContent>
               <audio
-                src={state.data.length ? URL.createObjectURL(state.blob) : ""}
+                src={state?.data.length ? URL.createObjectURL(state.blob) : ""}
                 controls
               />
               <Typography
@@ -72,13 +79,14 @@ const App: FC = () => {
               </Typography>
               <Button onClick={start}>Start Recording</Button>
               <Button onClick={stop}>Stop Recording</Button>
+              <Button href="/">Return</Button>
               <Typography>{result}</Typography>
               {loading && <CircularProgress />}
             </StyledCardContent>
           </Card>
         )}
       />
-    </div>
+    </Box>
   );
 };
 
