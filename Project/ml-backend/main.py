@@ -2,7 +2,9 @@ import urllib.request
 import json
 
 import magic
+import ffmpeg
 from fastapi import FastAPI, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from settings import speechkit_config
@@ -53,3 +55,27 @@ async def convert_stt_sync(file: UploadFile):
     response_data = urllib.request.urlopen(url).read().decode("UTF-8")
     decoded_data = json.loads(response_data)
     return decoded_data
+
+
+@app.post("/ogg_to_wav/")
+async def convert_ogg_to_wav(file: UploadFile):
+    """Convert ogg audio to wav"""
+    if not file or not file.filename.strip():
+        return {"message": "No file sent"}
+
+    data = await file.read()
+    file_ext = magic.from_buffer(data, mime=True)
+
+    if file_ext != "audio/ogg":
+        return {
+            "message": f"Only .ogg audio type supported! Provided file's extension is {file_ext}"
+        }
+
+    with open("audio.ogg", "wb") as f:
+        f.write(data)
+
+    d = ffmpeg.input("audio.ogg")
+    out = ffmpeg.output(d, "audio.wav")
+    out.run(overwrite_output=True)
+
+    return FileResponse("audio.wav", media_type="audio/wav")
