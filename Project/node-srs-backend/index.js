@@ -46,7 +46,7 @@ const service = new serviceConstructor(
   grpcCredentials
 );
 
-const server = new ws.Server({ port: 8080 });
+const server = new ws.Server({ port: process.env.PORT });
 
 server.on("connection", onConnect);
 
