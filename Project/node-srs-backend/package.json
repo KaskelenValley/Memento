@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
     "@grpc/proto-loader": "^0.6.9",
     "google-proto-files": "^2.5.0",

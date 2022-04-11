@@ -4,6 +4,13 @@
 
 This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Memento
 
+## Deployments
+
+| Service name               | DEV                                                   | PROD                                              |
+| -------------------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| Frontend                   | https://memento-pwa-dev.herokuapp.com/                | https://memento-pwa.herokuapp.com/                |
+| Speech Recognition Service | https://memento-speech-recognition-dev.herokuapp.com/ | https://memento-speech-recognition.herokuapp.com/ |
+
 ## Team members
 
 - **Adil Akhmetov** (_180103095_)- DevOps (GitHub account: @weeebdev)
@@ -14,11 +21,12 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 
 ## Project
 
-Memento is an application that helps you to remember your daily highlights. Basically it's an audio diary or journaling app that helps you to record your daily activities and save them in a cloud. With a powerful searching engine you're able to find any memory that you've recorded. You can also share your recordings with your friends and family. *Never forget the matter!*
+Memento is an application that helps you to remember your daily highlights. Basically it's an audio diary or journaling app that helps you to record your daily activities and save them in a cloud. With a powerful searching engine you're able to find any memory that you've recorded. You can also share your recordings with your friends and family. _Never forget the matter!_
 
 ## Alternatives / Market research
 
 | Research alternatives
+
 - Journify
 - VK audio messages
 - Telegram saved messages
@@ -26,61 +34,60 @@ Memento is an application that helps you to remember your daily highlights. Basi
 | Market Research:
 
 - About 10,000 people in Kazakhstan are diagnosed with some type of dementia. The Ministry of Health predicts approximately 150-200 thousand patients in the country, and if they are identified, then the state will definitely think about this problem.
-- In Kazakhstan, for 30 years of independence, the study of the problem of dyslexia has not yet begun. The country has never conducted research on the number of dyslexics, moreover, there are no recommendations for working with children with such a developmental feature. 
+- In Kazakhstan, for 30 years of independence, the study of the problem of dyslexia has not yet begun. The country has never conducted research on the number of dyslexics, moreover, there are no recommendations for working with children with such a developmental feature.
 - Journify App (iOS and Android) on january 2022:  
-<5000 downloads worldwide  
-<$5000 revenue  
+  <5000 downloads worldwide  
+  <$5000 revenue
 - VK App (iOS and Android) on january 2022:  
-1m downloads worldwide  
-$400K revenue  
+  1m downloads worldwide  
+  $400K revenue
 - Telegram (iOS and Android) on january 2022:  
-27m downloads worldwide  
+  27m downloads worldwide
 - Notion (iOS and Android) on january 2022:  
-600K downloads worldwide  
-$40K revenue  
+  600K downloads worldwide  
+  $40K revenue
 - Direct competitors: Journify
 - Secondary competitors: Telegram saved messages, VK audio messages
 - Distant competitors: Mobile notes, diary  
-Resources:  
+  Resources:
 - (https://vlast.kz/obsshestvo/46142-my-ozidaem-primerno-150-200-tysac-bolnyh-demenciej-i-boleznu-alcgejmera.html)
 - https://vlast.kz/obsshestvo/40445-zabytaa-stranoj-disleksia.html
 - https://app.sensortower.com
 
-
-
 ## Technologies
 
 In our project we use:
-- React - for web application enhanced with PWA for mobile	devices
+
+- React - for web application enhanced with PWA for mobile devices
 - Nodejs - the web application and probably the backend runtime
 - Golang - for various microservices
 - MongoDB - for storing the data
 - Figma - the design tool
 - Python - for speech to text service and probably sentiment analyzer
-   
+
 Will be updated during development
 
 ## Pages / Activities
 
-We will have following pages:  
+We will have following pages:
 
-Login page where user will be able to log in.  
+Login page where user will be able to log in.
 
-Register page where user will be able to register.  
+Register page where user will be able to register.
 
-Personal page where user will be able to keep/edit/save his personal information.  
+Personal page where user will be able to keep/edit/save his personal information.
 
-Journal entries page where user can see the list of his previous entries:  
+Journal entries page where user can see the list of his previous entries:
 
-- play his recordings  
-- transfrom his speech to text and then read it  
-- share with his recordings  
+- play his recordings
+- transfrom his speech to text and then read it
+- share with his recordings
 
-Record page where user will be able to record his voice, save or rerecord it.  
+Record page where user will be able to record his voice, save or rerecord it.
 
-Statistics page where user will be able to see the statistics about app usage.  
+Statistics page where user will be able to see the statistics about app usage.
 
-Settings page where user will be able to configure the app.  
+Settings page where user will be able to configure the app.
 
 ## Goals
 
@@ -99,7 +106,7 @@ Occupation: artist/ graphic designer
 Age: 27  
 Gender: male  
 Location: Almaty, Kazakhstan  
-Education: Art School  
+Education: Art School
 
 Description: Berik is an artist who suffers from dyslexia. He likes to read books, but has to do it by audiobooks. Berik is a creative person that likes to take some quick notes, sketches while he has an inspiration. It would be really easy for him to record his ideas using audio journaling and after that to send the converted text to his clients.
 
@@ -108,7 +115,7 @@ Occupation: pensioner
 Age: 67  
 Gender: male  
 Location: Semey, Kazakhstan  
-Education: Polytechnic institute 
+Education: Polytechnic institute
 
 Description: Galymzhan Ata is a pensioner with dementia. The doctors advised him to write down everything he had done earlier in a diary and reread it. But since Galymzhan gets tired of constantly writing down his thoughts, it is easier for him to record them on a dictaphone. However, listening to your audio recordings is completely inconvenient, so an audio journaling will help him with this, converting speech into text.
 
@@ -117,7 +124,7 @@ Occupation: -
 Age: 19  
 Gender: female  
 Location: Nur-Sultan, Kazakhstan  
-Education: IT   
+Education: IT
 
 Description: Alina is a student whose studies fell during the pandemic and online learning. Due to the huge amount of information, it is very difficult for her to constantly write notes of long lectures. An audio journaling integrated into the zoom will help solve her problem, recording the speech of the teacher and converting it into text.
 
@@ -156,9 +163,8 @@ Description: Alina is a student whose studies fell during the pandemic and onlin
 ![image](https://user-images.githubusercontent.com/48881444/153762981-2a968166-da08-44ac-a793-e85d7d2ca851.png)
 ![image](https://user-images.githubusercontent.com/48881444/153762992-4b734528-ac44-40e1-8864-e6886111f390.png)
 
-
 ## Future iterations
-
+- Async SRS service
 - Mood manager/analyzer
 - Translator
 - Summary of the record
