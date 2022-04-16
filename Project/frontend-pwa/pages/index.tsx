@@ -25,6 +25,8 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { doc, setDoc } from "firebase/firestore";
 
 import mementoIcon from "../public/memento.svg";
 import googleIcon from "../public/icons/google.svg";
@@ -32,8 +34,7 @@ import facebookIcon from "../public/icons/facebook.svg";
 import passwordIcon from "../public/icons/password.svg";
 import arrowDownIcon from "../public/icons/arrow-down.svg";
 import { countries } from "../utils/countries";
-import { auth } from "../utils/firebase";
-import { useRouter } from "next/router";
+import { auth, db } from "../utils/firebase";
 
 const Index: FC = () => {
   const [values, setValues] = useState({
@@ -126,7 +127,13 @@ const Index: FC = () => {
             // Signed in
             const user = userCredential.user;
             console.log(user);
-            // ...
+            setDoc(doc(db, "users", user.uid), {
+              id: user.uid,
+              emailAddress: user.email,
+              verified: user.emailVerified,
+            });
+            setLogin(true);
+            alert("Account created! Please sign in");
           })
           .catch((error) => {
             const errorCode = error.code;
