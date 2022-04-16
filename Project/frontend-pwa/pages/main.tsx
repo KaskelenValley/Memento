@@ -1,110 +1,129 @@
-import { FC, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
+  Container,
+  css,
+  Grid,
+  styled,
   Typography,
-  Button,
-  CircularProgress,
-  Box,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import Image from "next/image";
 
-import OpusMediaRecorderView from "../utils/OpusMediaRecorderView";
+import { Navbar } from "../components/Navbar";
 
-const App: FC = () => {
-  const [state, setState] = useState<any>();
-  const [result, setResult] = useState();
-  const [loading, setLoading] = useState(false);
-  const [audioSrc, setAudioSrc] = useState<string>();
-
-  useEffect(() => {
-    setState({ data: [], blob: new Blob([]) });
-  }, []);
-
+const Main = () => {
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      sx={{ minHeight: "100vh" }}
-    >
-      <OpusMediaRecorderView
-        onDataAvailable={async (e: any) => {
-          setLoading(true);
-          const data = [...state.data, e.data];
-          setState({
-            data: data,
-            blob: new Blob(data, { type: "audio/ogg; codecs=opus" }),
-          });
-
-          const formData = new FormData();
-          formData.append("file", data[data.length - 1]);
-
-          await fetch(
-            "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
-            {
-              method: "POST",
-              body: formData,
-            }
-          ).then((response) =>
-            response.blob().then((blob) => {
-              const objectURL = URL.createObjectURL(blob);
-              setAudioSrc(objectURL);
-            })
-          );
-
-          const res = await fetch(
-            "https://memento-speech-recognition-dev.herokuapp.com/stt_sync/",
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
-          const json = await res.json();
-
-          setResult(json.result);
-          setLoading(false);
-        }}
-        render={({
-          status,
-          start,
-          stop,
-          pause,
-          resume,
-        }: {
-          status: any;
-          start: any;
-          stop: any;
-          pause: any;
-          resume: any;
-        }) => (
-          <Card sx={{ maxWidth: 500, height: 450 }}>
-            <StyledCardContent>
-              <audio src={audioSrc ? audioSrc : null} controls />
+    <>
+      <StyledContainer>
+        <ImageContainer>
+          <Image src={"/memento.png"} layout="fixed" width={124} height={23} />
+        </ImageContainer>
+        <Grid container columnSpacing={1}>
+          <Grid item xs={6}>
+            <StyledCard
+              sx={{
+                background:
+                  "linear-gradient(180deg, #FFCEAD 0%, #F59085 100%);",
+              }}
+            >
               <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
+                sx={{ fontSize: 18, fontWeight: 700 }}
+                color="white"
                 gutterBottom
               >
-                {status}
+                Gratitude
               </Typography>
-              <Button onClick={start}>Start Recording</Button>
-              <Button onClick={stop}>Stop Recording</Button>
-              <Button href="/">Return</Button>
-              <Typography>{result}</Typography>
-              {loading && <CircularProgress />}
-            </StyledCardContent>
-          </Card>
-        )}
-      />
-    </Box>
+              <Typography sx={{ fontSize: 14, fontWeight: 400 }} color="white">
+                3 things you're grateful for
+              </Typography>
+            </StyledCard>
+          </Grid>
+          <Grid item xs={6}>
+            <StyledCard
+              sx={{
+                background:
+                  "linear-gradient(180deg, #FFFCAC 0%, #F5A785 100%);",
+              }}
+            >
+              <Typography
+                sx={{ fontSize: 18, fontWeight: 700 }}
+                color="white"
+                gutterBottom
+              >
+                Morning pages
+              </Typography>
+              <Typography sx={{ fontSize: 14, fontWeight: 400 }} color="white">
+                3 things you're grateful for
+              </Typography>
+            </StyledCard>
+          </Grid>
+        </Grid>
+        <CardContainer>
+          <Typography sx={{ fontSize: 20, fontWeight: 700 }}>
+            Latest audio
+          </Typography>
+          <Typography sx={{ fontSize: 16, fontWeight: 300 }} gutterBottom>
+            Sunday, March 13
+          </Typography>
+          <StyledCard
+            sx={{
+              background: "#414141",
+            }}
+            className="record"
+          >
+            <Typography
+              sx={{ fontSize: 18, fontWeight: 700 }}
+              color="white"
+              gutterBottom
+            >
+              My worries
+            </Typography>
+          </StyledCard>
+        </CardContainer>
+      </StyledContainer>
+      <Navbar />
+    </>
   );
 };
 
-export default App;
+export default Main;
 
-const StyledCardContent = styled(CardContent)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-});
+export const getServerSideProps = async function ({ req, res }) {
+  return { props: {} };
+};
+
+const StyledContainer = styled(Container)`
+  ${({ theme }) => css`
+    padding: 0 ${theme.spacing(2.5)};
+  `}
+`;
+
+const ImageContainer = styled("div")`
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: center;
+    margin: ${theme.spacing(5)} 0;
+  `}
+`;
+
+const CardContainer = styled("div")`
+  ${({ theme }) => css`
+    margin: ${theme.spacing(2.5)} 0;
+  `}
+`;
+
+const StyledCard = styled(Card)`
+  ${({ theme }) => css`
+    border-radius: ${theme.spacing(1.875)};
+    box-shadow: none;
+    height: 178px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding: ${theme.spacing(2.75)} ${theme.spacing(1.75)};
+
+    &.record {
+      justify-content: start;
+    }
+  `}
+`;
