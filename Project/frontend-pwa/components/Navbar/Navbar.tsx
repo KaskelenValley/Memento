@@ -13,7 +13,7 @@ import {
   WaveIcon,
   EditIcon,
   PlusIcon,
-} from "../icons";
+} from "../../icons";
 
 export const Navbar = () => {
   const [value, setValue] = useState(0);
@@ -66,12 +66,22 @@ const StyledBottomNavigationAction = styled(BottomNavigationAction)`
     &.center {
       background: black;
       border-radius: 50%;
+      border: 6px solid #fff;
       min-width: 52px;
       min-height: 52px;
       max-height: 52px;
       max-width: 52px;
       margin: 0;
       transform: translate(0, -25px);
+
+      &:after {
+        content: '';
+        width: 52px;
+        height: 52px;
+        box-shadow: 0px -10px 10px  rgba(140, 154, 163, 0.3) inset;
+        border-radius: 50%;
+        position: absolute;
+      }
 
       &.Mui-selected {
         color: #2c2c2c;
