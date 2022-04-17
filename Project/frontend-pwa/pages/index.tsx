@@ -21,10 +21,11 @@ import {
   linkWithCredential,
   EmailAuthProvider,
   signInWithEmailAndPassword,
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -113,18 +114,20 @@ const Index: FC = () => {
     //   });
 
     login
-      ? signInWithEmailAndPassword(auth, data.email, data.password)
-          .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            router.push("/main");
-            // ...
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(errorMessage);
-          })
+      ? setPersistence(auth, browserLocalPersistence).then(() =>
+          signInWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+              // Signed in
+              const user = userCredential.user;
+              router.push("/main");
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert(errorMessage);
+            })
+        )
       : createUserWithEmailAndPassword(auth, data.email, data.password)
           .then((userCredential) => {
             // Signed in
@@ -313,27 +316,29 @@ const Index: FC = () => {
           <StyledIconButton
             variant="outlined"
             onClick={() => {
-              signInWithPopup(auth, provider)
-                .then((result) => {
-                  const credential =
-                    GoogleAuthProvider.credentialFromResult(result);
-                  const token = credential.accessToken;
-                  const user = result.user;
-                  setDoc(doc(db, "users", user.uid), {
-                    id: user.uid,
-                    emailAddress: user.email,
-                    verified: user.emailVerified,
-                  });
-                  router.push("main");
-                })
-                .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  const email = error.email;
-                  const credential =
-                    GoogleAuthProvider.credentialFromError(error);
-                  alert(errorMessage);
-                });
+              setPersistence(auth, browserLocalPersistence).then(() =>
+                signInWithPopup(auth, provider)
+                  .then((result) => {
+                    const credential =
+                      GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    const user = result.user;
+                    setDoc(doc(db, "users", user.uid), {
+                      id: user.uid,
+                      emailAddress: user.email,
+                      verified: user.emailVerified,
+                    });
+                    router.push("main");
+                  })
+                  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    const email = error.email;
+                    const credential =
+                      GoogleAuthProvider.credentialFromError(error);
+                    alert(errorMessage);
+                  })
+              );
             }}
           >
             <GoogleIcon />
