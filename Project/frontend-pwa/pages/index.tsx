@@ -26,6 +26,7 @@ import {
   GoogleAuthProvider,
   setPersistence,
   browserLocalPersistence,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -95,6 +96,12 @@ const Index: FC = () => {
       },
       auth
     );
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push("main");
+      }
+    });
   }, []);
 
   const onSubmit = (data) => {
