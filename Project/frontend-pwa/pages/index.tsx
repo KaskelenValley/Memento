@@ -23,18 +23,19 @@ import {
   signInWithEmailAndPassword,
   getAuth,
   createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { doc, setDoc } from "firebase/firestore";
 
 import mementoIcon from "../public/memento.svg";
-import googleIcon from "../public/icons/google.svg";
-import facebookIcon from "../public/icons/facebook.svg";
 import passwordIcon from "../public/icons/password.svg";
 import arrowDownIcon from "../public/icons/arrow-down.svg";
 import { countries } from "../utils/countries";
 import { auth, db } from "../utils/firebase";
+import { FacebookIcon, GoogleIcon } from "../icons";
 
 const Index: FC = () => {
   const [values, setValues] = useState({
@@ -44,6 +45,8 @@ const Index: FC = () => {
   });
 
   const router = useRouter();
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
 
   const {
     register,
@@ -307,11 +310,31 @@ const Index: FC = () => {
           <StyledHr />
         </Box>
         <Box display="flex">
-          <StyledIconButton variant="outlined">
-            <Image src={googleIcon} />
+          <StyledIconButton
+            variant="outlined"
+            onClick={() => {
+              signInWithPopup(auth, provider)
+                .then((result) => {
+                  const credential =
+                    GoogleAuthProvider.credentialFromResult(result);
+                  const token = credential.accessToken;
+                  const user = result.user;
+                  router.push("main");
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  const email = error.email;
+                  const credential =
+                    GoogleAuthProvider.credentialFromError(error);
+                  alert(errorMessage);
+                });
+            }}
+          >
+            <GoogleIcon />
           </StyledIconButton>
           <StyledIconButton variant="outlined">
-            <Image src={facebookIcon} />
+            <FacebookIcon />
           </StyledIconButton>
         </Box>
         <Typography
