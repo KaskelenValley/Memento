@@ -34,7 +34,9 @@ export const Navbar = () => {
         <StyledBottomNavigationAction icon={<PlusIcon />} className="center" />
       </Link>
       <StyledBottomNavigationAction icon={<WaveIcon />} />
-      <StyledBottomNavigationAction icon={<EditIcon />} />
+      <Link href="edit">
+        <StyledBottomNavigationAction icon={<EditIcon />} />
+      </Link>
     </StyledNav>
   );
 };
@@ -75,10 +77,10 @@ const StyledBottomNavigationAction = styled(BottomNavigationAction)`
       transform: translate(0, -25px);
 
       &:after {
-        content: '';
+        content: "";
         width: 52px;
         height: 52px;
-        box-shadow: 0px -10px 10px  rgba(140, 154, 163, 0.3) inset;
+        box-shadow: 0px -10px 10px rgba(140, 154, 163, 0.3) inset;
         border-radius: 50%;
         position: absolute;
       }
