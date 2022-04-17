@@ -319,6 +319,11 @@ const Index: FC = () => {
                     GoogleAuthProvider.credentialFromResult(result);
                   const token = credential.accessToken;
                   const user = result.user;
+                  setDoc(doc(db, "users", user.uid), {
+                    id: user.uid,
+                    emailAddress: user.email,
+                    verified: user.emailVerified,
+                  });
                   router.push("main");
                 })
                 .catch((error) => {
