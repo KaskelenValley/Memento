@@ -7,3 +7,5 @@ export * from "./MicroIcon";
 export * from "./ArrowIcon";
 export * from "./TextIcon";
 export * from "./TrashIcon";
+export * from "./FacebookIcon";
+export * from "./GoogleIcon";
