@@ -26,7 +26,7 @@ const Records = (props) => {
   const [text, setText] = useState<any>([]);
 
   const [user, loading, error] = useAuthState(auth);
-  console.log(user?.uid, loading);
+
   let docRef;
 
   if (user) {
@@ -40,7 +40,7 @@ const Records = (props) => {
         async (doc) => {
           const arr = [];
           const data = doc.data().records;
-          console.log(data);
+
           if (data) {
             for (const d of data) {
               const blob = await getBlob(ref(storage, d.id));

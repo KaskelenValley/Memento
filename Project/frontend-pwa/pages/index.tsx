@@ -12,6 +12,8 @@ import {
   TextField,
   MenuItem,
   Modal,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NumberFormat from "react-number-format";
@@ -58,6 +60,7 @@ const Index: FC = () => {
   } = useForm({ mode: "onChange" });
 
   const [open, setOpen] = useState(false);
+  const [openBackdrop, setOpenBackdrop] = useState(true);
   const [code, setCode] = useState();
   const [confirm, setConfirm] = useState<any>();
   const [login, setLogin] = useState<boolean>(true);
@@ -101,6 +104,7 @@ const Index: FC = () => {
       if (user) {
         router.push("main");
       }
+      setOpenBackdrop(false);
     });
   }, []);
 
@@ -139,12 +143,13 @@ const Index: FC = () => {
           .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            console.log(user);
+
             setDoc(doc(db, "users", user.uid), {
               id: user.uid,
               emailAddress: user.email,
               verified: user.emailVerified,
             });
+
             setLogin(true);
             alert("Account created! Please sign in");
           })
@@ -376,6 +381,9 @@ const Index: FC = () => {
           )}
         </Typography>
       </Box>
+      <Backdrop open={openBackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </StyledContainer>
   );
 };
