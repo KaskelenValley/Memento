@@ -29,6 +29,8 @@ import {
   setPersistence,
   browserLocalPersistence,
   onAuthStateChanged,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -106,6 +108,28 @@ const Index: FC = () => {
       }
       setOpenBackdrop(false);
     });
+
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          const user = result.user;
+
+          setDoc(doc(db, "users", user.uid), {
+            id: user.uid,
+            emailAddress: user.email,
+            verified: user.emailVerified,
+          });
+
+          router.push("main");
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        alert(errorMessage);
+      });
   }, []);
 
   const onSubmit = (data) => {
@@ -160,17 +184,6 @@ const Index: FC = () => {
             // ..
           });
   };
-
-  const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-  };
-  console.log(errors, isValid, isDirty);
 
   return (
     <StyledContainer>
@@ -329,27 +342,7 @@ const Index: FC = () => {
             variant="outlined"
             onClick={() => {
               setPersistence(auth, browserLocalPersistence).then(() =>
-                signInWithPopup(auth, provider)
-                  .then((result) => {
-                    const credential =
-                      GoogleAuthProvider.credentialFromResult(result);
-                    const token = credential.accessToken;
-                    const user = result.user;
-                    setDoc(doc(db, "users", user.uid), {
-                      id: user.uid,
-                      emailAddress: user.email,
-                      verified: user.emailVerified,
-                    });
-                    router.push("main");
-                  })
-                  .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    const email = error.email;
-                    const credential =
-                      GoogleAuthProvider.credentialFromError(error);
-                    alert(errorMessage);
-                  })
+                signInWithRedirect(auth, provider)
               );
             }}
           >
