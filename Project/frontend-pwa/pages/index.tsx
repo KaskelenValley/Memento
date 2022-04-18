@@ -12,20 +12,34 @@ import {
   TextField,
   MenuItem,
   Modal,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NumberFormat from "react-number-format";
-import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
+import {
+  signInWithPhoneNumber,
+  RecaptchaVerifier,
+  linkWithCredential,
+  EmailAuthProvider,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { doc, setDoc } from "firebase/firestore";
 
 import mementoIcon from "../public/memento.svg";
-import googleIcon from "../public/icons/google.svg";
-import facebookIcon from "../public/icons/facebook.svg";
 import passwordIcon from "../public/icons/password.svg";
 import arrowDownIcon from "../public/icons/arrow-down.svg";
 import { countries } from "../utils/countries";
-import { auth } from "../utils/firebase";
-import { useRouter } from "next/router";
+import { auth, db } from "../utils/firebase";
+import { FacebookIcon, GoogleIcon } from "../icons";
 
 const Index: FC = () => {
   const [values, setValues] = useState({
@@ -35,17 +49,21 @@ const Index: FC = () => {
   });
 
   const router = useRouter();
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid, isDirty },
+  } = useForm({ mode: "onChange" });
 
   const [open, setOpen] = useState(false);
+  const [openBackdrop, setOpenBackdrop] = useState(true);
   const [code, setCode] = useState();
   const [confirm, setConfirm] = useState<any>();
+  const [login, setLogin] = useState<boolean>(true);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -81,24 +99,66 @@ const Index: FC = () => {
       },
       auth
     );
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push("main");
+      }
+      setOpenBackdrop(false);
+    });
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data);
-    signInWithPhoneNumber(auth, `+7${data.phone}`, appVerifier)
-      .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        (window as any).confirmationResult = confirmationResult;
-        // ...
-        console.log(confirmationResult);
-        setConfirm(confirmationResult);
-      })
-      .catch((error) => {
-        // Error; SMS not sent
-        // ...
-        console.log(error);
-      });
+    // signInWithPhoneNumber(auth, `+7${data.phone}`, appVerifier)
+    //   .then((confirmationResult) => {
+    //     // SMS sent. Prompt user to type the code from the message, then sign the
+    //     // user in with confirmationResult.confirm(code).
+    //     (window as any).confirmationResult = confirmationResult;
+    //     // ...
+    //     console.log(confirmationResult);
+    //     setConfirm(confirmationResult);
+    //   })
+    //   .catch((error) => {
+    //     // Error; SMS not sent
+    //     // ...
+    //     console.log(error);
+    //   });
+
+    login
+      ? setPersistence(auth, browserLocalPersistence).then(() =>
+          signInWithEmailAndPassword(auth, data.email, data.password)
+            .then((userCredential) => {
+              // Signed in
+              const user = userCredential.user;
+              router.push("/main");
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              alert(errorMessage);
+            })
+        )
+      : createUserWithEmailAndPassword(auth, data.email, data.password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+
+            setDoc(doc(db, "users", user.uid), {
+              id: user.uid,
+              emailAddress: user.email,
+              verified: user.emailVerified,
+            });
+
+            setLogin(true);
+            alert("Account created! Please sign in");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+            // ..
+          });
   };
 
   const style = {
@@ -110,6 +170,7 @@ const Index: FC = () => {
     boxShadow: 24,
     p: 4,
   };
+  console.log(errors, isValid, isDirty);
 
   return (
     <StyledContainer>
@@ -118,42 +179,19 @@ const Index: FC = () => {
         <Typography
           sx={{ fontWeight: 600, fontSize: 22, margin: "64px 0 24px" }}
         >
-          Sign in
+          {login ? "Sign in" : "Sign up"}
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="phone"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <NumberFormat
-                {...field}
-                customInput={StyledTextField}
-                format="### ### ## ##"
-                placeholder="Phone number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <StyledSelect
-                        variant="standard"
-                        defaultValue={mainCountry.code}
-                        IconComponent={() => <Image src={arrowDownIcon} />}
-                      >
-                        {countries.map((c) => (
-                          <MenuItem key={c.code} value={c.code}>
-                            +{c.phone}
-                          </MenuItem>
-                        ))}
-                      </StyledSelect>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+          <StyledInput
+            {...register("email", { required: true })}
+            placeholder="Email"
+            error={!!errors.email}
+            type="mail"
           />
           <StyledInput
-            {...register("password", { required: true })}
+            {...register("password", { required: true, minLength: 6 })}
             placeholder="Password"
+            error={!!errors.password}
             type={values.showPassword ? "text" : "password"}
             endAdornment={
               <InputAdornment position="end">
@@ -170,17 +208,48 @@ const Index: FC = () => {
             id="btn"
             type="submit"
             variant="contained"
-            onClick={handleOpen}
+            disabled={!isDirty || !isValid}
+            //onClick={handleOpen}
           >
-            Sign in
+            {login ? "Sign in" : "Sign up"}
           </StyledButton>
-          <Modal
+          {/* <Modal
             open={open}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
+              <Controller
+                name="phone"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <NumberFormat
+                    {...field}
+                    customInput={StyledTextField}
+                    format="### ### ## ##"
+                    placeholder="Phone number"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <StyledSelect
+                            variant="standard"
+                            defaultValue={mainCountry.code}
+                            IconComponent={() => <Image src={arrowDownIcon} />}
+                          >
+                            {countries.map((c) => (
+                              <MenuItem key={c.code} value={c.code}>
+                                +{c.phone}
+                              </MenuItem>
+                            ))}
+                          </StyledSelect>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Введите код
               </Typography>
@@ -197,9 +266,18 @@ const Index: FC = () => {
                       const user = result.user;
                       // ...
                       console.log(result);
-                      if (user) {
-                        router.push("main");
-                      }
+                      linkWithCredential(auth.currentUser, credential)
+                        .then((usercred) => {
+                          const user = usercred.user;
+                          console.log("Account linking success", user);
+                        })
+                        .catch((error) => {
+                          console.log("Account linking error", error);
+                        });
+                      console.log(user);
+                      // if (user) {
+                      //   router.push("main");
+                      // }
                     })
                     .catch((error) => {
                       // User couldn't sign in (bad verification code?)
@@ -217,7 +295,7 @@ const Index: FC = () => {
                 Close
               </StyledIconButton>
             </Box>
-          </Modal>
+          </Modal> */}
         </form>
         <Typography
           sx={{
@@ -247,11 +325,38 @@ const Index: FC = () => {
           <StyledHr />
         </Box>
         <Box display="flex">
-          <StyledIconButton variant="outlined">
-            <Image src={googleIcon} />
+          <StyledIconButton
+            variant="outlined"
+            onClick={() => {
+              setPersistence(auth, browserLocalPersistence).then(() =>
+                signInWithPopup(auth, provider)
+                  .then((result) => {
+                    const credential =
+                      GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    const user = result.user;
+                    setDoc(doc(db, "users", user.uid), {
+                      id: user.uid,
+                      emailAddress: user.email,
+                      verified: user.emailVerified,
+                    });
+                    router.push("main");
+                  })
+                  .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    const email = error.email;
+                    const credential =
+                      GoogleAuthProvider.credentialFromError(error);
+                    alert(errorMessage);
+                  })
+              );
+            }}
+          >
+            <GoogleIcon />
           </StyledIconButton>
           <StyledIconButton variant="outlined">
-            <Image src={facebookIcon} />
+            <FacebookIcon />
           </StyledIconButton>
         </Box>
         <Typography
@@ -262,10 +367,23 @@ const Index: FC = () => {
             color: "#8C9AA3",
             textAlign: "center",
           }}
+          onClick={() => setLogin(!login)}
         >
-          No account? <span style={{ color: "#1D2022" }}>Registration</span>
+          {login ? (
+            <>
+              No account? <span style={{ color: "#1D2022" }}>Registration</span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span style={{ color: "#1D2022" }}>Login</span>
+            </>
+          )}
         </Typography>
       </Box>
+      <Backdrop open={openBackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </StyledContainer>
   );
 };

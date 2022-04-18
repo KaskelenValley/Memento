@@ -33,7 +33,12 @@ class OpusMediaRecorderView extends Component {
       const options = { mimeType: "audio/ogg" };
       this.recorder = new MediaRecorder(stream, options, workerOptions);
       this.setState({ state: "inactive" });
-      this.recorder.start();
+
+      if (this.props.stream) {
+        this.recorder.start(400);
+      } else {
+        this.recorder.start();
+      }
 
       this.recorder.addEventListener("dataavailable", (e) => {
         console.log("Recording stopped, data available");
@@ -46,6 +51,7 @@ class OpusMediaRecorderView extends Component {
       this.recorder.addEventListener("stop", (e) => {
         console.log("stop");
         this.setState({ state: "inactive" });
+        stream.getTracks().forEach((track) => track.stop());
       });
       this.recorder.addEventListener("pause", (e) => {
         console.log("pause");
