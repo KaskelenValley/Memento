@@ -9,3 +9,5 @@ export * from "./TextIcon";
 export * from "./TrashIcon";
 export * from "./FacebookIcon";
 export * from "./GoogleIcon";
+export * from "./GratitudeIcon";
+export * from "./WritingIcon";

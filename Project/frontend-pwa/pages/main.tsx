@@ -8,8 +8,10 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 
 import { Navbar } from "../components/Navbar/Navbar";
+import { GratitudeIcon, WritingIcon } from "../icons";
 
 const Main = () => {
   return (
@@ -20,42 +22,40 @@ const Main = () => {
         </ImageContainer>
         <Grid container columnSpacing={1}>
           <Grid item xs={6}>
-            <StyledCard
-              sx={{
-                background:
-                  "linear-gradient(180deg, #FFCEAD 0%, #F59085 100%);",
+            <Link
+              href={{
+                pathname: "/record",
+                query: { type: "gratitude" },
               }}
             >
-              <Typography
-                sx={{ fontSize: 18, fontWeight: 700 }}
-                color="white"
-                gutterBottom
-              >
-                Gratitude
-              </Typography>
-              <Typography sx={{ fontSize: 14, fontWeight: 400 }} color="white">
-                3 things you're grateful for
-              </Typography>
-            </StyledCard>
+              <StyledCard>
+                <GratitudeIcon />
+                <Typography sx={{ fontSize: 18, fontWeight: 700 }} gutterBottom>
+                  Gratitude
+                </Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                  3 things you're grateful for
+                </Typography>
+              </StyledCard>
+            </Link>
           </Grid>
           <Grid item xs={6}>
-            <StyledCard
-              sx={{
-                background:
-                  "linear-gradient(180deg, #FFFCAC 0%, #F5A785 100%);",
+            <Link
+              href={{
+                pathname: "/record",
+                query: { type: "writing" },
               }}
             >
-              <Typography
-                sx={{ fontSize: 18, fontWeight: 700 }}
-                color="white"
-                gutterBottom
-              >
-                Morning pages
-              </Typography>
-              <Typography sx={{ fontSize: 14, fontWeight: 400 }} color="white">
-                3 things you're grateful for
-              </Typography>
-            </StyledCard>
+              <StyledCard>
+                <WritingIcon />
+                <Typography sx={{ fontSize: 18, fontWeight: 700 }} gutterBottom>
+                  Morning pages
+                </Typography>
+                <Typography sx={{ fontSize: 14, fontWeight: 400 }}>
+                  3 things you're grateful for
+                </Typography>
+              </StyledCard>
+            </Link>
           </Grid>
         </Grid>
         <CardContainer>
@@ -68,6 +68,7 @@ const Main = () => {
           <StyledCard
             sx={{
               background: "#414141",
+              height: 164,
             }}
             className="record"
           >
@@ -114,16 +115,20 @@ const CardContainer = styled("div")`
 
 const StyledCard = styled(Card)`
   ${({ theme }) => css`
-    border-radius: ${theme.spacing(1.875)};
+    border-radius: ${theme.spacing(2.5)};
+    border: 1px solid #ebebeb;
     box-shadow: none;
-    height: 178px;
     display: flex;
     flex-direction: column;
     justify-content: end;
-    padding: ${theme.spacing(2.75)} ${theme.spacing(1.75)};
+    padding: ${theme.spacing(2.125)} ${theme.spacing(1.625)};
 
     &.record {
       justify-content: start;
+    }
+
+    svg {
+      margin: 0 0 ${theme.spacing(5)};
     }
   `}
 `;

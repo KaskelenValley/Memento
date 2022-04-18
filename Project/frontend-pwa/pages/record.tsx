@@ -62,6 +62,7 @@ const App: FC = () => {
   const [isNext, setIsNext] = useState(false);
 
   const [user, loading, error] = useAuthState(auth);
+  const type = router.query.type || "default";
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
@@ -89,7 +90,7 @@ const App: FC = () => {
         uploadBytes(storageRef, blob).then((snapshot) => {
           getDownloadURL(storageRef).then((url) => {
             updateDoc(doc(db, "users", user.uid), {
-              records: arrayUnion({ result: text, src: url, id }),
+              records: arrayUnion({ result: text, src: url, type, id }),
             });
           });
           alert("success");
