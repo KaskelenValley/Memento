@@ -1,6 +1,6 @@
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import CloseButton from "../components/Button/CloseButton";
 import Recorder from "../components/Recorder/Recorder";
 
