@@ -17,7 +17,7 @@ export const GratitudeIcon = (props: SvgIconProps) => {
         fillOpacity="0.5"
         stroke="#D8F1ED"
       />
-      <path d="M49 17H17V49H49V17Z" fill="white" fill-opacity="0.01" />
+      <path d="M49 17H17V49H49V17Z" fill="white" fillOpacity="0.01" />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
