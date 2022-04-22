@@ -92,10 +92,8 @@ export class Recorder {
     }
 
     let result = "";
-    if (json?.isFinal === "false") {
-      result = this.result + " " + json.text;
-    } else {
-      result += " " + json.text;
+    result = this.result + " " + json.text;
+    if (json?.isFinal === "true") {
       this.result = result;
     }
 
