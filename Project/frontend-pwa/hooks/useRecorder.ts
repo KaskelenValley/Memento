@@ -99,7 +99,7 @@ export class Recorder {
   }
 
   startRecording() {
-    if (this.isStream) this.mediaRecorder.start(400);
+    if (this.isStream) this.mediaRecorder?.start(400);
     else this.mediaRecorder?.start();
   }
 
