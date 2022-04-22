@@ -51,17 +51,18 @@ const server = new ws.Server({ port: process.env.PORT });
 server.on("connection", onConnect);
 
 function onConnect(wsClient) {
+  console.log("User connected");
   const call = service["StreamingRecognize"](serviceMetadata);
   call.write(request);
 
   call.on("data", (response) => {
     let res = response.chunks[0].alternatives[0].text;
-    wsClient.send(
-      JSON.stringify({
-        text: res,
-        isFinal: Boolean(response.chunks[0].final).toString(),
-      })
-    );
+    let yandexResponse = JSON.stringify({
+      text: res,
+      isFinal: Boolean(response.chunks[0].final).toString(),
+    });
+    wsClient.send(yandexResponse);
+    console.log(yandexResponse);
   });
 
   wsClient.on("message", function (message, isBinary) {
