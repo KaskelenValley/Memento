@@ -11,6 +11,7 @@ export const TextFlow = styled(Typography)`
   color: #000000;
 
   overflow-y: auto;
+  scroll-behavior: smooth;
   padding-top: 6px;
 
   ::before {

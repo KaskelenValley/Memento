@@ -20,12 +20,16 @@ const App: React.FC<Props> = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [result, setResult] = useState("");
   const recorder = useRef(null);
+  const textFlow = useRef(null);
   const { timer, isPaused, handleStart, handlePause, handleReset } =
     useTimer(0);
 
   useEffect(() => {
     recorder.current = new Recorder();
-    recorder.current.setOnResult((res) => setResult(res));
+    recorder.current.setOnResult((res) => {
+      setResult(res);
+      textFlow.current.scrollTop = textFlow.current.scrollHeight;
+    });
     recorder.current.init();
   }, []);
 
@@ -50,7 +54,7 @@ const App: React.FC<Props> = () => {
     <StyledContainer>
       <TitleContainer>
         {isRecording || isPaused ? (
-          <TextFlow>{result || "Start speaking..."}</TextFlow>
+          <TextFlow ref={textFlow}>{result || "Start speaking..."}</TextFlow>
         ) : (
           <>
             <VoiceNoteTitle>Voice Note</VoiceNoteTitle>

@@ -87,11 +87,19 @@ export class Recorder {
 
   private onMessage(e) {
     const json = JSON.parse(e.data);
-    if (json.text) {
-      this.result += " " + json.text.trim();
+    if (!json.text) {
+      return;
     }
 
-    if (this.callback) this.callback(this.result);
+    let result = "";
+    if (json?.isFinal === "false") {
+      result = this.result + " " + json.text;
+    } else {
+      result += " " + json.text;
+      this.result = result;
+    }
+
+    if (this.callback) this.callback(result);
 
     // if (typeof e.data === "object" && JSON.parse(e.data).isFinal === "true") {
     //   this.ws.close();
