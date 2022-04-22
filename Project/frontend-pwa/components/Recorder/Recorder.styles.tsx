@@ -9,6 +9,20 @@ export const TextFlow = styled(Typography)`
   text-align: center;
 
   color: #000000;
+
+  overflow-y: auto;
+  padding-top: 6px;
+
+  ::before {
+    content: "";
+    display: block;
+    box-shadow: inset 0 10px 7px #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+  }
 `;
 
 export const StyledContainer = styled(Container)`
@@ -50,8 +64,10 @@ export const TitleContainer = styled(Container)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0;
   margin-top: 56px;
   margin-bottom: 80px;
+  position: relative;
 `;
 
 export const VoiceNoteTitle = styled(Typography)`

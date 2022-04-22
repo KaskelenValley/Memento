@@ -25,8 +25,8 @@ const App: React.FC<Props> = () => {
 
   useEffect(() => {
     recorder.current = new Recorder();
-    recorder.current.init();
     recorder.current.setOnResult((res) => setResult(res));
+    recorder.current.init();
   }, []);
 
   const handleRecord = () => {
@@ -50,7 +50,7 @@ const App: React.FC<Props> = () => {
     <StyledContainer>
       <TitleContainer>
         {isRecording || isPaused ? (
-          <TextFlow>{result ?? "Start speaking..."}</TextFlow>
+          <TextFlow>{result || "Start speaking..."}</TextFlow>
         ) : (
           <>
             <VoiceNoteTitle>Voice Note</VoiceNoteTitle>
