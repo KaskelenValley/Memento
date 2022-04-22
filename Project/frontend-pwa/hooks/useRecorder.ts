@@ -12,14 +12,14 @@ const workerOptions = {
 
 export class Recorder {
   private mediaRecorder = null;
-  private isStream = false;
+  private isStream = true;
   private ws: WebSocket = null;
   private result = "";
   private callback: (res: string) => void;
 
   async init() {
     this.ws = new WebSocket("wss://memento-srs-node-dev.herokuapp.com");
-    this.ws.onmessage = this.onMessage;
+    this.ws.onmessage = (e) => this.onMessage(e);
 
     const mediaStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
@@ -73,6 +73,8 @@ export class Recorder {
       if (blob.size !== 0 && this.ws.readyState === 1) {
         console.log("Sending message");
         this.ws.send(blob);
+      } else {
+        console.error("couldn't send message");
       }
     }
   }
@@ -84,16 +86,11 @@ export class Recorder {
   }
 
   private onMessage(e) {
-    console.log(JSON.parse(e.data));
     const json = JSON.parse(e.data);
-    let st = "";
-    console.log(st);
-    if (json.isFinal === "false") {
-      st += json.text;
-      this.result = json.text;
-    } else {
-      this.result = `${st} ${json.result}`;
+    if (json.text) {
+      this.result += " " + json.text.trim();
     }
+
     if (this.callback) this.callback(this.result);
 
     if (typeof e.data === "object" && JSON.parse(e.data).isFinal === "true") {
