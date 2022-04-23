@@ -2,12 +2,14 @@ import urllib.request
 import json
 
 import magic
+import random
 import ffmpeg
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from settings import speechkit_config
+from models import Text, MoodResponse
 
 FOLDER_ID = speechkit_config["FOLDER_ID"]
 API_KEY = speechkit_config["API_KEY"]
@@ -30,6 +32,23 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": "Memento ML Backend API v0.1"}
+
+
+MOOD_LIST = ["negative", "neutral", "positive"]
+
+
+@app.post("/predict_mood", response_model=MoodResponse)
+async def fake_predict_mood_template(text: Text):
+    positive_thr = 0.8
+    negative_thr = 0.25
+    fake_mood_score = random.random()
+    fake_mood_type = MOOD_LIST[1]
+    if fake_mood_score > positive_thr:
+        fake_mood_type = MOOD_LIST[-1]
+    elif fake_mood_score < negative_thr:
+        fake_mood_type = MOOD_LIST[0]
+
+    return MoodResponse(mood=fake_mood_type, mood_score=fake_mood_score)
 
 
 @app.post("/stt_sync/")
