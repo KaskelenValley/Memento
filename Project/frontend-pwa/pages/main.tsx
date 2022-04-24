@@ -105,7 +105,7 @@ const Main = () => {
           <Grid item xs={6}>
             <Link
               href={{
-                pathname: "/record",
+                pathname: "/recording",
                 query: { type: "gratitude" },
               }}
             >
@@ -128,7 +128,7 @@ const Main = () => {
           <Grid item xs={6}>
             <Link
               href={{
-                pathname: "/record",
+                pathname: "/recording",
                 query: { type: "writing" },
               }}
             >
@@ -153,6 +153,7 @@ const Main = () => {
           <StyledCard
             sx={{
               border: "none",
+              position: "relative",
               height: 164,
               background:
                 "linear-gradient(124.73deg, rgba(236, 233, 230, 0.5) 0.01%, rgba(255, 255, 255, 0.5) 99.11%)",
@@ -351,7 +352,10 @@ const StyledCalendarDay = styled("div")`
 
 const EntriesContainer = styled("div")`
   ${({ theme }) => css`
-    margin: ${theme.spacing(2.5)} -${theme.spacing(2.5)} ${theme.spacing(2.5)} 0;
+    margin: ${theme.spacing(2.5)} -${theme.spacing(2.5)} ${theme.spacing(2.5)} -${theme.spacing(
+        2.5
+      )};
+    padding: 0 ${theme.spacing(2.5)};
     display: flex;
     overflow: scroll;
 

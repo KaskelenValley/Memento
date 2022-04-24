@@ -105,11 +105,7 @@ const Index: FC = () => {
 
   const onSubmit = (data) => {
     setPersistence(auth, browserLocalPersistence).then(() =>
-      signInWithEmailAndPassword(
-        auth,
-        `+7${data.phone.split(" ").join("")}@gmail.com`,
-        data.password
-      )
+      signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
           router.push("/main");
         })
@@ -130,35 +126,11 @@ const Index: FC = () => {
           Sign in
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            name="phone"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <NumberFormat
-                {...field}
-                customInput={StyledTextField}
-                format="### ### ## ##"
-                placeholder="Phone number"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <StyledSelect
-                        variant="standard"
-                        defaultValue={mainCountry.code}
-                        IconComponent={() => <ArrowDownIcon />}
-                      >
-                        {countries.map((c) => (
-                          <MenuItem key={c.code} value={c.code}>
-                            +{c.phone}
-                          </MenuItem>
-                        ))}
-                      </StyledSelect>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+          <StyledInput
+            {...register("email", { required: true })}
+            placeholder="Email"
+            error={!!errors.email}
+            type="mail"
           />
           <StyledInput
             {...register("password", { required: true, minLength: 6 })}
