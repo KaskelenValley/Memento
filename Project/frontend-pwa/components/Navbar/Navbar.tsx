@@ -30,7 +30,7 @@ export const Navbar = () => {
       <Link href="records">
         <StyledBottomNavigationAction icon={<StatisticsIcon />} />
       </Link>
-      <Link href="record">
+      <Link href="recording">
         <StyledBottomNavigationAction icon={<PlusIcon />} className="center" />
       </Link>
       <StyledBottomNavigationAction icon={<EditIcon />} />

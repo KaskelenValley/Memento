@@ -3,9 +3,9 @@ import { Typography, Container, IconButton } from "@mui/material";
 
 export const TextFlow = styled(Typography)`
   font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 21px;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 30px;
   text-align: center;
 
   color: #000000;
@@ -14,15 +14,8 @@ export const TextFlow = styled(Typography)`
   scroll-behavior: smooth;
   padding-top: 6px;
 
-  ::before {
-    content: "";
-    display: block;
-    box-shadow: inset 0 10px 7px #fff;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10px;
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
@@ -47,13 +40,14 @@ export const ButtonLabel = styled(Typography)`
 
   color: #8f8f8f;
   margin-top: 32px;
+  margin-bottom: 81px;
 `;
 
-export const RoundButton = styled(IconButton)<{ isRecording: boolean }>`
+export const RoundButton = styled(IconButton)<{ $isrecording: boolean }>`
   width: 89px;
   height: 89px;
-  background: ${({ isRecording }) =>
-    isRecording ? "rgba(172, 206, 200, 0.15)" : "#accec8"};
+  background: ${({ $isrecording }) =>
+    $isrecording ? "rgba(172, 206, 200, 0.15)" : "#accec8"};
   border-radius: 50%;
   border: 1px solid #accec8;
 `;
@@ -69,6 +63,7 @@ export const TitleContainer = styled(Container)`
   margin-top: 56px;
   margin-bottom: 80px;
   position: relative;
+  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
 `;
 
 export const VoiceNoteTitle = styled(Typography)`
