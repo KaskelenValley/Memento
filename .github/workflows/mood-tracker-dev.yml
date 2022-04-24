@@ -1,0 +1,20 @@
+name: Deploy dev preview to Heroku (SRA)
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - "Project/mood-tracker/**"
+      - ".github/workflows/mood-tracker-dev.yml"
+
+jobs:
+  deploy:
+    if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add mood-tracker remote origin
+        run: git remote add heroku-mood-tracker https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_MOOD_DEV_NAME }}.git
+      - name: Deploy mood tracker dev to Heroku
+        run: git push heroku-mood-tracker `git subtree split --prefix Project/mood-tracker ${GITHUB_REF_NAME}`:refs/heads/main --force
