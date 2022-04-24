@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
 import MediaRecorder from "opus-media-recorder";
-import useTimer from "../hooks/useTimer";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+
+import { db, storage } from "../utils/firebase";
 
 const workerOptions = {
   encoderWorkerFactory: function () {
@@ -16,6 +18,8 @@ export class Recorder {
   private ws: WebSocket = null;
   private result = "";
   private callback: (res: string) => void;
+  private data;
+  private streamData = [];
 
   async init() {
     this.ws = new WebSocket("wss://memento-srs-node-dev.herokuapp.com");
@@ -43,11 +47,12 @@ export class Recorder {
   private async onRecorderDataAvailable(e) {
     console.log("data available");
 
-    const data = [e.data];
+    this.data = [e.data];
+    this.streamData.push(e.data);
 
     if (!this.isStream) {
       const formData = new FormData();
-      formData.append("file", data[data.length - 1]);
+      formData.append("file", this.data[this.data.length - 1]);
       await fetch(
         "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
         {
@@ -67,7 +72,7 @@ export class Recorder {
       this.result = json.result;
       if (this.callback) this.callback(this.result);
     } else {
-      const blob = new Blob(data, {
+      const blob = new Blob(this.data, {
         type: "audio/ogg; codecs=opus",
       });
       if (blob.size !== 0 && this.ws.readyState === 1) {
@@ -115,5 +120,40 @@ export class Recorder {
 
   setOnResult(callback: (result: string) => void) {
     this.callback = callback;
+  }
+
+  async saveRecord(uid, title, result, type) {
+    const b = new Blob(this.streamData, {
+      type: "audio/ogg; codecs=opus",
+    });
+    const id = new Date().valueOf().toString();
+    const storageRef = ref(storage, id);
+    const formData = new FormData();
+    formData.append("file", b);
+
+    return fetch(
+      "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
+      {
+        method: "POST",
+        body: formData,
+      }
+    ).then((response) =>
+      response.blob().then((blob) =>
+        uploadBytes(storageRef, blob).then(() => {
+          getDownloadURL(storageRef).then((url) => {
+            updateDoc(doc(db, "users", uid), {
+              records: arrayUnion({
+                id,
+                type,
+                title,
+                result,
+                src: url,
+                date: new Date(),
+              }),
+            });
+          });
+        })
+      )
+    );
   }
 }

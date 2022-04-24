@@ -6,6 +6,7 @@ import createEmotionCache from "../utils/createEmotionCache";
 import theme from "../styles/theme";
 import "../styles/globals.css";
 import "../styles/fonts.css";
+import "react-h5-audio-player/lib/styles.css";
 
 interface CustomAppProps extends AppProps {
   emotionCache?: EmotionCache;

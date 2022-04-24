@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { Button, styled } from "@mui/material";
+import { useRouter } from "next/router";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 import { Recorder } from "../../hooks/useRecorder";
 import useTimer from "../../hooks/useTimer";
 import { WaveIcon } from "../../icons";
@@ -13,16 +17,23 @@ import {
   ButtonLabel,
 } from "./Recorder.styles";
 import { formatTime } from "../../utils";
+import RecordPreview from "./RecordPreview";
+import { auth } from "../../utils/firebase";
 
 interface Props {}
 
 const App: React.FC<Props> = () => {
   const [isRecording, setIsRecording] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const [title, setTitle] = useState("");
   const [result, setResult] = useState("");
   const recorder = useRef(null);
   const textFlow = useRef(null);
   const { timer, isPaused, handleStart, handlePause, handleReset } =
     useTimer(0);
+  const { query } = useRouter();
+  const [user] = useAuthState(auth);
+  const type = query.type || "default";
 
   useEffect(() => {
     recorder.current = new Recorder();
@@ -50,7 +61,7 @@ const App: React.FC<Props> = () => {
     }
   };
 
-  return (
+  return !isDone ? (
     <StyledContainer>
       <TitleContainer>
         {isRecording || isPaused ? (
@@ -64,7 +75,7 @@ const App: React.FC<Props> = () => {
       </TitleContainer>
       <RoundButton
         aria-label="record"
-        isRecording={isRecording}
+        $isrecording={isRecording}
         onClick={handleRecord}
       >
         {isRecording ? (
@@ -80,8 +91,35 @@ const App: React.FC<Props> = () => {
           ? "Rerecord"
           : "Tap to speak"}
       </ButtonLabel>
+      <StyledButton
+        disabled={!(!isRecording && result)}
+        onClick={() => setIsDone(true)}
+      >
+        Done
+      </StyledButton>
     </StyledContainer>
+  ) : (
+    <RecordPreview
+      result={result}
+      setTitle={setTitle}
+      setResult={setResult}
+      save={() => recorder.current.saveRecord(user.uid, title, result, type)}
+    />
   );
 };
 
 export default App;
+
+const StyledButton = styled(Button)`
+  background: #000000;
+  border-radius: 12px;
+  color: #fff;
+  width: 100%;
+  height: 49px;
+  text-transform: none;
+
+  :disabled {
+    background: #f3f3f3;
+    color: #8f8f8f;
+  }
+`;
