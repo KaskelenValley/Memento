@@ -22,3 +22,5 @@ export * from "./PlayIcon";
 export * from "./SlySmileIcon";
 export * from "./LeavesIcon";
 export * from "./ThreeDotsIcon";
+export * from "./EditRecordIcon";
+export * from "./DoneIcon";
