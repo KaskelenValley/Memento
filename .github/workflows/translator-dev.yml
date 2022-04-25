@@ -18,6 +18,7 @@ jobs:
         run: git remote add heroku-translator-backend https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_TRANSLATOR_DEV_NAME }}.git
       - name: Get google credentials
         run: curl --request GET --header "X-Vault-Token:${{ secrets.VAULT_TOKEN }}" "${{ secrets.VAULT_ADDR }}/v1/cubbyhole/memento/google-creds" >> Project/translator-backend/google-creds.json
+      - name: Add google credentials to git
         run: git commit -am "Add google credentials"
       - name: Deploy translator dev to Heroku
         run: git push heroku-translator-backend `git subtree split --prefix Project/translator-backend ${GITHUB_REF_NAME}`:refs/heads/main --force
