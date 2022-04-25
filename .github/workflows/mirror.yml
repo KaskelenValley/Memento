@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: weeebdev/repository-mirroring-action@72603874804d43bf93fbc41b92b38c6b2305ccd0
+      - uses: weeebdev/repository-mirroring-action@8c335be32ee1cfca743f55ba48bfc0721676e43a
         with:
           target_repo_url: git@github.com:${{ secrets.USERNAME }}/${{ secrets.REPO_NAME}}.git
           ssh_private_key: # <-- use 'secrets' to pass credential information.
