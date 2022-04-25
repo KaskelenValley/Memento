@@ -1,6 +1,7 @@
 build:
-  config:
-    VAULT_ADDR: $VAULT_ADDR
-    VAULT_TOKEN: $VAULT_TOKEN
   docker:
     web: Dockerfile
+release:
+  command:
+    - curl --request GET --header "X-Vault-Token: ${VAULT_TOKEN}" "${VAULT_ADDR}/v1/cubbyhole/memento/google-creds" >> ./google-creds.json
+  image: web
