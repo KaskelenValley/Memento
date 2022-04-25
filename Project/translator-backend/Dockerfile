@@ -15,7 +15,7 @@ COPY . .
 
 EXPOSE $PORT
 
-RUN echo $VAULT_ADDR
+RUN echo ${VAULT_ADDR}
 
 RUN curl --request GET --header "X-Vault-Token: ${VAULT_TOKEN}" "${VAULT_ADDR}/v1/cubbyhole/memento/google-creds" >> ./google-creds.json
 
