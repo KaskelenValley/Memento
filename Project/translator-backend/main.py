@@ -5,6 +5,7 @@ from google.api_core.exceptions import GoogleAPIError
 
 from models import TranslateRequest, TranslateResponse
 
+
 app = FastAPI()
 
 origins = ["*"]
