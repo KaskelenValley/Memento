@@ -8,11 +8,11 @@ import {
 import Link from "next/link";
 
 import {
-  BrightnessIcon,
-  SearchIcon,
-  WaveIcon,
+  HomeIcon,
   EditIcon,
   PlusIcon,
+  StatisticsIcon,
+  ProfileIcon,
 } from "../../icons";
 
 export const Navbar = () => {
@@ -26,16 +26,16 @@ export const Navbar = () => {
         setValue(newValue);
       }}
     >
-      <StyledBottomNavigationAction icon={<BrightnessIcon />} />
+      <StyledBottomNavigationAction icon={<HomeIcon />} />
       <Link href="records">
-        <StyledBottomNavigationAction icon={<SearchIcon />} />
+        <StyledBottomNavigationAction icon={<StatisticsIcon />} />
       </Link>
-      <Link href="record">
+      <Link href="recording">
         <StyledBottomNavigationAction icon={<PlusIcon />} className="center" />
       </Link>
-      <StyledBottomNavigationAction icon={<WaveIcon />} />
+      <StyledBottomNavigationAction icon={<EditIcon />} />
       <Link href="edit">
-        <StyledBottomNavigationAction icon={<EditIcon />} />
+        <StyledBottomNavigationAction icon={<ProfileIcon />} />
       </Link>
     </StyledNav>
   );
@@ -47,7 +47,7 @@ const StyledNav = styled(BottomNavigation)`
   left: 0;
   right: 0;
   box-shadow: 0px 0px 30px rgba(140, 154, 163, 0.3);
-  height: 106px;
+  height: 12vh;
 `;
 
 const StyledBottomNavigationAction = styled(BottomNavigationAction)`
@@ -55,10 +55,11 @@ const StyledBottomNavigationAction = styled(BottomNavigationAction)`
     margin: ${theme.spacing(3)} ${theme.spacing(2.5)} ${theme.spacing(5.75)};
     padding: 0;
     min-width: auto;
+    color: #accec8;
 
     &.Mui-selected {
       color: #2c2c2c;
-      padding: 0 0 ${theme.spacing(0.75)};
+      padding: 0;
     }
 
     span {

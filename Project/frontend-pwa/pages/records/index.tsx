@@ -15,10 +15,12 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { deleteObject, getBlob, ref } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-import { auth, db, storage } from "../utils/firebase";
+import { auth, db, storage } from "../../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { ArrowIcon } from "../icons";
+import { ArrowIcon } from "../../icons";
+import CloseButton from "../../components/Button/CloseButton";
 
 const Records = (props) => {
   const [records, setRecords] = useState<any>();
@@ -26,6 +28,7 @@ const Records = (props) => {
   const [text, setText] = useState<any>([]);
 
   const [user, loading, error] = useAuthState(auth);
+  const { push } = useRouter();
 
   let docRef;
 
@@ -105,11 +108,16 @@ const Records = (props) => {
   return (
     <StyledContainer>
       <StyledBlock>
-        <Link href="/main">
-          <ArrowIcon />
-        </Link>
-        <Typography sx={{ fontSize: 22, fontWeight: 700 }} align="center">
-          Notes
+        <CloseButton position="top-right" onClick={() => push("/main")} />
+        <Typography
+          sx={{
+            fontWeight: 500,
+            fontSize: "54px",
+            color: "rgba(44, 44, 44, 0.1)",
+          }}
+          align="center"
+        >
+          Your entries
         </Typography>
       </StyledBlock>
       <TextField
@@ -133,21 +141,10 @@ const Records = (props) => {
                 <AccordionDetails
                   style={{ display: "flex", flexDirection: "column" }}
                 >
-                  <audio
-                    src={e.id ? URL.createObjectURL(e.blob) : ""}
-                    controls
-                  />
-                  <TextField
-                    multiline
-                    defaultValue={e.result}
-                    onChange={(event) => handleChangeInput(event, e.id)}
-                  />
-                  <Button onClick={() => updateRecord(e.id)}>
-                    Update record
-                  </Button>
                   <Button onClick={() => deleteRecord(e.id)}>
                     Delete record
                   </Button>
+                  <Button onClick={() => push(`/records/${e.id}`)}>Open</Button>
                 </AccordionDetails>
               </StyledAccordion>
             );
@@ -214,7 +211,7 @@ const StyledAccordion = styled(Accordion)`
 
 const StyledBlock = styled("div")`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   position: relative;
   align-items: center;
   margin: 25px 0 45px;

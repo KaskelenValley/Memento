@@ -11,20 +11,13 @@ import {
   InputAdornment,
   TextField,
   MenuItem,
-  Modal,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import NumberFormat from "react-number-format";
 import {
-  signInWithPhoneNumber,
-  RecaptchaVerifier,
-  linkWithCredential,
-  EmailAuthProvider,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
   GoogleAuthProvider,
   setPersistence,
   browserLocalPersistence,
@@ -38,10 +31,11 @@ import { doc, setDoc } from "firebase/firestore";
 
 import mementoIcon from "../public/memento.svg";
 import passwordIcon from "../public/icons/password.svg";
-import arrowDownIcon from "../public/icons/arrow-down.svg";
 import { countries } from "../utils/countries";
 import { auth, db } from "../utils/firebase";
 import { FacebookIcon, GoogleIcon } from "../icons";
+import { ArrowDownIcon } from "../icons";
+import Link from "next/link";
 
 const Index: FC = () => {
   const [values, setValues] = useState({
@@ -61,14 +55,7 @@ const Index: FC = () => {
     formState: { errors, isValid, isDirty },
   } = useForm({ mode: "onChange" });
 
-  const [open, setOpen] = useState(false);
   const [openBackdrop, setOpenBackdrop] = useState(true);
-  const [code, setCode] = useState();
-  const [confirm, setConfirm] = useState<any>();
-  const [login, setLogin] = useState<boolean>(true);
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const handleClickShowPassword = () => {
     setValues({
@@ -85,26 +72,10 @@ const Index: FC = () => {
 
   const mainCountry = countries.find((c) => c.code === "KZ");
 
-  const appVerifier =
-    typeof window !== "undefined" ? (window as any).recaptchaVerifier : [];
-
   useEffect(() => {
-    (window as any).recaptchaVerifier = new RecaptchaVerifier(
-      "btn",
-      {
-        size: "invisible",
-        callback: (response) => {
-          console.log(response);
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // onSignInSubmit();
-        },
-      },
-      auth
-    );
-
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        router.push("main");
+        //router.push("main");
       }
       setOpenBackdrop(false);
     });
@@ -133,56 +104,16 @@ const Index: FC = () => {
   }, []);
 
   const onSubmit = (data) => {
-    // signInWithPhoneNumber(auth, `+7${data.phone}`, appVerifier)
-    //   .then((confirmationResult) => {
-    //     // SMS sent. Prompt user to type the code from the message, then sign the
-    //     // user in with confirmationResult.confirm(code).
-    //     (window as any).confirmationResult = confirmationResult;
-    //     // ...
-    //     console.log(confirmationResult);
-    //     setConfirm(confirmationResult);
-    //   })
-    //   .catch((error) => {
-    //     // Error; SMS not sent
-    //     // ...
-    //     console.log(error);
-    //   });
-
-    login
-      ? setPersistence(auth, browserLocalPersistence).then(() =>
-          signInWithEmailAndPassword(auth, data.email, data.password)
-            .then((userCredential) => {
-              // Signed in
-              const user = userCredential.user;
-              router.push("/main");
-              // ...
-            })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert(errorMessage);
-            })
-        )
-      : createUserWithEmailAndPassword(auth, data.email, data.password)
-          .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-
-            setDoc(doc(db, "users", user.uid), {
-              id: user.uid,
-              emailAddress: user.email,
-              verified: user.emailVerified,
-            });
-
-            setLogin(true);
-            alert("Account created! Please sign in");
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert(errorMessage);
-            // ..
-          });
+    setPersistence(auth, browserLocalPersistence).then(() =>
+      signInWithEmailAndPassword(auth, data.email, data.password)
+        .then((userCredential) => {
+          router.push("/main");
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          alert(errorMessage);
+        })
+    );
   };
 
   return (
@@ -192,7 +123,7 @@ const Index: FC = () => {
         <Typography
           sx={{ fontWeight: 600, fontSize: 22, margin: "64px 0 24px" }}
         >
-          {login ? "Sign in" : "Sign up"}
+          Sign in
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <StyledInput
@@ -222,105 +153,23 @@ const Index: FC = () => {
             type="submit"
             variant="contained"
             disabled={!isDirty || !isValid}
-            //onClick={handleOpen}
           >
-            {login ? "Sign in" : "Sign up"}
+            Sign in
           </StyledButton>
-          {/* <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style}>
-              <Controller
-                name="phone"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <NumberFormat
-                    {...field}
-                    customInput={StyledTextField}
-                    format="### ### ## ##"
-                    placeholder="Phone number"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <StyledSelect
-                            variant="standard"
-                            defaultValue={mainCountry.code}
-                            IconComponent={() => <Image src={arrowDownIcon} />}
-                          >
-                            {countries.map((c) => (
-                              <MenuItem key={c.code} value={c.code}>
-                                +{c.phone}
-                              </MenuItem>
-                            ))}
-                          </StyledSelect>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
-              />
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Введите код
-              </Typography>
-              <TextField onChange={(e: any) => setCode(e.target.value)} />
-              <StyledButton
-                id="btn"
-                type="submit"
-                variant="contained"
-                onClick={() => {
-                  confirm
-                    .confirm(code)
-                    .then((result) => {
-                      // User signed in successfully.
-                      const user = result.user;
-                      // ...
-                      console.log(result);
-                      linkWithCredential(auth.currentUser, credential)
-                        .then((usercred) => {
-                          const user = usercred.user;
-                          console.log("Account linking success", user);
-                        })
-                        .catch((error) => {
-                          console.log("Account linking error", error);
-                        });
-                      console.log(user);
-                      // if (user) {
-                      //   router.push("main");
-                      // }
-                    })
-                    .catch((error) => {
-                      // User couldn't sign in (bad verification code?)
-                      // ...
-                    });
-                }}
-              >
-                Verify
-              </StyledButton>
-              <StyledIconButton
-                variant="outlined"
-                sx={{ margin: 0 }}
-                onClick={handleClose}
-              >
-                Close
-              </StyledIconButton>
-            </Box>
-          </Modal> */}
         </form>
-        <Typography
-          sx={{
-            textTransform: "uppercase",
-            fontSize: 12,
-            fontWeight: 600,
-            color: "#8C9AA3",
-            textAlign: "center",
-          }}
-        >
-          Forgot password?
-        </Typography>
+        <Link href="recover">
+          <Typography
+            sx={{
+              textTransform: "uppercase",
+              fontSize: 12,
+              fontWeight: 600,
+              color: "#8C9AA3",
+              textAlign: "center",
+            }}
+          >
+            Forgot password?
+          </Typography>
+        </Link>
       </StyledBox>
       <Box>
         <Box display="flex" justifyContent="space-between">
@@ -360,18 +209,9 @@ const Index: FC = () => {
             color: "#8C9AA3",
             textAlign: "center",
           }}
-          onClick={() => setLogin(!login)}
+          onClick={() => router.push("register")}
         >
-          {login ? (
-            <>
-              No account? <span style={{ color: "#1D2022" }}>Registration</span>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <span style={{ color: "#1D2022" }}>Login</span>
-            </>
-          )}
+          No account? <span style={{ color: "#1D2022" }}>Registration</span>
         </Typography>
       </Box>
       <Backdrop open={openBackdrop}>
