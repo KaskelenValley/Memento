@@ -15,8 +15,8 @@ COPY . .
 
 EXPOSE $PORT
 
-ENV VAULT_TOKEN=${VAULT_TOKEN}
-ENV VAULT_ADDR=${VAULT_ADDR}
+ARG VAULT_TOKEN=${VAULT_TOKEN}
+ARG VAULT_ADDR=${VAULT_ADDR}
 
 RUN curl --request GET --header "X-Vault-Token: ${VAULT_TOKEN}" "${VAULT_ADDR}/v1/cubbyhole/memento/google-creds" >> ./google-creds.json
 
