@@ -15,7 +15,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import NumberFormat from "react-number-format";
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -28,14 +27,15 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { doc, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 import mementoIcon from "../public/memento.svg";
 import passwordIcon from "../public/icons/password.svg";
 import { countries } from "../utils/countries";
 import { auth, db } from "../utils/firebase";
 import { FacebookIcon, GoogleIcon } from "../icons";
-import { ArrowDownIcon } from "../icons";
 import Link from "next/link";
+import { CustomErrorToast, Toaster } from "../components/Toaster";
 
 const Index: FC = () => {
   const [values, setValues] = useState({
@@ -106,15 +106,16 @@ const Index: FC = () => {
   const onSubmit = (data) => {
     setPersistence(auth, browserLocalPersistence).then(() =>
       signInWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
+        .then(() => {
           router.push("/main");
         })
         .catch((error) => {
-          const errorMessage = error.message;
-          alert(errorMessage);
+          notify(error.code);
         })
     );
   };
+
+  const notify = (msg) => toast.custom(<CustomErrorToast msg={msg} />);
 
   return (
     <StyledContainer>
@@ -126,6 +127,7 @@ const Index: FC = () => {
           Sign in
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <Toaster />
           <StyledInput
             {...register("email", { required: true })}
             placeholder="Email"
