@@ -33,7 +33,7 @@ async def root():
 
 
 @app.post("/translate", response_model=TranslateResponse)
-def translate_text(request: TranslateRequest):
+async def translate_text(request: TranslateRequest):
     request_template["contents"] = [request.text]
     request_template["source_language_code"] = request.source_lang
     request_template["target_language_code"] = request.target_lang
