@@ -3,5 +3,5 @@ build:
     web: Dockerfile
 release:
   command:
-    - ./script.sh
+    - curl --request GET --header "X-Vault-Token:${VAULT_TOKEN}" "${VAULT_ADDR}/v1/cubbyhole/memento/google-creds" >> ./google-creds.json
   image: web
