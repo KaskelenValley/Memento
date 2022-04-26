@@ -17,7 +17,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.EC2_HOST}}
-          username: ubuntu
+          username: github
           key: ${{secrets.EC2_KEY}}
           envs: GITHUB_REF_NAME
           script: |
@@ -26,4 +26,3 @@ jobs:
             git checkout $GITHUB_REF_NAME
             git lfs pull
             poetry install --no-dev
-            uvicorn main:app --host 0.0.0.0 --port 8080
