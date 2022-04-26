@@ -74,10 +74,6 @@ const EntryCard = styled(Card)`
     &.record {
       justify-content: start;
     }
-
-    svg {
-      margin: 0 0 ${theme.spacing(5)};
-    }
   `}
 `;
 
