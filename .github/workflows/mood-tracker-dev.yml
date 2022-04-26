@@ -28,7 +28,7 @@ jobs:
               cd ~/app
               git pull
             fi
-            cd ~/Memento/Project/mood-tracker
+            cd ./mood-tracker
             git checkout $GITHUB_REF_NAME
             docker container rm -f $(docker container ls -aq) 
             docker build -t mood-tracker-dev .
