@@ -18,6 +18,7 @@ jobs:
         with:
           host: ${{secrets.DO_HOST}}
           username: root
+          password: ${{secrets.DO_PASSWORD}}
           key: ${{secrets.DO_KEY}}
           envs: GITHUB_REF_NAME
           script: |
