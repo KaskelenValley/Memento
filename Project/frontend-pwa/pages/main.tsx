@@ -323,6 +323,7 @@ const HorizontalCalendar = styled("div")`
   display: flex;
   overflow: scroll;
   margin-bottom: 40px;
+  justify-content: space-between;
 
   &::-webkit-scrollbar {
     display: none;
