@@ -31,4 +31,4 @@ jobs:
             git checkout $GITHUB_REF_NAME
             docker container rm -f $(docker container ls -aq) || true
             docker build -t mood-tracker-dev .
-            docker run --rm -v weights:weights -p 8080:8080 mood-tracker-dev
+            docker run --rm -v ./weights:./weights -p 8080:8080 mood-tracker-dev
