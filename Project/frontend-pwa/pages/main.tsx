@@ -1,6 +1,6 @@
 import {
-  Button,
   Card,
+  CircularProgress,
   Container,
   css,
   Grid,
@@ -9,24 +9,55 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { add } from "date-fns";
+import { add, formatDistanceToNow } from "date-fns";
+import { useEffect, useState } from "react";
+import { getBlob, ref } from "firebase/storage";
 
 import { Navbar } from "../components/Navbar/Navbar";
-import {
-  GratitudeIcon,
-  PlayIcon,
-  SlySmileIcon,
-  SmileIcon,
-  ThreeDotsIcon,
-  WritingIcon,
-} from "../icons";
-import { auth } from "../utils/firebase";
+import { GratitudeIcon, SmileIcon, WritingIcon } from "../icons";
+import { auth, db, storage } from "../utils/firebase";
 import Image from "next/image";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { RecordCard } from "../components/RecordCard";
 
 const Main = () => {
-  const [user] = useAuthState(auth);
-  console.log(user);
+  const [user, loading] = useAuthState(auth);
+  const [records, setRecords] = useState([]);
+  const [spinner, setSpinner] = useState(true);
+  const [latestDate, setLatestDate] = useState("");
 
+  useEffect(() => {
+    setSpinner(true);
+
+    if (!loading) {
+      const fetchRecords = async () => {
+        const arr = [];
+        const q = query(collection(db, "users"), where("id", "==", user.uid));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(async (doc) => {
+          for (const d of doc.data().records) {
+            const date = d.date.toDate();
+
+            if (date > latestDate) {
+              setLatestDate(date);
+            }
+
+            const blob = await getBlob(ref(storage, d.id));
+            arr.push({ ...d, blob });
+          }
+
+          setRecords(arr);
+        });
+
+        setSpinner(false);
+      };
+
+      fetchRecords();
+    }
+  }, [loading, user]);
+
+  console.log(records, latestDate);
   return (
     <>
       <StyledContainer>
@@ -180,83 +211,29 @@ const Main = () => {
             </Typography>
           </StyledCard>
         </CardContainer>
-        <Typography
-          sx={{ fontFamily: "Georgia", fontSize: 20, fontWeight: 700 }}
-          gutterBottom
-        >
-          Latest entry
-        </Typography>
-        <Typography sx={{ fontSize: 16, fontWeight: 300 }} gutterBottom>
-          2 day ago...
-        </Typography>
+        {records.length !== 0 && !spinner && (
+          <>
+            <Typography
+              sx={{ fontFamily: "Georgia", fontSize: 20, fontWeight: 700 }}
+              gutterBottom
+            >
+              Latest entry
+            </Typography>
+            <Typography sx={{ fontSize: 16, fontWeight: 300 }} gutterBottom>
+              {formatDistanceToNow(new Date(latestDate), { addSuffix: true })}
+            </Typography>
+          </>
+        )}
         <EntriesContainer>
-          <EntryCard>
-            <TitleContainer>
-              <Typography sx={{ fontSize: 14, fontWeight: 600 }} gutterBottom>
-                Sudden thoughts
-              </Typography>
-              <StyledButton variant="outlined" endIcon={<PlayIcon />}>
-                -2:54
-              </StyledButton>
-            </TitleContainer>
-            <Typography sx={{ fontSize: 14, fontWeight: 300 }} gutterBottom>
-              There are certain moments in life when something changes in our
-              soul...
-            </Typography>
-            <ActionsContainer>
-              <TagCardContainer>
-                <TagCard style={{ background: "rgba(137, 205, 210, 0.15)" }}>
-                  <SlySmileIcon />
-                  <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-                    Down
-                  </Typography>
-                </TagCard>
-                <TagCard style={{ background: "rgba(137, 210, 144, 0.15)" }}>
-                  <SlySmileIcon />
-                  <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-                    Work
-                  </Typography>
-                </TagCard>
-              </TagCardContainer>
-              <StyledOptionButton>
-                <ThreeDotsIcon />
-              </StyledOptionButton>
-            </ActionsContainer>
-          </EntryCard>
-
-          <EntryCard>
-            <TitleContainer>
-              <Typography sx={{ fontSize: 14, fontWeight: 600 }} gutterBottom>
-                Sudden thoughts
-              </Typography>
-              <StyledButton variant="outlined" endIcon={<PlayIcon />}>
-                -2:54
-              </StyledButton>
-            </TitleContainer>
-            <Typography sx={{ fontSize: 14, fontWeight: 300 }} gutterBottom>
-              There are certain moments in life when something changes in our
-              soul...
-            </Typography>
-            <ActionsContainer>
-              <TagCardContainer>
-                <TagCard style={{ background: "rgba(137, 205, 210, 0.15)" }}>
-                  <SlySmileIcon />
-                  <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-                    Down
-                  </Typography>
-                </TagCard>
-                <TagCard style={{ background: "rgba(137, 210, 144, 0.15)" }}>
-                  <SlySmileIcon />
-                  <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-                    Work
-                  </Typography>
-                </TagCard>
-              </TagCardContainer>
-              <StyledOptionButton>
-                <ThreeDotsIcon />
-              </StyledOptionButton>
-            </ActionsContainer>
-          </EntryCard>
+          {!spinner ? (
+            records.map((rec) => (
+              <CardWrapper>
+                <RecordCard record={rec} />
+              </CardWrapper>
+            ))
+          ) : (
+            <StyledCircularProgress />
+          )}
         </EntriesContainer>
         <Image src="/temporary.png" width={300} height={188} />
       </StyledContainer>
@@ -360,94 +337,25 @@ const EntriesContainer = styled("div")`
     display: flex;
     overflow: scroll;
 
+    & > div {
+      width: 290px !important;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }
   `}
 `;
 
-const EntryCard = styled(Card)`
-  ${({ theme }) => css`
-    min-width: 290px;
-    border-radius: ${theme.spacing(2.5)};
-    border: 1px solid #ebebeb;
-    box-shadow: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    padding: ${theme.spacing(2.125)} ${theme.spacing(1.625)};
-
-    &.record {
-      justify-content: start;
-    }
-
-    svg {
-      margin: 0 0 ${theme.spacing(5)};
-    }
-
-    &:first-of-type {
-      margin-right: 8px;
-    }
-  `}
+const StyledCircularProgress = styled(CircularProgress)`
+  margin: 0 auto;
 `;
 
-const TitleContainer = styled("div")`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+const CardWrapper = styled("div")`
+  min-width: 290px;
+  margin-right: 8px;
 
-const ActionsContainer = styled("div")`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TagCardContainer = styled("div")`
-  display: flex;
-
-  svg {
-    margin: 0 5px 0 0;
-  }
-`;
-
-const TagCard = styled("div")`
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  padding: 6.5px 8px;
-  margin: 32px 8px 0 0;
-`;
-
-const StyledOptionButton = styled(Button)`
-  border: 1px solid rgba(197, 204, 209, 0.5);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  min-height: 32px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
+  &:last-child {
     margin: 0;
-  }
-`;
-
-const StyledButton = styled(Button)`
-  border: 1px solid rgba(197, 204, 209, 0.5);
-  border-radius: 8px;
-  padding: 9px 8px;
-  color: #69696a;
-  font-size: 10px;
-
-  svg {
-    margin: 0;
-  }
-
-  .MuiButton-endIcon {
-    margin-left: 4px;
   }
 `;
