@@ -16,13 +16,19 @@ jobs:
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets.EC2_HOST}}
-          username: github
-          key: ${{secrets.EC2_KEY}}
+          host: ${{secrets.DO_HOST}}
+          username: root
+          key: ${{secrets.DO_KEY}}
           envs: GITHUB_REF_NAME
           script: |
-            git clone https://github.com/KaskelenValley/Memento.git ~/Memento
+            if [ ! -d "~/app"]; then
+              git clone https://github.com/KaskelenValley/Memento.git ~/app
+            else
+              cd ~/app
+              git pull
+            fi
             cd ~/Memento/Project/mood-tracker
             git checkout $GITHUB_REF_NAME
-            git lfs pull
-            poetry install --no-dev
+            docker container rm -f $(docker container ls -aq)
+            docker build -t mood-tracker-dev .
+            docker run --rm -v weights:weights -p 8080:8080 mood-tracker-dev
