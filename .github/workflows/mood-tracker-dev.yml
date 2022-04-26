@@ -13,8 +13,17 @@ jobs:
     if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Add mood-tracker remote origin
-        run: git remote add heroku-mood-tracker https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_MOOD_DEV_NAME }}.git
-      - name: Deploy mood tracker dev to Heroku
-        run: git push heroku-mood-tracker `git subtree split --prefix Project/mood-tracker ${GITHUB_REF_NAME}`:refs/heads/main --force
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.EC2_HOST}}
+          username: ubuntu
+          key: ${{secrets.EC2_KEY}}
+          envs: GITHUB_REF_NAME
+          script: |
+            git clone https://github.com/KaskelenValley/Memento.git ~/Memento
+            cd ~/Memento/Project/mood-tracker
+            git checkout $GITHUB_REF_NAME
+            git lfs pull
+            poetry install --no-dev
+            uvicorn main:app --host 0.0.0.0 --port 8080
