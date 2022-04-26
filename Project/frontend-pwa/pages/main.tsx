@@ -42,7 +42,7 @@ const Main = () => {
           Today
         </Typography>
         <Typography sx={{ fontSize: 16, fontWeight: 300, mb: 4 }}>
-          {new Date().toLocaleString("default", {
+          {new Date().toLocaleString("en-US", {
             weekday: "long",
             month: "long",
             day: "numeric",
