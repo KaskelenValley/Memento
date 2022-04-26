@@ -149,7 +149,7 @@ const Records = (props) => {
                   })}`}
                 </Typography>
               </DateContainer>
-              {arr.map((record, i) => {
+              {(arr as any).map((record, i) => {
                 return (
                   <RecordContainer key={i}>
                     <CardContainer>
@@ -180,36 +180,6 @@ const Records = (props) => {
         ) : (
           <CircularProgress />
         )}
-        {/* {filtered ? (
-          filtered.map((record, i) => {
-            return (
-              <RecordContainer key={i}>
-                <CardContainer>
-                  <RecordWaveIcon />
-                  <Typography
-                    sx={{
-                      fontWeight: 500,
-                      fontSize: "13px",
-                      color: "#69696A",
-                      ml: 1,
-                    }}
-                  >
-                    {record.date.toDate().toLocaleTimeString("en-US", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </Typography>
-                </CardContainer>
-                <CardWrapper>
-                  <StyledHr />
-                  <RecordCard record={record} />
-                </CardWrapper>
-              </RecordContainer>
-            );
-          })
-        ) : (
-          <CircularProgress />
-        )} */}
       </RecordsContainer>
     </StyledContainer>
   );
