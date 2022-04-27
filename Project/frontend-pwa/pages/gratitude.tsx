@@ -13,7 +13,7 @@ import { UploadIcon } from "../icons";
 
 const GratitudePage = () => {
   const { push } = useRouter();
-  const [isStart, setIsStart] = useState(true);
+  const [isStart, setIsStart] = useState(false);
 
   return (
     <StyledContainer>
