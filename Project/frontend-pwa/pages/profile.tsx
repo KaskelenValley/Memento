@@ -64,7 +64,7 @@ const EditPage = () => {
               }}
               align="center"
             >
-              {user.displayName || "No name :("}
+              {user?.displayName || "No name :("}
             </Typography>
             <StatisticsContainer>
               <StatisticsWrapper>
