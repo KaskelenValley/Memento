@@ -6,3 +6,30 @@ export const formatTime = (timer) => {
 
   return `${getHours} : ${getMinutes} : ${getSeconds}`;
 };
+
+export const secondsToHms = (seconds) => {
+  let d = Number(seconds);
+
+  if (d <= 0) {
+    return "00:00:00";
+  } else {
+    let m = Math.floor((d % 3600) / 60);
+    let s = Math.floor((d % 3600) % 60);
+
+    let mDisplay = m <= 9 ? "0" + m + ":" : m + ":";
+    let sDisplay = s <= 9 ? "0" + s : s;
+
+    return mDisplay + sDisplay;
+  }
+};
+
+export const groupByDate = (arr) =>
+  arr?.reduce((groups, record) => {
+    const date = record.date.toDate().toLocaleString("en-US").split(",")[0];
+
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push(record);
+    return groups;
+  }, {});

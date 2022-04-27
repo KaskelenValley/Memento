@@ -26,7 +26,7 @@ import {
 } from "firebase/auth";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 
 import mementoIcon from "../public/memento.svg";
@@ -81,25 +81,34 @@ const Index: FC = () => {
     });
 
     getRedirectResult(auth)
-      .then((result) => {
+      .then(async (result) => {
         if (result) {
           const user = result.user;
+          let isExist = false;
 
-          setDoc(doc(db, "users", user.uid), {
-            id: user.uid,
-            emailAddress: user.email,
-            verified: user.emailVerified,
+          const q = query(collection(db, "users"));
+          const querySnapshot = await getDocs(q);
+
+          querySnapshot.forEach((item) => {
+            const email = item.data().emailAddress;
+            if (email === user.email) {
+              isExist = true;
+            }
           });
+
+          if (!isExist) {
+            setDoc(doc(db, "users", user.uid), {
+              id: user.uid,
+              emailAddress: user.email,
+              verified: user.emailVerified,
+            });
+          }
 
           router.push("main");
         }
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        alert(errorMessage);
+        notify(error.code);
       });
   }, []);
 

@@ -24,3 +24,6 @@ export * from "./LeavesIcon";
 export * from "./ThreeDotsIcon";
 export * from "./EditRecordIcon";
 export * from "./DoneIcon";
+export * from "./RecordWaveIcon";
+export * from "./SupportIcon";
+export * from "./SettingsIcon";

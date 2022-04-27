@@ -34,7 +34,7 @@ export const Navbar = () => {
         <StyledBottomNavigationAction icon={<PlusIcon />} className="center" />
       </Link>
       <StyledBottomNavigationAction icon={<EditIcon />} />
-      <Link href="edit">
+      <Link href="profile">
         <StyledBottomNavigationAction icon={<ProfileIcon />} />
       </Link>
     </StyledNav>
