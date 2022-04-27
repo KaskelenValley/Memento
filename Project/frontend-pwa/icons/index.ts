@@ -27,3 +27,4 @@ export * from "./DoneIcon";
 export * from "./RecordWaveIcon";
 export * from "./SupportIcon";
 export * from "./SettingsIcon";
+export * from "./UploadIcon";
