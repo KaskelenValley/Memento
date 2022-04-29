@@ -1,10 +1,11 @@
 from pydantic import BaseModel
+from enum import Enum
 
 
-class Text(BaseModel):
-    text: str
+class Status(str, Enum):
+    UNAVAILABLE = "UNAVAILABLE"
+    OK = "OK"
 
 
-class MoodResponse(BaseModel):
-    mood: str
-    mood_score: float
+class StatusResponse(BaseModel):
+    status: Status

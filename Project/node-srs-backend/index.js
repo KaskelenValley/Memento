@@ -3,7 +3,13 @@ const ws = new require("ws");
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
 
-const folderId = process.env.FOLDER_ID;
+const express = require("express");
+const http = require("http");
+
+app = express();
+const audio = fs.readFileSync("healthcheck.ogg");
+const httpServer = http.createServer(app);
+
 const apiKey = process.env.API_KEY;
 
 process.on("uncaughtException", function (error) {
@@ -49,9 +55,9 @@ const service = new serviceConstructor(
   grpcCredentials
 );
 
-const server = new ws.Server({ port: process.env.PORT });
+const wsServer = new ws.Server({ server: httpServer });
 
-server.on("connection", onConnect);
+wsServer.on("connection", onConnect);
 
 function onConnect(wsClient) {
   console.log("User connected");
@@ -121,7 +127,7 @@ function onConnect(wsClient) {
     }
   });
 
-  wsClient.on("close", function () {
+  wsClient.on("close", function (event) {
     // TODO: refactor
     setTimeout(() => {
       if (call !== undefined) {
@@ -131,3 +137,34 @@ function onConnect(wsClient) {
     console.log("User disconnected");
   });
 }
+
+app.get("/", (req, res) => {
+  res.send(
+    JSON.stringify({ message: "Memento Streaming SRS Backend API v0.1" })
+  );
+});
+
+app.get("/healthcheck", (req, res) => {
+  const call = service["RecognizeStreaming"](serviceMetadata);
+  call.write(configRequest);
+  call.write({ chunk: { data: audio } });
+  call.end();
+
+  let failureMessage = setTimeout(() => {
+    res.send(JSON.stringify({ status: "UNAVAILABLE" }));
+  }, 2000);
+  call.on("data", (response) => {
+    if (
+      "finalRefinement" in response &&
+      "alternatives" in response.finalRefinement.normalizedText
+    ) {
+      clearTimeout(failureMessage);
+      res.send(JSON.stringify({ status: "OK" }));
+      return;
+    }
+  });
+});
+
+httpServer.listen(process.env.PORT || 8080, () => {
+  console.log(`Server started on port ${httpServer.address().port} :)`);
+});
