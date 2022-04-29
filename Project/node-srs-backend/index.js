@@ -55,48 +55,79 @@ server.on("connection", onConnect);
 
 function onConnect(wsClient) {
   console.log("User connected");
-  const call = service["RecognizeStreaming"](serviceMetadata);
-  call.write(configRequest);
-
-  call.on("data", (response) => {
-    let res = undefined;
-    let isFinal = false;
-    if ("partial" in response && "alternatives" in response.partial) {
-      res = response.partial.alternatives[0].text;
-    } else if ("final" in response && "alternatives" in response.final) {
-      res = response.final.alternatives[0].text;
-    } else if (
-      "finalRefinement" in response &&
-      "alternatives" in response.finalRefinement.normalizedText
-    ) {
-      res = response.finalRefinement.normalizedText.alternatives[0].text;
-      isFinal = true;
-    }
-    if (res == undefined) {
-      return;
-    }
-    let yandexResponse = JSON.stringify({
-      text: res,
-      isFinal: isFinal.toString(),
-    });
-    wsClient.send(yandexResponse);
-    console.log(yandexResponse);
-  });
+  let call = undefined;
+  let messageTimer = undefined;
 
   wsClient.on("message", function (message, isBinary) {
+    if (messageTimer !== undefined) {
+      clearTimeout(messageTimer);
+    }
+    messageTimer = setTimeout(() => {
+      if (call !== undefined) {
+        call.end();
+      }
+    }, 2000);
+
+    if (call === undefined) {
+      console.log("SpeechKit connected");
+      call = service["RecognizeStreaming"](serviceMetadata);
+      call.write(configRequest);
+
+      call.on("data", (response) => {
+        let res = undefined;
+        let isFinal = false;
+        if ("partial" in response && "alternatives" in response.partial) {
+          res = response.partial.alternatives[0].text;
+        } else if ("final" in response && "alternatives" in response.final) {
+          res = response.final.alternatives[0].text;
+        } else if (
+          "finalRefinement" in response &&
+          "alternatives" in response.finalRefinement.normalizedText
+        ) {
+          res = response.finalRefinement.normalizedText.alternatives[0].text;
+          isFinal = true;
+        }
+        if (res == undefined) {
+          return;
+        }
+        let yandexResponse = JSON.stringify({
+          text: res,
+          isFinal: isFinal.toString(),
+        });
+        wsClient.send(yandexResponse);
+        console.log(yandexResponse);
+      });
+
+      call.on("error", (e) => {
+        let errorResponse = JSON.stringify({
+          error: e,
+        });
+        wsClient.send(errorResponse);
+      });
+
+      call.on("close", () => {
+        console.log("SpeechKit disconnected");
+        call = undefined;
+      });
+    }
     if (!isBinary) {
       setTimeout(() => {
-        call.end();
+        if (call !== undefined) {
+          call.end();
+        }
       }, 1000);
+    } else {
+      call.write({ chunk: { data: message } });
     }
-    call.write({ chunk: { data: message } });
   });
 
   wsClient.on("close", function () {
     // TODO: refactor
     setTimeout(() => {
-      call.end();
-    }, 1000);
+      if (call !== undefined) {
+        call.end();
+      }
+    }, 500);
     console.log("User disconnected");
   });
 }
