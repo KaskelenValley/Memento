@@ -2,14 +2,13 @@ import urllib.request
 import json
 
 import magic
-import random
 import ffmpeg
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
 from settings import speechkit_config
-from models import Text, MoodResponse
+from models import StatusResponse
 
 FOLDER_ID = speechkit_config["FOLDER_ID"]
 API_KEY = speechkit_config["API_KEY"]
@@ -28,6 +27,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+audio = None
+with open("healthcheck.ogg", "rb") as f:
+    audio = f.read()
+
 
 @app.get("/")
 async def root():
@@ -37,18 +40,21 @@ async def root():
 MOOD_LIST = ["negative", "neutral", "positive"]
 
 
-@app.post("/predict_mood", response_model=MoodResponse)
-async def fake_predict_mood_template(text: Text):
-    positive_thr = 0.8
-    negative_thr = 0.25
-    fake_mood_score = random.random()
-    fake_mood_type = MOOD_LIST[1]
-    if fake_mood_score > positive_thr:
-        fake_mood_type = MOOD_LIST[-1]
-    elif fake_mood_score < negative_thr:
-        fake_mood_type = MOOD_LIST[0]
-
-    return MoodResponse(mood=fake_mood_type, mood_score=fake_mood_score)
+@app.get("/healthcheck", response_model=StatusResponse)
+async def health_check():
+    status = "UNAVAILABLE"
+    try:
+        url = urllib.request.Request(
+            "https://stt.api.cloud.yandex.net/speech/v1/stt:recognize?%s" % params,
+            audio,
+        )
+        url.add_header("Authorization", "Api-Key %s" % API_KEY)
+        response_data = urllib.request.urlopen(url).read().decode("UTF-8")
+        decoded_data = json.loads(response_data)
+        if len(decoded_data["result"]) > 0:
+            status = "OK"
+    finally:
+        return StatusResponse(status=status)
 
 
 @app.post("/stt_sync/")
