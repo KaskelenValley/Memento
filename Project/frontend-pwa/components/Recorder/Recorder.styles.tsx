@@ -63,7 +63,7 @@ export const TitleContainer = styled(Container)`
   margin-top: 56px;
   margin-bottom: 80px;
   position: relative;
-  -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
+  -webkit-mask-image: linear-gradient(0deg, #000 60%, transparent);
 `;
 
 export const VoiceNoteTitle = styled(Typography)`

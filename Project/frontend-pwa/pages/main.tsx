@@ -43,8 +43,12 @@ const Main = () => {
               setLatestDate(date);
             }
 
-            const blob = await getBlob(ref(storage, d.id));
-            arr.push({ ...d, blob });
+            if (d.type === "default") {
+              const blob = await getBlob(ref(storage, d.id));
+              arr.push({ ...d, blob });
+            } else {
+              arr.push(d);
+            }
           }
 
           setRecords(arr);

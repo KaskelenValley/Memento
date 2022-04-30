@@ -110,7 +110,7 @@ const Records = (props) => {
 
   return (
     <StyledContainer>
-      <CloseButton position="top-right" onClick={() => push("/main")} />
+      <CloseButton position="top-right" onClick={() => console.log("g")} />
       <StyledBlock>
         <Typography
           sx={{

@@ -2,7 +2,13 @@ import { FC, useEffect, useState } from "react";
 import { Button, Card, Typography, styled, css } from "@mui/material";
 import getBlobDuration from "get-blob-duration";
 
-import { PlayIcon, SlySmileIcon, ThreeDotsIcon } from "../icons";
+import {
+  PlayIcon,
+  SlySmileIcon,
+  SmilingSmileIcon,
+  ThreeDotsIcon,
+  WearySmileIcon,
+} from "../icons";
 import { secondsToHms } from "../utils";
 
 interface Props {
@@ -10,7 +16,7 @@ interface Props {
 }
 
 export const RecordCard: FC<Props> = ({
-  record: { title, result, blob, id, type },
+  record: { title, result, blob, id, mood },
 }) => {
   const [duration, setDuration] = useState<number>();
 
@@ -42,12 +48,16 @@ export const RecordCard: FC<Props> = ({
       </Typography>
       <ActionsContainer>
         <TagCardContainer>
-          <TagCard style={{ background: "rgba(137, 205, 210, 0.15)" }}>
-            <SlySmileIcon />
-            <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-              Down
-            </Typography>
-          </TagCard>
+          {mood && (
+            <TagCard style={{ background: "rgba(137, 205, 210, 0.15)" }}>
+              {mood === "neutral" && <SlySmileIcon />}
+              {mood === "positive" && <SmilingSmileIcon />}
+              {mood === "negative" && <WearySmileIcon />}
+              <Typography sx={{ fontSize: 11, color: "#69696A" }}>
+                Down
+              </Typography>
+            </TagCard>
+          )}
           <TagCard style={{ background: "rgba(137, 210, 144, 0.15)" }}>
             <SlySmileIcon />
             <Typography sx={{ fontSize: 11, color: "#69696A" }}>
