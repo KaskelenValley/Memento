@@ -42,8 +42,12 @@ const Records = (props) => {
 
           if (data) {
             for (const d of data) {
-              const blob = await getBlob(ref(storage, d.id));
-              arr.push({ ...d, blob });
+              if (d.type === "default") {
+                const blob = await getBlob(ref(storage, d.id));
+                arr.push({ ...d, blob });
+              } else {
+                arr.push(d);
+              }
             }
           }
 
@@ -106,13 +110,14 @@ const Records = (props) => {
 
   return (
     <StyledContainer>
+      <CloseButton position="top-right" onClick={() => push("/main")} />
       <StyledBlock>
-        <CloseButton position="top-right" onClick={() => push("/main")} />
         <Typography
           sx={{
             fontWeight: 500,
             fontSize: "54px",
             color: "rgba(44, 44, 44, 0.1)",
+            mt: 6,
           }}
           align="center"
         >

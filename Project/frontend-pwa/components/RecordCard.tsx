@@ -10,14 +10,15 @@ interface Props {
 }
 
 export const RecordCard: FC<Props> = ({
-  record: { title, result, blob, id },
+  record: { title, result, blob, id, type },
 }) => {
   const [duration, setDuration] = useState<number>();
 
   useEffect(() => {
-    getBlobDuration(blob).then((dur) => {
-      setDuration(dur);
-    });
+    if (blob)
+      getBlobDuration(blob).then((dur) => {
+        setDuration(dur);
+      });
   }, [blob]);
 
   return (
@@ -26,13 +27,15 @@ export const RecordCard: FC<Props> = ({
         <Typography sx={{ fontSize: 14, fontWeight: 600 }} gutterBottom>
           {title}
         </Typography>
-        <StyledButton
-          href={`/records/${id}`}
-          variant="outlined"
-          endIcon={<PlayIcon />}
-        >
-          {`-${secondsToHms(duration)}`}
-        </StyledButton>
+        {duration && (
+          <StyledButton
+            href={`/records/${id}`}
+            variant="outlined"
+            endIcon={<PlayIcon />}
+          >
+            {`-${secondsToHms(duration)}`}
+          </StyledButton>
+        )}
       </TitleContainer>
       <Typography sx={{ fontSize: 14, fontWeight: 300 }} gutterBottom>
         {result}
@@ -52,7 +55,7 @@ export const RecordCard: FC<Props> = ({
             </Typography>
           </TagCard>
         </TagCardContainer>
-        <StyledOptionButton>
+        <StyledOptionButton href={`/records/${id}`}>
           <ThreeDotsIcon />
         </StyledOptionButton>
       </ActionsContainer>

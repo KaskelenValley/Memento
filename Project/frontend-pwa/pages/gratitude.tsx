@@ -5,15 +5,33 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 import CloseButton from "../components/Button/CloseButton";
 import { UploadIcon } from "../icons";
+import { auth, db, storage } from "../utils/firebase";
 
 const GratitudePage = () => {
   const { push } = useRouter();
   const [isStart, setIsStart] = useState(false);
+  const [user] = useAuthState(auth);
+  const [value, setValue] = useState("");
+  const [file, setFile] = useState<File>();
+  const id = new Date().valueOf().toString();
+  const storageRef = ref(storage, id);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+  };
+
+  const handleSetImage = (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+    setFile(files[0]);
+  };
 
   return (
     <StyledContainer>
@@ -174,11 +192,13 @@ const GratitudePage = () => {
             variant="standard"
             placeholder="I am grateful for..."
             multiline
+            value={value}
+            onChange={handleChange}
           />
           <UploadButton variant="outlined" as={"label"}>
             <UploadIcon />
             Add a photo
-            <input type="file" hidden />
+            <input type="file" onChange={(e) => handleSetImage(e)} hidden />
           </UploadButton>
           <StyledButton
             variant="contained"
@@ -188,6 +208,22 @@ const GratitudePage = () => {
               left: "50%",
               transform: "translate(-50%, 0)",
               width: "90%",
+            }}
+            onClick={() => {
+              uploadBytes(storageRef, file).then((snapshot) => {
+                getDownloadURL(storageRef).then((url) => {
+                  updateDoc(doc(db, "users", user.uid), {
+                    records: arrayUnion({
+                      id: new Date().getTime().toString(),
+                      title: "Gratitude",
+                      result: value,
+                      date: new Date(),
+                      type: "gratitude",
+                      imgSrc: url,
+                    }),
+                  }).then(() => push("records"));
+                });
+              });
             }}
           >
             Save Reflection

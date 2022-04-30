@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getBlob, ref } from "firebase/storage";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -39,9 +40,13 @@ const Record: React.FC = () => {
 
           if (data) {
             for (const d of data) {
-              if (d.id === query.record[0]) {
+              if (d.type === "default" && d.id === query.record[0]) {
                 const blob = await getBlob(ref(storage, d.id));
                 setRecord({ ...d, blob });
+                setTitle(d.title);
+                setText(d.result);
+              } else if (d.type === "gratitude" && d.id === query.record[0]) {
+                setRecord(d);
                 setTitle(d.title);
                 setText(d.result);
               }
@@ -83,9 +88,10 @@ const Record: React.FC = () => {
 
     alert("Updated!");
   };
-
+  console.log(record);
   return (
     <StyledContainer>
+      <CloseButton position="top-right" onClick={() => push("/records")} />
       <HeadContainer>
         <DateTypography>
           {record &&
@@ -95,25 +101,34 @@ const Record: React.FC = () => {
               day: "numeric",
             })}
         </DateTypography>
-        <CloseButton position="top-right" onClick={() => push("/records")} />
       </HeadContainer>
       {!updateMode ? (
         <>
-          <StyledAudioPlayer
-            src={record?.id ? URL.createObjectURL(record.blob) : ""}
-            showJumpControls={false}
-            showDownloadProgress={false}
-            autoPlayAfterSrcChange={false}
-            customProgressBarSection={[
-              RHAP_UI.MAIN_CONTROLS,
-              RHAP_UI.PROGRESS_BAR,
-            ]}
-            customControlsSection={[
-              RHAP_UI.CURRENT_TIME,
-              <div>/</div>,
-              RHAP_UI.DURATION,
-            ]}
-          />
+          {record?.imgSrc && (
+            <Image
+              src={record.imgSrc}
+              layout="responsive"
+              width="100%"
+              height="100%"
+            />
+          )}
+          {record?.src && (
+            <StyledAudioPlayer
+              src={record?.src ? URL.createObjectURL(record.blob) : ""}
+              showJumpControls={false}
+              showDownloadProgress={false}
+              autoPlayAfterSrcChange={false}
+              customProgressBarSection={[
+                RHAP_UI.MAIN_CONTROLS,
+                RHAP_UI.PROGRESS_BAR,
+              ]}
+              customControlsSection={[
+                RHAP_UI.CURRENT_TIME,
+                <div>/</div>,
+                RHAP_UI.DURATION,
+              ]}
+            />
+          )}
           {record?.title && (
             <Typography
               sx={{
