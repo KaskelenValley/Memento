@@ -5,8 +5,15 @@ const protoLoader = require("@grpc/proto-loader");
 
 const express = require("express");
 const http = require("http");
+const cors = require("cors");
 
 app = express();
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
 const audio = fs.readFileSync("healthcheck.ogg");
 const httpServer = http.createServer(app);
 
