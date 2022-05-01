@@ -51,6 +51,8 @@ const Records = (props) => {
             }
           }
 
+          arr.sort((a, b) => b.date.toDate() - a.date.toDate());
+
           setRecords(arr);
           setFiltered(groupByDate(arr));
           setText(arr);
