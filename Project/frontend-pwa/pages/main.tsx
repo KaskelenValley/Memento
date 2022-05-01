@@ -162,8 +162,7 @@ const Main = () => {
           <Grid item xs={6}>
             <Link
               href={{
-                pathname: "/recording",
-                query: { type: "writing" },
+                pathname: "/writing",
               }}
             >
               <StyledCard>

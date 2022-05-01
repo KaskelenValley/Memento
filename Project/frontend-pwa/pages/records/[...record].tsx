@@ -45,7 +45,10 @@ const Record: React.FC = () => {
                 setRecord({ ...d, blob });
                 setTitle(d.title);
                 setText(d.result);
-              } else if (d.type === "gratitude" && d.id === query.record[0]) {
+              } else if (
+                (d.type === "gratitude" || d.type === "writing") &&
+                d.id === query.record[0]
+              ) {
                 setRecord(d);
                 setTitle(d.title);
                 setText(d.result);

@@ -15,7 +15,7 @@ import CloseButton from "../components/Button/CloseButton";
 import { UploadIcon } from "../icons";
 import { auth, db, storage } from "../utils/firebase";
 
-const GratitudePage = () => {
+const WritingPage = () => {
   const { push } = useRouter();
   const [isStart, setIsStart] = useState(false);
   const [user] = useAuthState(auth);
@@ -47,7 +47,7 @@ const GratitudePage = () => {
             }}
             align="center"
           >
-            Practicing gratitude
+            Practicing writing
           </Typography>
           <DescriptionContainer>
             <Typography
@@ -79,9 +79,8 @@ const GratitudePage = () => {
                     lineGeight: "18px",
                   }}
                 >
-                  The practice of gratitude is an effective and accessible way
-                  for everyone to change their lives for the better in a short
-                  time.
+                  The practice of writing is an effective and accessible way for
+                  everyone to change their lives for the better in a short time.
                 </Typography>
               </DescriptionContent>
             </Description>
@@ -171,7 +170,7 @@ const GratitudePage = () => {
             }}
             align="center"
           >
-            Gratitude
+            Writing
           </Typography>
           <Typography
             sx={{
@@ -216,10 +215,10 @@ const GratitudePage = () => {
                     updateDoc(doc(db, "users", user.uid), {
                       records: arrayUnion({
                         id: new Date().getTime().toString(),
-                        title: "Gratitude",
+                        title: "Writing",
                         result: value,
                         date: new Date(),
-                        type: "gratitude",
+                        type: "writing",
                         imgSrc: url,
                       }),
                     }).then(() => push("records"));
@@ -229,10 +228,10 @@ const GratitudePage = () => {
                 updateDoc(doc(db, "users", user.uid), {
                   records: arrayUnion({
                     id: new Date().getTime().toString(),
-                    title: "Gratitude",
+                    title: "Writing",
                     result: value,
                     date: new Date(),
-                    type: "gratitude",
+                    type: "writing",
                   }),
                 }).then(() => push("records"));
               }
@@ -246,7 +245,7 @@ const GratitudePage = () => {
   );
 };
 
-export default GratitudePage;
+export default WritingPage;
 
 const StyledContainer = styled(Container)`
   padding: 25px 25px 50px 25px;
