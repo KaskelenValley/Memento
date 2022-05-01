@@ -23,8 +23,8 @@ export const secondsToHms = (seconds) => {
   }
 };
 
-export const groupByDate = (arr) =>
-  arr?.reduce((groups, record) => {
+export const groupByDate = (arr) => {
+  const obj = arr?.reduce((groups, record) => {
     const date = record.date.toDate().toLocaleString("en-US").split(",")[0];
 
     if (!groups[date]) {
@@ -33,3 +33,12 @@ export const groupByDate = (arr) =>
     groups[date].push(record);
     return groups;
   }, {});
+
+  return Object.keys(obj)
+    .sort()
+    .reverse()
+    .reduce(function (result, key) {
+      result[key] = obj[key];
+      return result;
+    }, {});
+};
