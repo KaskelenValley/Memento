@@ -92,16 +92,14 @@ const Record: React.FC = () => {
   return (
     <StyledContainer>
       <CloseButton position="top-right" onClick={() => push("/records")} />
-      <HeadContainer>
-        <DateTypography>
-          {record &&
-            new Date(record.date.toDate()).toLocaleString("default", {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })}
-        </DateTypography>
-      </HeadContainer>
+      <DateTypography align="center">
+        {record &&
+          new Date(record.date.toDate()).toLocaleString("default", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+          })}
+      </DateTypography>
       {!updateMode ? (
         <>
           {record?.imgSrc && (

@@ -86,44 +86,22 @@ const Records = (props) => {
     alert("Deleted!");
   };
 
-  const updateRecord = async (id) => {
-    const docSnap: any = await getDoc(docRef);
-    const records = docSnap.data().records;
-    const res = text.find((x) => x.id === id);
-
-    const updated = records.map((r) => {
-      if (r.id === id) {
-        return {
-          ...r,
-          result: res.result,
-        };
-      }
-      return r;
-    });
-
-    updateDoc(doc(db, "users", user.uid), {
-      records: updated,
-    });
-    alert("Updated!");
-  };
   console.log(records);
 
   return (
     <StyledContainer>
-      <CloseButton position="top-right" onClick={() => console.log("g")} />
-      <StyledBlock>
-        <Typography
-          sx={{
-            fontWeight: 500,
-            fontSize: "54px",
-            color: "rgba(44, 44, 44, 0.1)",
-            mt: 6,
-          }}
-          align="center"
-        >
-          Your entries
-        </Typography>
-      </StyledBlock>
+      <CloseButton position="top-right" onClick={() => push("main")} />
+      <Typography
+        sx={{
+          fontWeight: 500,
+          fontSize: "54px",
+          color: "rgba(44, 44, 44, 0.1)",
+          mt: 6,
+        }}
+        align="center"
+      >
+        Your entries
+      </Typography>
       <TextField
         onChange={handleChange}
         label="Search"
@@ -221,19 +199,6 @@ const RecordContainer = styled("div")`
     flex-direction: column;
     margin-bottom: 20px;
   `}
-`;
-
-const StyledBlock = styled("div")`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
-  margin: 25px 0 45px;
-
-  & > svg {
-    position: absolute;
-    left: 0;
-  }
 `;
 
 const CardContainer = styled("div")`
