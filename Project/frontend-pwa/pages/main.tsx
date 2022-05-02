@@ -243,7 +243,7 @@ const Main = () => {
         )}
         <EntriesContainer>
           {!spinner ? (
-            records.map((rec) => (
+            records.reverse().map((rec) => (
               <CardWrapper>
                 <RecordCard record={rec} />
               </CardWrapper>
@@ -402,7 +402,8 @@ const CardWrapper = styled("div")`
 `;
 
 const QuoteBlock = styled("div")<{ src: string }>`
-  background-image: ${({ src }) => `url(${src})`};
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    ${({ src }) => `url(${src})`};
   background-size: cover;
   border-radius: 20px;
   padding: 20px 16px;
