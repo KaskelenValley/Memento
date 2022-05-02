@@ -35,7 +35,7 @@ const RecordPreview: React.FC<Props> = ({
       }}
     >
       <DateTypography>
-        {new Date().toLocaleString("default", {
+        {new Date().toLocaleString("en-US", {
           weekday: "long",
           month: "long",
           day: "numeric",

@@ -16,7 +16,6 @@ import { getBlob, ref } from "firebase/storage";
 import { Navbar } from "../components/Navbar/Navbar";
 import { GratitudeIcon, SmileIcon, WritingIcon } from "../icons";
 import { auth, db, storage } from "../utils/firebase";
-import Image from "next/image";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { RecordCard } from "../components/RecordCard";
 
@@ -25,6 +24,7 @@ const Main = () => {
   const [records, setRecords] = useState([]);
   const [spinner, setSpinner] = useState(true);
   const [latestDate, setLatestDate] = useState("");
+  const [quote, setQuote] = useState("");
 
   useEffect(() => {
     setSpinner(true);
@@ -57,11 +57,24 @@ const Main = () => {
         setSpinner(false);
       };
 
+      const fetchQuote = async () => {
+        const res = await fetch(
+          "https://memento-quote-generator-dev.herokuapp.com/random_quote"
+        );
+        const quote = await res.json();
+
+        const response = await fetch(
+          "https://memento-quote-generator-dev.herokuapp.com/random_image/353/150"
+        );
+        const quotePic = await response.blob();
+        setQuote({ ...quote, blob: URL.createObjectURL(quotePic) });
+      };
+
       fetchRecords();
+      fetchQuote();
     }
   }, [loading, user]);
-
-  console.log(records, latestDate);
+  console.log(quote);
   return (
     <>
       <StyledContainer>
@@ -99,12 +112,12 @@ const Main = () => {
                         fontSize: 10,
                       }}
                     >
-                      {add(new Date(), { days: i }).toLocaleString("default", {
+                      {add(new Date(), { days: i }).toLocaleString("en-US", {
                         weekday: "short",
                       })}
                     </Typography>
                     <StyledCalendarDay>
-                      {add(new Date(), { days: i }).toLocaleString("default", {
+                      {add(new Date(), { days: i }).toLocaleString("en-US", {
                         day: "numeric",
                       })}
                     </StyledCalendarDay>
@@ -119,12 +132,12 @@ const Main = () => {
                         fontSize: 10,
                       }}
                     >
-                      {add(new Date(), { days: i }).toLocaleString("default", {
+                      {add(new Date(), { days: i }).toLocaleString("en-US", {
                         weekday: "short",
                       })}
                     </Typography>
                     <StyledCalendarDay>
-                      {add(new Date(), { days: i }).toLocaleString("default", {
+                      {add(new Date(), { days: i }).toLocaleString("en-US", {
                         day: "numeric",
                       })}
                     </StyledCalendarDay>
@@ -183,35 +196,37 @@ const Main = () => {
           </Grid>
         </Grid>
         <CardContainer>
-          <StyledCard
-            sx={{
-              border: "none",
-              position: "relative",
-              height: 164,
-              background:
-                "linear-gradient(124.73deg, rgba(236, 233, 230, 0.5) 0.01%, rgba(255, 255, 255, 0.5) 99.11%)",
-              backdropFilter: "blur(16px)",
-            }}
-            className="record"
-          >
-            <SmileIcon
+          <Link href="checkin">
+            <StyledCard
               sx={{
-                margin: "0 !important",
-                position: "absolute",
-                bottom: 0,
-                right: 0,
+                border: "none",
+                position: "relative",
+                height: 164,
+                background:
+                  "linear-gradient(124.73deg, rgba(236, 233, 230, 0.5) 0.01%, rgba(255, 255, 255, 0.5) 99.11%)",
+                backdropFilter: "blur(16px)",
               }}
-            />
-            <Typography
-              sx={{ fontFamily: "Georgia", fontSize: 20, fontWeight: 700 }}
-              gutterBottom
+              className="record"
             >
-              Daily Check in
-            </Typography>
-            <Typography sx={{ fontSize: 16, color: "#777777" }} gutterBottom>
-              How are you <b>feeling</b> today?
-            </Typography>
-          </StyledCard>
+              <SmileIcon
+                sx={{
+                  margin: "0 !important",
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                }}
+              />
+              <Typography
+                sx={{ fontFamily: "Georgia", fontSize: 20, fontWeight: 700 }}
+                gutterBottom
+              >
+                Daily Check in
+              </Typography>
+              <Typography sx={{ fontSize: 16, color: "#777777" }} gutterBottom>
+                How are you <b>feeling</b> today?
+              </Typography>
+            </StyledCard>
+          </Link>
         </CardContainer>
         {records.length !== 0 && !spinner && (
           <>
@@ -237,7 +252,31 @@ const Main = () => {
             <StyledCircularProgress />
           )}
         </EntriesContainer>
-        <Image src="/temporary.png" width={300} height={188} />
+        {quote && (
+          <QuoteBlock src={quote?.blob}>
+            <Typography
+              sx={{
+                fontWeight: 700,
+                fontSize: 18,
+                lineHeight: "22px",
+                color: "#fff",
+              }}
+              mb={1.5}
+            >
+              {quote?.quote}
+            </Typography>
+            <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: "14px",
+                lineHeight: "17px",
+                color: "rgba(255, 255, 255, 0.6)",
+              }}
+            >
+              {quote?.author}
+            </Typography>
+          </QuoteBlock>
+        )}
       </StyledContainer>
       <Navbar />
     </>
@@ -360,4 +399,13 @@ const CardWrapper = styled("div")`
   &:last-child {
     margin: 0;
   }
+`;
+
+const QuoteBlock = styled("div")<{ src: string }>`
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
+  border-radius: 20px;
+  padding: 20px 16px;
+  margin-bottom: 30px;
+  height: 150px;
 `;
