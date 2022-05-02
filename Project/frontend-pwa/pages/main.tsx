@@ -24,7 +24,7 @@ const Main = () => {
   const [records, setRecords] = useState([]);
   const [spinner, setSpinner] = useState(true);
   const [latestDate, setLatestDate] = useState("");
-  const [quote, setQuote] = useState("");
+  const [quote, setQuote] = useState<any>({});
 
   useEffect(() => {
     setSpinner(true);
