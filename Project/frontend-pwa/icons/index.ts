@@ -30,3 +30,4 @@ export * from "./SettingsIcon";
 export * from "./UploadIcon";
 export * from "./WearySmileIcon";
 export * from "./SmilingSmileIcon";
+export * from "./TranslateIcon";
