@@ -10,15 +10,43 @@ import {
   Typography,
 } from "@mui/material";
 import { signOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ArrowIcon, SettingsIcon, SupportIcon } from "../icons";
 
-import { auth } from "../utils/firebase";
+import { auth, db } from "../utils/firebase";
 
 const EditPage = () => {
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
+  const [stat, setStat] = useState<any>();
+
+  useEffect(() => {
+    if (!loading) {
+      const fetchStats = async () => {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        let writing = 0;
+        let gratitude = 0;
+
+        docSnap.data().records.map((rec) => {
+          if (rec.type === "writing") writing += 1;
+          else if (rec.type === "gratitude") gratitude += 1;
+        });
+
+        setStat({
+          writing,
+          gratitude,
+          reflections: docSnap.data().records.length,
+          checkins: docSnap.data().mood.length,
+        });
+      };
+
+      fetchStats();
+    }
+  }, [loading, user]);
 
   return (
     <StyledContainer>
@@ -52,7 +80,7 @@ const EditPage = () => {
       </Button>
       <ProfileInfoContainer>
         <ProfileAvatarContainer />
-        {!loading ? (
+        {!loading && stat ? (
           <>
             <Typography
               sx={{
@@ -76,7 +104,7 @@ const EditPage = () => {
                   }}
                   align="center"
                 >
-                  20
+                  {stat.checkins}
                 </Typography>
                 <Typography sx={{ fontWeight: 300, fontSize: 12 }}>
                   Check-ins
@@ -91,22 +119,7 @@ const EditPage = () => {
                   }}
                   align="center"
                 >
-                  20
-                </Typography>
-                <Typography sx={{ fontWeight: 300, fontSize: 12 }}>
-                  Check-ins
-                </Typography>
-              </StatisticsWrapper>
-              <StatisticsWrapper>
-                <Typography
-                  sx={{
-                    fontFamily: "Georgia",
-                    fontWeight: 700,
-                    fontSize: 18,
-                  }}
-                  align="center"
-                >
-                  32
+                  {stat.reflections}
                 </Typography>
                 <Typography sx={{ fontWeight: 300, fontSize: 12 }}>
                   Reflections
@@ -121,7 +134,7 @@ const EditPage = () => {
                   }}
                   align="center"
                 >
-                  8
+                  {stat.gratitude}
                 </Typography>
                 <Typography sx={{ fontWeight: 300, fontSize: 12 }}>
                   Gratitude
@@ -136,7 +149,7 @@ const EditPage = () => {
                   }}
                   align="center"
                 >
-                  40
+                  {stat.writing}
                 </Typography>
                 <Typography sx={{ fontWeight: 300, fontSize: 12 }}>
                   Free writing
