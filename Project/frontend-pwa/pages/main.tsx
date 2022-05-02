@@ -243,7 +243,7 @@ const Main = () => {
         )}
         <EntriesContainer>
           {!spinner ? (
-            records.map((rec) => (
+            records.reverse().map((rec) => (
               <CardWrapper>
                 <RecordCard record={rec} />
               </CardWrapper>
