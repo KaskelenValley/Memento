@@ -7,6 +7,8 @@ import theme from "../styles/theme";
 import "../styles/globals.css";
 import "../styles/fonts.css";
 import "react-h5-audio-player/lib/styles.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 interface CustomAppProps extends AppProps {
   emotionCache?: EmotionCache;

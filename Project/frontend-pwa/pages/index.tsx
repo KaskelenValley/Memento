@@ -75,7 +75,7 @@ const Index: FC = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        //router.push("main");
+        router.push("main");
       }
       setOpenBackdrop(false);
     });

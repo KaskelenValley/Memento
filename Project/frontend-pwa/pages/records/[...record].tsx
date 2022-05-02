@@ -7,13 +7,14 @@ import {
 } from "@mui/material";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { getBlob, ref } from "firebase/storage";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 
 import CloseButton from "../../components/Button/CloseButton";
-import { DoneIcon, EditRecordIcon } from "../../icons";
+import { DoneIcon, EditRecordIcon, TranslateIcon } from "../../icons";
 import { auth, db, storage } from "../../utils/firebase";
 
 const Record: React.FC = () => {
@@ -25,6 +26,8 @@ const Record: React.FC = () => {
   const [updateMode, setUpdateMode] = useState(false);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [res, setRes] = useState("");
+  const [translated, setTranslated] = useState(false);
 
   if (user) {
     docRef = doc(db, "users", user.uid);
@@ -39,11 +42,20 @@ const Record: React.FC = () => {
 
           if (data) {
             for (const d of data) {
-              if (d.id === query.record[0]) {
+              if (d.type === "default" && d.id === query.record[0]) {
                 const blob = await getBlob(ref(storage, d.id));
                 setRecord({ ...d, blob });
                 setTitle(d.title);
                 setText(d.result);
+                setRes(d.result);
+              } else if (
+                (d.type === "gratitude" || d.type === "writing") &&
+                d.id === query.record[0]
+              ) {
+                setRecord(d);
+                setTitle(d.title);
+                setText(d.result);
+                setRes(d.result);
               }
             }
           }
@@ -83,55 +95,98 @@ const Record: React.FC = () => {
 
     alert("Updated!");
   };
-
+  console.log(record, res);
   return (
     <StyledContainer>
-      <HeadContainer>
-        <DateTypography>
-          {record &&
-            new Date(record.date.toDate()).toLocaleString("default", {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })}
-        </DateTypography>
-        <CloseButton position="top-right" onClick={() => push("/records")} />
-      </HeadContainer>
+      <CloseButton position="top-right" onClick={() => push("/records")} />
+      <DateTypography align="center">
+        {record &&
+          new Date(record.date.toDate()).toLocaleString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+          })}
+      </DateTypography>
       {!updateMode ? (
         <>
-          <StyledAudioPlayer
-            src={record?.id ? URL.createObjectURL(record.blob) : ""}
-            showJumpControls={false}
-            showDownloadProgress={false}
-            autoPlayAfterSrcChange={false}
-            customProgressBarSection={[
-              RHAP_UI.MAIN_CONTROLS,
-              RHAP_UI.PROGRESS_BAR,
-            ]}
-            customControlsSection={[
-              RHAP_UI.CURRENT_TIME,
-              <div>/</div>,
-              RHAP_UI.DURATION,
-            ]}
-          />
+          {record?.imgSrc && (
+            <Image
+              src={record.imgSrc}
+              layout="responsive"
+              width="100%"
+              height="100%"
+            />
+          )}
+          {record?.src && (
+            <StyledAudioPlayer
+              src={record?.src ? URL.createObjectURL(record.blob) : ""}
+              showJumpControls={false}
+              showDownloadProgress={false}
+              autoPlayAfterSrcChange={false}
+              customProgressBarSection={[
+                RHAP_UI.MAIN_CONTROLS,
+                RHAP_UI.PROGRESS_BAR,
+              ]}
+              customControlsSection={[
+                RHAP_UI.CURRENT_TIME,
+                <div>/</div>,
+                RHAP_UI.DURATION,
+              ]}
+            />
+          )}
           {record?.title && (
-            <Typography
-              sx={{
-                fontFamily: "Georgia",
-                fontWeight: 700,
-                fontSize: "20px",
-                lineHeight: "30px",
-              }}
-              gutterBottom
-            >
-              {record.title}
-            </Typography>
+            <StyledBox>
+              <Typography
+                sx={{
+                  fontFamily: "Georgia",
+                  fontWeight: 700,
+                  fontSize: "20px",
+                  lineHeight: "30px",
+                }}
+                gutterBottom
+              >
+                {record.title}
+              </Typography>
+              <StyledIcon
+                onClick={() => {
+                  fetch(
+                    "https://memento-translator-dev.herokuapp.com/translate",
+                    {
+                      method: "POST",
+                      body: JSON.stringify({
+                        text: record.result,
+                        source_lang: "ru",
+                        target_lang: "en",
+                      }),
+                      headers: { "Content-Type": "application/json" },
+                    }
+                  )
+                    .then((res) => res.json())
+                    .then((res) => {
+                      setRes(res.text);
+                      setTranslated(true);
+                    });
+                }}
+              >
+                <TranslateIcon />
+              </StyledIcon>
+            </StyledBox>
           )}
           <Typography
             sx={{ fontWeight: 300, fontSize: "16px", lineHeight: "30px" }}
           >
-            {record?.result}
+            {res}
           </Typography>
+          {translated && (
+            <Typography
+              onClick={() => {
+                setRes(record?.result);
+                setTranslated(false);
+              }}
+            >
+              Show original
+            </Typography>
+          )}
           <StyledIconButton onClick={() => setUpdateMode(true)}>
             <EditRecordIcon />
           </StyledIconButton>
@@ -288,4 +343,17 @@ const TextTextField = styled(TextField)`
   fieldset {
     border: none;
   }
+`;
+
+const StyledBox = styled("div")`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const StyledIcon = styled(IconButton)`
+  width: 38px;
+  height: 38px;
+  background: #f6f7f8;
+  border-radius: 12px;
 `;

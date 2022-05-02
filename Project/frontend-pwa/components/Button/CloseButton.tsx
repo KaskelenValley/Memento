@@ -1,4 +1,4 @@
-import { IconButton, styled } from "@mui/material";
+import { css, IconButton, styled } from "@mui/material";
 import { CloseIcon } from "../../icons/CloseIcon";
 
 interface Props {
@@ -7,12 +7,22 @@ interface Props {
 }
 
 const StyledIconButton = styled(IconButton)<{ position?: "top-right" }>`
-  width: 38px;
-  height: 38px;
-  background: #f6f7f8;
-  border-radius: 12px;
-  align-self: ${({ position }) =>
-    position === "top-right" ? "flex-end" : "flex-start"};
+  ${({ position }) => css`
+    width: 38px;
+    height: 38px;
+    background: #f6f7f8;
+    border-radius: 12px;
+    position: absolute;
+    top: 30px;
+
+    ${position === "top-right"
+      ? css`
+          right: 16px;
+        `
+      : css`
+          left: 16px;
+        `};
+  `}
 `;
 
 const CloseButton: React.FC<Props> = ({ onClick, position }) => {

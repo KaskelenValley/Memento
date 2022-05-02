@@ -2,7 +2,13 @@ import { FC, useEffect, useState } from "react";
 import { Button, Card, Typography, styled, css } from "@mui/material";
 import getBlobDuration from "get-blob-duration";
 
-import { PlayIcon, SlySmileIcon, ThreeDotsIcon } from "../icons";
+import {
+  PlayIcon,
+  SlySmileIcon,
+  SmilingSmileIcon,
+  ThreeDotsIcon,
+  WearySmileIcon,
+} from "../icons";
 import { secondsToHms } from "../utils";
 
 interface Props {
@@ -10,14 +16,15 @@ interface Props {
 }
 
 export const RecordCard: FC<Props> = ({
-  record: { title, result, blob, id },
+  record: { title, result, blob, id, mood },
 }) => {
   const [duration, setDuration] = useState<number>();
 
   useEffect(() => {
-    getBlobDuration(blob).then((dur) => {
-      setDuration(dur);
-    });
+    if (blob)
+      getBlobDuration(blob).then((dur) => {
+        setDuration(dur);
+      });
   }, [blob]);
 
   return (
@@ -26,25 +33,31 @@ export const RecordCard: FC<Props> = ({
         <Typography sx={{ fontSize: 14, fontWeight: 600 }} gutterBottom>
           {title}
         </Typography>
-        <StyledButton
-          href={`/records/${id}`}
-          variant="outlined"
-          endIcon={<PlayIcon />}
-        >
-          {`-${secondsToHms(duration)}`}
-        </StyledButton>
+        {duration && (
+          <StyledButton
+            href={`/records/${id}`}
+            variant="outlined"
+            endIcon={<PlayIcon />}
+          >
+            {`-${secondsToHms(duration)}`}
+          </StyledButton>
+        )}
       </TitleContainer>
       <Typography sx={{ fontSize: 14, fontWeight: 300 }} gutterBottom>
         {result}
       </Typography>
       <ActionsContainer>
         <TagCardContainer>
-          <TagCard style={{ background: "rgba(137, 205, 210, 0.15)" }}>
-            <SlySmileIcon />
-            <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-              Down
-            </Typography>
-          </TagCard>
+          {mood && (
+            <TagCard style={{ background: "rgba(137, 205, 210, 0.15)" }}>
+              {mood === "neutral" && <SlySmileIcon />}
+              {mood === "positive" && <SmilingSmileIcon />}
+              {mood === "negative" && <WearySmileIcon />}
+              <Typography sx={{ fontSize: 11, color: "#69696A" }}>
+                Down
+              </Typography>
+            </TagCard>
+          )}
           <TagCard style={{ background: "rgba(137, 210, 144, 0.15)" }}>
             <SlySmileIcon />
             <Typography sx={{ fontSize: 11, color: "#69696A" }}>
@@ -52,7 +65,7 @@ export const RecordCard: FC<Props> = ({
             </Typography>
           </TagCard>
         </TagCardContainer>
-        <StyledOptionButton>
+        <StyledOptionButton href={`/records/${id}`}>
           <ThreeDotsIcon />
         </StyledOptionButton>
       </ActionsContainer>

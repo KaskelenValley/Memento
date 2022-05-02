@@ -122,6 +122,10 @@ export class Recorder {
     this.callback = callback;
   }
 
+  setIsStream(isStream) {
+    this.isStream = isStream;
+  }
+
   async saveRecord(uid, title, result, type) {
     const b = new Blob(this.streamData, {
       type: "audio/ogg; codecs=opus",
@@ -131,29 +135,39 @@ export class Recorder {
     const formData = new FormData();
     formData.append("file", b);
 
-    return fetch(
-      "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
-      {
-        method: "POST",
-        body: formData,
-      }
-    ).then((response) =>
-      response.blob().then((blob) =>
-        uploadBytes(storageRef, blob).then(() => {
-          getDownloadURL(storageRef).then((url) => {
-            updateDoc(doc(db, "users", uid), {
-              records: arrayUnion({
-                id,
-                type,
-                title,
-                result,
-                src: url,
-                date: new Date(),
-              }),
-            });
-          });
-        })
-      )
-    );
+    fetch("http://159.223.3.201:8080/predict_mood", {
+      method: "POST",
+      body: JSON.stringify({ text: result }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        fetch(
+          "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
+          {
+            method: "POST",
+            body: formData,
+          }
+        ).then((response) =>
+          response.blob().then((blob) =>
+            uploadBytes(storageRef, blob).then(() => {
+              getDownloadURL(storageRef).then((url) => {
+                updateDoc(doc(db, "users", uid), {
+                  records: arrayUnion({
+                    id,
+                    type,
+                    title,
+                    result,
+                    src: url,
+                    date: new Date(),
+                    mood: res.mood,
+                    mood_score: res.mood_score,
+                  }),
+                });
+              });
+            })
+          )
+        );
+      });
   }
 }

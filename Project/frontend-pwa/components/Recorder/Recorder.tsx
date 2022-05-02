@@ -36,12 +36,22 @@ const App: React.FC<Props> = () => {
   const type = query.type || "default";
 
   useEffect(() => {
-    recorder.current = new Recorder();
-    recorder.current.setOnResult((res) => {
-      setResult(res);
-      textFlow.current.scrollTop = textFlow.current.scrollHeight;
-    });
-    recorder.current.init();
+    fetch("https://memento-srs-node-dev.herokuapp.com/healthcheck")
+      .then((res) => res.json())
+      .then((res) => {
+        recorder.current = new Recorder();
+        recorder.current.setOnResult((res) => {
+          setResult(res);
+          textFlow.current.scrollTop = textFlow.current.scrollHeight;
+        });
+        recorder.current.init();
+
+        if (res.status === "OK") {
+          recorder.current.setIsStream(true);
+        } else {
+          recorder.current.setIsStream(false);
+        }
+      });
   }, []);
 
   const handleRecord = () => {
