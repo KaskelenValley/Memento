@@ -64,11 +64,10 @@ const Records = (props) => {
   }, [loading]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFiltered(
-      records.filter((e) =>
-        (e.result + e.title).toLowerCase().includes(event.target.value)
-      )
+    const filteredArr = records.filter((e) =>
+      (e.result + e.title).toLowerCase().includes(event.target.value)
     );
+    setFiltered(groupByDate(filteredArr));
   };
 
   const handleChangeInput = (event: any, id: string) => {
