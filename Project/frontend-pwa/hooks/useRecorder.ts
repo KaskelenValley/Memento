@@ -135,12 +135,12 @@ export class Recorder {
     const formData = new FormData();
     formData.append("file", b);
 
-    const response = await fetch("http://159.223.3.201:8080/predict_mood", {
-      method: "POST",
-      body: JSON.stringify({ text: result }),
-      headers: { "Content-Type": "application/json" },
-    });
-    const moodRes = await response.json();
+    // const response = await fetch("http://159.223.3.201:8080/predict_mood", {
+    //   method: "POST",
+    //   body: JSON.stringify({ text: result }),
+    //   headers: { "Content-Type": "application/json" },
+    // });
+    // const moodRes = await response.json();
 
     fetch("https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/", {
       method: "POST",
@@ -157,8 +157,8 @@ export class Recorder {
                 result,
                 src: url,
                 date: new Date(),
-                mood: moodRes.mood,
-                mood_score: moodRes.mood_score,
+                mood: "neutral",
+                mood_score: 0.4,
               }),
             });
           });
