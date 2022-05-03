@@ -11,6 +11,7 @@ import {
 } from "../icons";
 import { secondsToHms } from "../utils";
 import { capitalize } from "../utils/capitalize";
+import { LeaveIcon } from "../icons/LeaveIcon";
 
 interface Props {
   record: any;
@@ -60,7 +61,7 @@ export const RecordCard: FC<Props> = ({
             </TagCard>
           )}
           <TagCard style={{ background: "rgba(137, 210, 144, 0.15)" }}>
-            <SlySmileIcon />
+            <LeaveIcon />
             <Typography sx={{ fontSize: 11, color: "#69696A" }}>
               Work
             </Typography>
