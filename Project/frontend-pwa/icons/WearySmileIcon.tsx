@@ -3,9 +3,9 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 export const WearySmileIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon
-      {...props}
       viewBox="0 0 24 24"
       sx={{ width: 14, height: 14, fill: "none" }}
+      {...props}
     >
       <svg
         width="24"

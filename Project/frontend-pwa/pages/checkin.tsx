@@ -1,5 +1,5 @@
 import { Button, Container, styled, Typography } from "@mui/material";
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -7,6 +7,12 @@ import Slider from "react-slick";
 
 import CloseButton from "../components/Button/CloseButton";
 import { auth, db } from "../utils/firebase";
+
+enum Mood {
+  Awesome = 0,
+  Neutral = 1,
+  Sad = 2,
+}
 
 const CheckinPage = () => {
   const { push } = useRouter();
@@ -60,14 +66,23 @@ const CheckinPage = () => {
         <CheckinBlock src={"/icons/sad-mood.png"} />
       </StyledSlider>
       <StyledButton
-        onClick={() => {
+        onClick={async () => {
           const date = new Date().toLocaleString("en-US").split(",")[0];
+
+          const docSnap: any = await getDoc(doc(db, "users", user.uid));
+          const moodArr = docSnap.data().mood;
+          const filtered = moodArr.filter((m) => m.date !== date);
+
           updateDoc(doc(db, "users", user.uid), {
-            mood: arrayUnion({
-              date,
-              moodState: activeSlide,
-            }),
-          }).then(() => push("main"));
+            mood: filtered,
+          }).then(() =>
+            updateDoc(doc(db, "users", user.uid), {
+              mood: arrayUnion({
+                date,
+                moodState: Mood[activeSlide].toLowerCase(),
+              }),
+            }).then(() => push("main"))
+          );
         }}
       >
         Continue

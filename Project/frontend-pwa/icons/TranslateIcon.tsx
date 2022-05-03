@@ -3,7 +3,7 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 export const TranslateIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon {...props} viewBox="0 0 20 20" sx={{ width: 20, height: 20 }}>
-      <path d="M20 0H0V20H20V0Z" fill="white" fill-opacity="0.01" />
+      <path d="M20 0H0V20H20V0Z" fill="white" fillOpacity="0.01" />
       <path
         d="M11.7856 15.4167H16.5475M17.4999 17.5L16.5475 15.4167L17.4999 17.5ZM10.8333 17.5L11.7856 15.4167L10.8333 17.5ZM11.7856 15.4167L14.1666 10L16.5475 15.4167H11.7856Z"
         stroke="#2C2C2C"

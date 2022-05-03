@@ -3,9 +3,9 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 export const SmilingSmileIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon
-      {...props}
       viewBox="0 0 24 24"
       sx={{ width: 14, height: 14, fill: "none" }}
+      {...props}
     >
       <path d="M24 0H0V24H24V0Z" fill="white" fillOpacity="0.01" />
       <path
