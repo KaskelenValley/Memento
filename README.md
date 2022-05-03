@@ -8,7 +8,7 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 
 | Service name               | DEV                                                   | PROD                                              |
 | -------------------------- | ----------------------------------------------------- | ------------------------------------------------- |
-| Frontend                   | https://memento-pwa-dev.herokuapp.com/                | https://memento-pwa.herokuapp.com/                |
+| Frontend                   | https://memento-pwa-dev.herokuapp.com/                | https://memento.social/                           |
 | Speech Recognition Service | https://memento-speech-recognition-dev.herokuapp.com/ | https://memento-speech-recognition.herokuapp.com/ |
 
 ## Team members
