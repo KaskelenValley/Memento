@@ -10,6 +10,7 @@ import {
   WearySmileIcon,
 } from "../icons";
 import { secondsToHms } from "../utils";
+import { capitalize } from "../utils/capitalize";
 
 interface Props {
   record: any;
@@ -54,7 +55,7 @@ export const RecordCard: FC<Props> = ({
               {mood === "positive" && <SmilingSmileIcon />}
               {mood === "negative" && <WearySmileIcon />}
               <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-                Down
+                {capitalize(mood)}
               </Typography>
             </TagCard>
           )}

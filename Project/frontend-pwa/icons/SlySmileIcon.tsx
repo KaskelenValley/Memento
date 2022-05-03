@@ -4,33 +4,45 @@ export const SlySmileIcon = (props: SvgIconProps) => {
   return (
     <SvgIcon
       {...props}
-      viewBox="0 0 14 14"
+      viewBox="0 0 24 24"
       sx={{ width: 14, height: 14, fill: "none" }}
     >
-      <path d="M14 0H0V14H14V0Z" fill="white" fillOpacity="0.01" />
-      <path
-        d="M7.00008 12.8332C10.2217 12.8332 12.8334 10.2215 12.8334 6.99984C12.8334 3.77817 10.2217 1.1665 7.00008 1.1665C3.77842 1.1665 1.16675 3.77817 1.16675 6.99984C1.16675 10.2215 3.77842 12.8332 7.00008 12.8332Z"
-        stroke="#69696A"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.91667 6.12484L8.75 5.5415"
-        stroke="#69696A"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M5.54167 5.5415L4.375 6.12484"
-        stroke="#69696A"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.04159 9.0415C9.04159 9.0415 8.45825 10.2082 6.99992 10.2082C5.54159 10.2082 4.95825 9.0415 4.95825 9.0415"
-        stroke="#69696A"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M24 0H0V24H24V0Z" fill="white" fill-opacity="0.01" />
+        <path
+          d="M12 22C17.5229 22 22 17.5229 22 12C22 6.47715 17.5229 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5229 6.47715 22 12 22Z"
+          stroke="#333333"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M15.5 9V9.5"
+          stroke="#333333"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M8.5 9V9.5"
+          stroke="#333333"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M8.5 15.5H15.5"
+          stroke="#333333"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
     </SvgIcon>
   );
 };
