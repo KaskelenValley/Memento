@@ -248,6 +248,7 @@ const Main = () => {
                     height: 117,
                     fill: "none",
                   }}
+                  fillStroke="#EDEDED"
                 />
               )}
               {currentMood === "neutral" && (
@@ -261,6 +262,7 @@ const Main = () => {
                     height: 117,
                     fill: "none",
                   }}
+                  fillStroke="#EDEDED"
                 />
               )}
               {currentMood === "sad" && (
@@ -274,6 +276,7 @@ const Main = () => {
                     height: 117,
                     fill: "none",
                   }}
+                  fillStroke="#EDEDED"
                 />
               )}
               {!currentMood && (
