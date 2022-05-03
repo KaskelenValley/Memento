@@ -29,19 +29,6 @@ export const RecordCard: FC<Props> = ({
       });
   }, [blob]);
 
-  const shareRecord = () => {
-    if (navigator.share) {
-      navigator
-        .share({
-          title,
-          text: result,
-          url: window.location.href,
-        })
-        .then(() => console.log("Successful share"))
-        .catch((error) => console.log("Error sharing", error));
-    }
-  };
-
   return (
     <EntryCard>
       <TitleContainer>

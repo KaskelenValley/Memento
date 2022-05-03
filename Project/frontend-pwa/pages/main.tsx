@@ -230,7 +230,9 @@ const Main = () => {
                 backgroundImage: !currentMood
                   ? "none"
                   : `url("icons/${currentMood}-mood.png")`,
-                backgroundColor: currentMood ? "#accec8" : "none",
+                backgroundColor: currentMood
+                  ? "#accec8"
+                  : "rgba(236, 233, 230, 0.3)",
                 backdropFilter: "blur(16px)",
               }}
               className="record"
