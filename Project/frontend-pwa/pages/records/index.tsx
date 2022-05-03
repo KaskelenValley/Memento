@@ -38,7 +38,7 @@ const Records = (props) => {
         doc(db, "users", user.uid),
         async (doc) => {
           const arr = [];
-          const data = doc.data().records;
+          const data = doc.data()?.records;
 
           if (data) {
             for (const d of data) {
