@@ -135,12 +135,18 @@ export class Recorder {
     const formData = new FormData();
     formData.append("file", b);
 
-    // const response = await fetch("http://159.223.3.201:8080/predict_mood", {
-    //   method: "POST",
-    //   body: JSON.stringify({ text: result }),
-    //   headers: { "Content-Type": "application/json" },
-    // });
-    // const moodRes = await response.json();
+    const response = await fetch(
+      "https://tasty-olives-fry-159-223-3-201.loca.lt/predict_mood",
+      {
+        method: "POST",
+        body: JSON.stringify({ text: result }),
+        headers: {
+          "Content-Type": "application/json",
+          "Bypass-Tunnel-Reminder": "true",
+        },
+      }
+    );
+    const moodRes = await response.json();
 
     fetch("https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/", {
       method: "POST",
