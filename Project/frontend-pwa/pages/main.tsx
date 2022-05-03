@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { add, formatDistanceToNow } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getBlob, ref } from "firebase/storage";
 
 import { Navbar } from "../components/Navbar/Navbar";
@@ -25,9 +25,13 @@ const Main = () => {
   const [spinner, setSpinner] = useState(true);
   const [latestDate, setLatestDate] = useState("");
   const [quote, setQuote] = useState<any>({});
+  const calendarRef = useRef(null);
 
   useEffect(() => {
     setSpinner(true);
+
+    // scroll to center
+    calendarRef.current.scrollLeft = calendarRef.current.scrollWidth / 10;
 
     if (!loading) {
       const fetchRecords = async () => {
@@ -98,7 +102,7 @@ const Main = () => {
             day: "numeric",
           })}
         </Typography>
-        <HorizontalCalendar>
+        <HorizontalCalendar ref={calendarRef}>
           {(() => {
             let cols = [];
 
