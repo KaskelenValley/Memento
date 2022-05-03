@@ -13,6 +13,7 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/icon.png" />
           <link rel="shortcut icon" href="/memento.svg" />
           <meta name="theme-color" content="#fff" />
+          <title>Memento app</title>
         </Head>
         <body>
           <Main />
