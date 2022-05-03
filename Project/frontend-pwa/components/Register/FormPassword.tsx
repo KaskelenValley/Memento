@@ -20,6 +20,7 @@ import {
 import { ArrowIcon } from "../../icons";
 import passwordIcon from "../../public/icons/password.svg";
 import { auth, db } from "../../utils/firebase";
+import toast from "react-hot-toast";
 
 export const FormPassword = ({ nextStep, prevStep, state }) => {
   const {
@@ -137,12 +138,12 @@ export const FormPassword = ({ nextStep, prevStep, state }) => {
                 });
                 console.log(user);
 
-                alert("Account created! Please sign in");
+                toast.success("Account created! Please sign in");
               })
               .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                alert(errorMessage);
+                toast.error(errorMessage);
               })
           );
 

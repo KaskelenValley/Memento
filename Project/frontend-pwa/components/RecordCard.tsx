@@ -10,6 +10,8 @@ import {
   WearySmileIcon,
 } from "../icons";
 import { secondsToHms } from "../utils";
+import { capitalize } from "../utils/capitalize";
+import { LeaveIcon } from "../icons/LeaveIcon";
 
 interface Props {
   record: any;
@@ -26,6 +28,19 @@ export const RecordCard: FC<Props> = ({
         setDuration(dur);
       });
   }, [blob]);
+
+  const shareRecord = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title,
+          text: result,
+          url: window.location.href,
+        })
+        .then(() => console.log("Successful share"))
+        .catch((error) => console.log("Error sharing", error));
+    }
+  };
 
   return (
     <EntryCard>
@@ -54,12 +69,12 @@ export const RecordCard: FC<Props> = ({
               {mood === "positive" && <SmilingSmileIcon />}
               {mood === "negative" && <WearySmileIcon />}
               <Typography sx={{ fontSize: 11, color: "#69696A" }}>
-                Down
+                {capitalize(mood)}
               </Typography>
             </TagCard>
           )}
           <TagCard style={{ background: "rgba(137, 210, 144, 0.15)" }}>
-            <SlySmileIcon />
+            <LeaveIcon />
             <Typography sx={{ fontSize: 11, color: "#69696A" }}>
               Work
             </Typography>

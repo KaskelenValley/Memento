@@ -163,8 +163,8 @@ export class Recorder {
                 result,
                 src: url,
                 date: new Date(),
-                mood: moodRes.mood,
-                mood_score: moodRes.mood_score,
+                mood: moodRes?.mood || "neutral",
+                mood_score: moodRes?.mood_score ?? 0.4,
               }),
             });
           });

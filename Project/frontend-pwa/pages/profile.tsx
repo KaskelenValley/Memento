@@ -14,6 +14,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 import { ArrowIcon, SettingsIcon, SupportIcon } from "../icons";
 
 import { auth, db } from "../utils/firebase";
@@ -26,21 +27,23 @@ const EditPage = () => {
   useEffect(() => {
     if (!loading) {
       const fetchStats = async () => {
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, "users", user?.uid);
         const docSnap = await getDoc(docRef);
         let writing = 0;
         let gratitude = 0;
 
-        docSnap.data().records.map((rec) => {
-          if (rec.type === "writing") writing += 1;
-          else if (rec.type === "gratitude") gratitude += 1;
-        });
+        if (docSnap?.data()?.records) {
+          docSnap.data().records.map((rec) => {
+            if (rec.type === "writing") writing += 1;
+            else if (rec.type === "gratitude") gratitude += 1;
+          });
+        }
 
         setStat({
           writing,
           gratitude,
-          reflections: docSnap.data().records.length,
-          checkins: docSnap.data().mood.length,
+          reflections: docSnap.data()?.records?.length ?? 0,
+          checkins: docSnap.data()?.mood?.length ?? 0,
         });
       };
 
@@ -67,11 +70,11 @@ const EditPage = () => {
         onClick={() =>
           signOut(auth)
             .then(() => {
-              alert("Sign out");
+              toast.success("Logged out successfully");
               router.push("/");
             })
             .catch((error) => {
-              alert(error);
+              toast.error(error.message);
             })
         }
         sx={{ position: "absolute", top: "30px", right: "15px" }}
@@ -79,7 +82,7 @@ const EditPage = () => {
         Sign out
       </Button>
       <ProfileInfoContainer>
-        <ProfileAvatarContainer />
+        <ProfileAvatarContainer url={user?.photoURL} />
         {!loading && stat ? (
           <>
             <Typography
@@ -236,19 +239,17 @@ const ProfileInfoContainer = styled("div")`
   `}
 `;
 
-const ProfileAvatarContainer = styled("div")`
-  ${({ theme }) => css`
-    width: 120px;
-    height: 120px;
-    background-image: url("nrd.jpg");
-    background-size: cover;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 17px;
-    top: -60px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    position: absolute;
-  `}
+const ProfileAvatarContainer = styled("div")<{ url?: string }>`
+  width: 120px;
+  height: 120px;
+  background-image: ${(props) => (props?.url ? `url(${props.url})` : "gray")};
+  background-size: cover;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 17px;
+  top: -60px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  position: absolute;
 `;
 
 const StatisticsContainer = styled("div")`
