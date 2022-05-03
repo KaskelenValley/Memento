@@ -27,6 +27,7 @@ import {
 } from "../../icons";
 import { countries } from "../../utils/countries";
 import { auth, db } from "../../utils/firebase";
+import toast from "react-hot-toast";
 
 export const FormPhone = ({ nextStep, prevStep }) => {
   const [checked, setChecked] = useState<boolean>(false);
@@ -164,7 +165,7 @@ export const FormPhone = ({ nextStep, prevStep }) => {
                 nextStep();
               })
               .catch((error) => {
-                alert(error);
+                toast.error(error.message);
               });
         }}
       >

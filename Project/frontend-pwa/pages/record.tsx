@@ -29,6 +29,7 @@ import useTimer from "../hooks/useTimer";
 import { formatTime } from "../utils";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 
 const workerOptions = {
   encoderWorkerFactory: function () {
@@ -93,7 +94,7 @@ const App: FC = () => {
               records: arrayUnion({ result: text, src: url, type, id }),
             });
           });
-          alert("success");
+          toast.success("Record saved successfully");
           setSaveStatus(false);
           router.push("records");
         });

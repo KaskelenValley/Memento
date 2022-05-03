@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
+import toast from "react-hot-toast";
 
 import CloseButton from "../../components/Button/CloseButton";
 import { DoneIcon, EditRecordIcon, TranslateIcon } from "../../icons";
@@ -93,7 +94,7 @@ const Record: React.FC = () => {
       records: updated,
     });
 
-    alert("Updated!");
+    toast.success("Record updated successfully");
   };
   console.log(record, res);
   return (

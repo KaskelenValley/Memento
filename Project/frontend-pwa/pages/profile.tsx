@@ -14,6 +14,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 import { ArrowIcon, SettingsIcon, SupportIcon } from "../icons";
 
 import { auth, db } from "../utils/firebase";
@@ -31,7 +32,7 @@ const EditPage = () => {
         let writing = 0;
         let gratitude = 0;
 
-        if (docSnap?.data().records) {
+        if (docSnap?.data()?.records) {
           docSnap.data().records.map((rec) => {
             if (rec.type === "writing") writing += 1;
             else if (rec.type === "gratitude") gratitude += 1;
@@ -69,11 +70,11 @@ const EditPage = () => {
         onClick={() =>
           signOut(auth)
             .then(() => {
-              alert("Sign out");
+              toast.success("Logged out successfully");
               router.push("/");
             })
             .catch((error) => {
-              alert(error);
+              toast.error(error.message);
             })
         }
         sx={{ position: "absolute", top: "30px", right: "15px" }}
