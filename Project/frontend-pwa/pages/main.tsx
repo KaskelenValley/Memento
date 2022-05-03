@@ -36,6 +36,8 @@ const Main = () => {
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach(async (doc) => {
+          if (!doc.data().records) return;
+
           for (const d of doc.data().records) {
             const date = d.date.toDate();
 
