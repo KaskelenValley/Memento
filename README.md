@@ -6,10 +6,14 @@ This is only a mirror. Original project is hosted there: https://github.com/Kask
 
 ## Deployments
 
-| Service name               | DEV                                                   | PROD                                              |
-| -------------------------- | ----------------------------------------------------- | ------------------------------------------------- |
-| Frontend                   | https://memento-pwa-dev.herokuapp.com/                | https://memento.social/                           |
-| Speech Recognition Service | https://memento-speech-recognition-dev.herokuapp.com/ | https://memento-speech-recognition.herokuapp.com/ |
+| Service name               | DEV                                                   | PROD                                               |
+| -------------------------- | ----------------------------------------------------- | -------------------------------------------------- |
+| Frontend                   | https://memento-pwa-dev.herokuapp.com/                | https://memento.social/                            |
+| Speech Recognition Service | https://memento-speech-recognition-dev.herokuapp.com/ | https://memento-speech-recognition.herokuapp.com/  |
+| SRS Node                   | https://memento-srs-node-dev.herokuapp.com/           | https://memento-srs-node-dev.herokuapp.com/        |
+| Mood tracker               | https://tasty-olives-fry-159-223-3-201.loca.lt/       | https://tasty-olives-fry-159-223-3-201.loca.lt/    |
+| Quote generator            | https://memento-quote-generator-dev.herokuapp.com/    | https://memento-quote-generator-dev.herokuapp.com/ |
+| Translator                 | https://memento-translator-dev.herokuapp.com/         | https://memento-translator-dev.herokuapp.com/      |
 
 ## Team members
 
@@ -164,6 +168,7 @@ Description: Alina is a student whose studies fell during the pandemic and onlin
 ![image](https://user-images.githubusercontent.com/48881444/153762992-4b734528-ac44-40e1-8864-e6886111f390.png)
 
 ## Future iterations
+
 - Async SRS service
 - Mood manager/analyzer
 - Translator
