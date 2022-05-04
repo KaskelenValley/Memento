@@ -4,6 +4,10 @@
 
 This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Memento
 
+## Architecture
+![image](https://user-images.githubusercontent.com/48881444/166640396-14dfd367-3b91-43a2-9a17-613b1363ad3e.png)
+
+
 ## Deployments
 
 | Service name               | DEV                                                   | PROD                                               |
@@ -64,8 +68,7 @@ In our project we use:
 
 - React - for web application enhanced with PWA for mobile devices
 - Nodejs - the web application and probably the backend runtime
-- Golang - for various microservices
-- MongoDB - for storing the data
+- Firebase - for storing the data
 - Figma - the design tool
 - Python - for speech to text service and probably sentiment analyzer
 
