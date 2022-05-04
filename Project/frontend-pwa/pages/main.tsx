@@ -29,7 +29,7 @@ import { RecordCard } from "../components/RecordCard";
 const Main = () => {
   const [user, loading] = useAuthState(auth);
   const [records, setRecords] = useState([]);
-  const [spinner, setSpinner] = useState(true);
+  const [spinner, setSpinner] = useState(false);
   const [latestDate, setLatestDate] = useState("");
   const [quote, setQuote] = useState<any>({});
   const [currentMood, setCurrentMood] = useState();
@@ -37,13 +37,12 @@ const Main = () => {
   const date = new Date().toLocaleString("en-US").split(",")[0];
 
   useEffect(() => {
-    setSpinner(true);
-
     // scroll to center
     calendarRef.current.scrollLeft = calendarRef.current.scrollWidth / 10;
 
     if (!loading) {
       const fetchRecords = async () => {
+        setSpinner(true);
         const arr = [];
         const q = query(collection(db, "users"), where("id", "==", user.uid));
         const querySnapshot = await getDocs(q);
@@ -73,9 +72,8 @@ const Main = () => {
           }
 
           setRecords(arr);
+          setSpinner(false);
         });
-
-        setSpinner(false);
       };
 
       const fetchQuote = async () => {
