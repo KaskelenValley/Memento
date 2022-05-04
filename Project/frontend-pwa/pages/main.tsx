@@ -234,6 +234,7 @@ const Main = () => {
                   ? "#accec8"
                   : "rgba(236, 233, 230, 0.3)",
                 backdropFilter: "blur(16px)",
+                backgroundRepeat: "no-repeat",
               }}
               className="record"
             >
