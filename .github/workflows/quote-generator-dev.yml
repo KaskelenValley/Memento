@@ -1,0 +1,20 @@
+name: Deploy dev preview to Heroku (QUOTE-GENERATOR)
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - "Project/quote-generator/**"
+      - ".github/workflows/quote-generator-dev.yml"
+
+jobs:
+  deploy:
+    if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add quote-generator remote origin
+        run: git remote add heroku-quote-generator https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_QUOTE_GENERATOR_DEV_NAME }}.git
+      - name: Deploy quote-generator dev to Heroku
+        run: git push heroku-quote-generator `git subtree split --prefix Project/quote-generator ${GITHUB_REF_NAME}`:refs/heads/main --force

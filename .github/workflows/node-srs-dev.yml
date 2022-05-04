@@ -1,0 +1,20 @@
+name: Deploy dev preview to Heroku (SRS Node)
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - "Project/node-srs-backend/**"
+      - ".github/workflows/node-srs-dev.yml"
+
+jobs:
+  deploy:
+    if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add srs-node remote origin
+        run: git remote add heroku-srs-node https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_SRS_NODE_DEV_NAME }}.git
+      - name: Deploy srs-node dev to Heroku
+        run: git push heroku-srs-node `git subtree split --prefix Project/node-srs-backend ${GITHUB_REF_NAME}`:refs/heads/main --force

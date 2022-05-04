@@ -1,0 +1,26 @@
+name: Deploy dev preview to Heroku (Translator)
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - "Project/translator-backend/**"
+      - ".github/workflows/translator-dev.yml"
+
+jobs:
+  deploy:
+    if: github.repository != 'SuleymanDemirelKazakhstan/diploma-project-charming-hamsters'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add translator-backend remote origin
+        run: git remote add heroku-translator-backend https://heroku:${{ secrets.HEROKU_API_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_TRANSLATOR_DEV_NAME }}.git
+      - name: Install jq
+        run: sudo apt -y install jq
+      - name: Get google credentials
+        run: curl --request GET --header "X-Vault-Token:${{ secrets.VAULT_TOKEN }}" "${{ secrets.VAULT_ADDR }}/v1/cubbyhole/memento/google-creds" | jq .data >> Project/translator-backend/google-creds.json
+      - name: Add google credentials to git
+        run: git add . && git -c user.name='killmepls' -c user.email='my@email.org' commit -am "Add google credentials"
+      - name: Deploy translator dev to Heroku
+        run: git push heroku-translator-backend `git subtree split --prefix Project/translator-backend ${GITHUB_REF_NAME}`:refs/heads/main --force
