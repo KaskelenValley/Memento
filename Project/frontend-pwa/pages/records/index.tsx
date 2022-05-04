@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {
+  Button,
   CircularProgress,
   Container,
   css,
@@ -11,6 +12,7 @@ import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { deleteObject, getBlob, ref } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
+import Slider from "react-slick";
 
 import { auth, db, storage } from "../../utils/firebase";
 import { RecordWaveIcon } from "../../icons";
@@ -87,6 +89,29 @@ const Records = (props) => {
     alert("Deleted!");
   };
 
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    className: "center",
+    arrows: false,
+  };
+
+  const shareRecord = (record: any) => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: record.title,
+          text: record.result,
+          // url: window.location.href,
+        })
+        .then(() => console.log("Successful share"))
+        .catch((error) => console.log("Error sharing", error));
+    }
+  };
+
   console.log(records);
 
   return (
@@ -136,26 +161,38 @@ const Records = (props) => {
               {(arr as any).map((record, i) => {
                 return (
                   <RecordContainer key={i}>
-                    <CardContainer>
-                      <RecordWaveIcon />
-                      <Typography
-                        sx={{
-                          fontWeight: 500,
-                          fontSize: "13px",
-                          color: "#69696A",
-                          ml: 1,
-                        }}
-                      >
-                        {record.date.toDate().toLocaleTimeString("en-US", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </Typography>
-                    </CardContainer>
-                    <CardWrapper>
-                      <StyledHr />
-                      <RecordCard record={record} />
-                    </CardWrapper>
+                    <Slider {...settings}>
+                      <div>
+                        <CardContainer>
+                          <RecordWaveIcon />
+                          <Typography
+                            sx={{
+                              fontWeight: 500,
+                              fontSize: "13px",
+                              color: "#69696A",
+                              ml: 1,
+                            }}
+                          >
+                            {record.date.toDate().toLocaleTimeString("en-US", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </Typography>
+                        </CardContainer>
+                        <CardWrapper>
+                          <StyledHr />
+                          <RecordCard record={record} />
+                        </CardWrapper>
+                      </div>
+                      <ButtonsContainer>
+                        <Button onClick={() => deleteRecord(record.id)}>
+                          Delete
+                        </Button>
+                        <Button onClick={() => shareRecord(record)}>
+                          Share
+                        </Button>
+                      </ButtonsContainer>
+                    </Slider>
                   </RecordContainer>
                 );
               })}
@@ -227,4 +264,12 @@ const CardWrapper = styled("div")`
   & > div {
     margin: 7.5px 0;
   }
+`;
+
+const ButtonsContainer = styled("div")`
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
 `;

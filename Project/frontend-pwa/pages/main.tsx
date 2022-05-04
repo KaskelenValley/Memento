@@ -14,7 +14,14 @@ import { useEffect, useRef, useState } from "react";
 import { getBlob, ref } from "firebase/storage";
 
 import { Navbar } from "../components/Navbar/Navbar";
-import { GratitudeIcon, SmileIcon, WritingIcon } from "../icons";
+import {
+  GratitudeIcon,
+  SlySmileIcon,
+  SmileIcon,
+  SmilingSmileIcon,
+  WearySmileIcon,
+  WritingIcon,
+} from "../icons";
 import { auth, db, storage } from "../utils/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { RecordCard } from "../components/RecordCard";
@@ -25,7 +32,9 @@ const Main = () => {
   const [spinner, setSpinner] = useState(true);
   const [latestDate, setLatestDate] = useState("");
   const [quote, setQuote] = useState<any>({});
+  const [currentMood, setCurrentMood] = useState();
   const calendarRef = useRef(null);
+  const date = new Date().toLocaleString("en-US").split(",")[0];
 
   useEffect(() => {
     setSpinner(true);
@@ -57,6 +66,12 @@ const Main = () => {
             }
           }
 
+          for (const dt of doc.data().mood) {
+            if (dt.date === date) {
+              setCurrentMood(dt.moodState);
+            }
+          }
+
           setRecords(arr);
         });
 
@@ -80,7 +95,8 @@ const Main = () => {
       fetchQuote();
     }
   }, [loading, user]);
-  console.log(quote);
+  console.log(currentMood);
+
   return (
     <>
       <StyledContainer>
@@ -208,29 +224,89 @@ const Main = () => {
                 border: "none",
                 position: "relative",
                 height: 164,
-                background:
-                  "linear-gradient(124.73deg, rgba(236, 233, 230, 0.5) 0.01%, rgba(255, 255, 255, 0.5) 99.11%)",
+                background: !currentMood
+                  ? "linear-gradient(124.73deg, rgba(236, 233, 230, 0.5) 0.01%, rgba(255, 255, 255, 0.5) 99.11%)"
+                  : "none",
+                backgroundImage: !currentMood
+                  ? "none"
+                  : `url("icons/${currentMood}-mood.png")`,
+                backgroundColor: currentMood
+                  ? "#accec8"
+                  : "rgba(236, 233, 230, 0.3)",
                 backdropFilter: "blur(16px)",
               }}
               className="record"
             >
-              <SmileIcon
-                sx={{
-                  margin: "0 !important",
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                }}
-              />
-              <Typography
-                sx={{ fontFamily: "Georgia", fontSize: 20, fontWeight: 700 }}
-                gutterBottom
-              >
-                Daily Check in
-              </Typography>
-              <Typography sx={{ fontSize: 16, color: "#777777" }} gutterBottom>
-                How are you <b>feeling</b> today?
-              </Typography>
+              {currentMood === "awesome" && (
+                <SmilingSmileIcon
+                  sx={{
+                    margin: "0 !important",
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    width: 118,
+                    height: 117,
+                    fill: "none",
+                  }}
+                  fillStroke="#EDEDED"
+                />
+              )}
+              {currentMood === "neutral" && (
+                <SlySmileIcon
+                  sx={{
+                    margin: "0 !important",
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    width: 118,
+                    height: 117,
+                    fill: "none",
+                  }}
+                  fillStroke="#EDEDED"
+                />
+              )}
+              {currentMood === "sad" && (
+                <WearySmileIcon
+                  sx={{
+                    margin: "0 !important",
+                    position: "absolute",
+                    bottom: 0,
+                    right: 0,
+                    width: 118,
+                    height: 117,
+                    fill: "none",
+                  }}
+                  fillStroke="#EDEDED"
+                />
+              )}
+              {!currentMood && (
+                <>
+                  <SmileIcon
+                    sx={{
+                      margin: "0 !important",
+                      position: "absolute",
+                      bottom: 0,
+                      right: 0,
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      fontFamily: "Georgia",
+                      fontSize: 20,
+                      fontWeight: 700,
+                    }}
+                    gutterBottom
+                  >
+                    Daily Check in
+                  </Typography>
+                  <Typography
+                    sx={{ fontSize: 16, color: "#777777" }}
+                    gutterBottom
+                  >
+                    How are you <b>feeling</b> today?
+                  </Typography>
+                </>
+              )}
             </StyledCard>
           </Link>
         </CardContainer>
@@ -249,8 +325,8 @@ const Main = () => {
         )}
         <EntriesContainer>
           {!spinner ? (
-            records.reverse().map((rec) => (
-              <CardWrapper>
+            records.reverse().map((rec, i) => (
+              <CardWrapper key={i}>
                 <RecordCard record={rec} />
               </CardWrapper>
             ))
