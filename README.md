@@ -4,9 +4,18 @@
 
 This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Memento
 
-## Architecture
-![image](https://user-images.githubusercontent.com/48881444/166640396-14dfd367-3b91-43a2-9a17-613b1363ad3e.png)
+## Development process
 
+We, as a team, develop a project in the Memento repository, while Charming Hamsters is our mirror repo.
+Branches:
+
+- [main](https://github.com/KaskelenValley/Memento/tree/main): main development branch where we release all docs and production-ready code.
+- [dev](https://github.com/KaskelenValley/Memento/tree/dev): development branch where we work on the project.
+- other branches: fix, feature specific branches that were already deleted during pull requests submission.
+
+## Architecture
+
+![image](https://user-images.githubusercontent.com/48881444/166640396-14dfd367-3b91-43a2-9a17-613b1363ad3e.png)
 
 ## Deployments
 
