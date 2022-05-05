@@ -96,7 +96,7 @@ Personal page where user will be able to keep/edit/save his personal information
 Journal entries page where user can see the list of his previous entries:
 
 - play his recordings
-- transfrom his speech to text and then read it
+- transform his speech to text and then read it
 - share with his recordings
 
 Record page where user will be able to record his voice, save or rerecord it.
@@ -178,6 +178,10 @@ Description: Alina is a student whose studies fell during the pandemic and onlin
 ![image](https://user-images.githubusercontent.com/48881444/153762975-29e02513-da71-491d-8d53-4bba412b5f67.png)
 ![image](https://user-images.githubusercontent.com/48881444/153762981-2a968166-da08-44ac-a793-e85d7d2ca851.png)
 ![image](https://user-images.githubusercontent.com/48881444/153762992-4b734528-ac44-40e1-8864-e6886111f390.png)
+
+## UI&UX
+
+https://www.figma.com/file/mMIIRcgkInlroLsB2SMcDb/Memento?node-id=28%3A238
 
 ## Future iterations
 
