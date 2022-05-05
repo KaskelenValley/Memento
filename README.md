@@ -1,5 +1,25 @@
 # CSS 410 Research tools and methods
 
+- [CSS 410 Research tools and methods](#css-410-research-tools-and-methods)
+  - [Warning](#warning)
+  - [Development process](#development-process)
+  - [Architecture](#architecture)
+  - [Deployments](#deployments)
+  - [Team members](#team-members)
+  - [Project](#project)
+  - [Alternatives / Market research](#alternatives--market-research)
+  - [Technologies](#technologies)
+  - [Pages / Activities](#pages--activities)
+  - [Goals](#goals)
+  - [User Personas](#user-personas)
+  - [User stories](#user-stories)
+  - [Sitemap, Page descriptions](#sitemap-page-descriptions)
+  - [Non-Functional requirements](#non-functional-requirements)
+  - [Risks](#risks)
+  - [Mockups, Wireframes](#mockups-wireframes)
+  - [UI&UX](#uiux)
+  - [Future iterations](#future-iterations)
+
 ## Warning
 
 This is only a mirror. Original project is hosted there: https://github.com/KaskelenValley/Memento
