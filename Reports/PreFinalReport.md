@@ -1,0 +1,360 @@
+# Week 3
+
+## Madiyar Mukushev
+
+- Created user stories
+- Added risks and non-functional requirements to the documentation
+
+## Timur Demenov
+
+- Created Sitemap section
+- Created Pages/Activities Section
+- Updated User Stories section
+
+## Adil Akhmetov
+
+- Configured mirror repo
+- Added project description
+- Added technologies
+- Added goals
+
+## Balzhan Jumabekova
+
+- Created user personas
+- Provided market research
+- Provided competitor analysis
+- Created low fidelity prototypes
+- Updated Future iterations
+
+## Aruzhan Makhmutova
+
+- Provided design research
+- Updated user personas and user stories
+- Updated sitemaps and wireframes
+
+Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
+
+# Week 4
+
+## Adil Akhmetov
+
+- Research docker
+- Research cd on heroku
+- Add more information in docs
+
+## Timur Demenov
+
+- Research PWA on mobile
+- Build test app
+- Explore methods for managing audio streaming in a web application
+
+## Madiyar Mukushev
+
+- Research sentiment analysis algorithm
+- Test SpeechKit API
+- Explore data for sentimental analysis model
+
+## Balzhan Jumabekova
+
+- Conducted research on possible agile methodologies
+- Composed questions for customer development
+- Conducted a stand-up on the final revisions of the project idea and planned the following tasks for the team
+
+## Aruzhan Makhmutova
+
+- Conducted research on possible audio journaling apps' design
+- Created the conception about logo of the app
+- Conducted research on possible design tools
+
+# Week 5
+
+## Adil Akhmetov
+
+![image](https://user-images.githubusercontent.com/48881444/156602630-055e1502-1813-412d-bb58-62e86d195d8c.png)
+
+- Researched cloud services
+- Researched tech stack
+- Researched best practices
+- Drawed architecture diagram
+- Signed in necessary services
+
+## Timur Demenov
+
+- initialized the project with a specific tech stack
+- defined the flow of data exchanges
+- tried to connect to the backend
+- set up speech recognition in the application
+
+## Madiyar Mukushev
+
+- Found the most suitable framework for the project - FastAPI
+- Created poetry environment with necessary libraries
+- Researched Yandex SpeechKit Documentation
+- Tested SpeechKit API with simple curl requests
+- Developed simple application using FastAPI
+
+## Balzhan Jumabekova
+
+![image](https://user-images.githubusercontent.com/48881444/156602551-d25dab62-b807-4535-a1a8-10fdc87190b7.png)
+
+- Found 2 respondents for customer development in order to search for some insights and new ideas
+
+- Created a list of qustions for interview based on tips from "The mom test" book (https://docs.google.com/document/d/1bxbYIeCK_IvK0GwQUItFhtnjSoPjDfD778IW66IQGBQ/edit?usp=sharing)
+
+- Conducted customer development and recorded it
+
+- Held stand-ups (https://youtu.be/dha8m2Irlow)
+
+- Set up jira for sprints
+
+The rest tasks from my plan will be completed on Friday and weekends.
+
+## Aruzhan Makhmutova
+
+- Gathered a mudboard and references for the design of the app
+- Created a brand book for our app, with colors, fonts and style
+- Made a jtbd / userstory for the app design
+- Studied competitor designs of similar apps
+- Createed medium fidelity prototype (wireframes)
+- Made a product logo
+
+# Week 6
+
+## Adil Akhmetov
+
+- Prepared repo for ci&cd
+- Setup Docker container for PWA
+- Setup Docker container for Python microservice
+- Setup mongodb on mongo.com
+
+## Timur Demenov
+
+- Research Web Audio API
+- Investigated the compatibility of the application with mobile browser clients
+- Set up synchronous file transfer from frontend to backend
+
+## Madiyar Mukushev
+
+- Make synchronous voice recognition endpoint
+- Research gRPC
+- Research Streaming Voice Recognition gRPC API in Yandex SpeechKit
+
+## Aruzhan Makhmutova
+
+- Develop an application prototype using data from custdev
+- created the ux part of the design
+- implemented the logo on the pages
+- approved the ux part of our app
+- corrected some bugs in the prototype
+
+## Balzhan Jumabekova
+
+- Analysed the information received from the customer development (https://miro.com/app/board/uXjVOHuA2Gs=/?invite_link_id=19419686422)
+- Created lean canvas of Journify app (competitor analysis)
+- Highlighted their unique selling proposition
+- Identified key metrics for similar applications (NPS, DAU, MAU, WAU)
+- Highlighted the hidden advantages of competitive applications
+- Held sprint review and retrospective (https://youtu.be/aGAU258eFNI)
+
+# Week 7
+
+## Adil Akhmetov
+
+This week I started researching Yandex Speechkit v3 since we decided to use Node.js for asynchronous speech recognition service. I worked on the template backend on Node.js and now we have to solve the problem with `pcm` audio format. Also, I registered aws account and created a necessary bucket. Now, I need more researching about the aws bills since it possibly may cost a lot for our team.
+
+## Aruzhan Makhmutova
+
+This week, I conducted a competitive analysis of the app based on user experience and functionality. Developed detailed mobile app wireframes for the Splash screen, OnBoarding, and Registration sections.
+Also, after discussing with the team the possible options of colors, mudboard, references, and deciding on the design based on this, I created several options for the design of the home page
+
+## Balzhan Jumabekova
+
+This week I added new features to the backlog, but since we are building the wireframe, the features from the custdev are at the bottom in order of priority. We also discussed with the designer possible color options for the future application. Together with the team leader, we discussed the reasons for a slight stagnation, and also changed the product development strategy, revising the goals. I also started researching the material regarding the thesis.
+
+## Madiyar Mukushev
+
+It was decided to use Node.js as the language for streaming speech recognition. This is necessary in order to have less delay. But synchronous recognition will remain in python, because a delay of a couple of tens of milliseconds is not critical for synchronous recognition. We will look at the Internet status, if the Internet is fast and has low latency - we use streaming speech recognition, if not - synchronous. At the moment there is a template backend Node.js service and streaming recognition on gRPC is being finalized
+
+## Timur Demenov
+
+This week I added some new features to our project. An authorization page was created, a couple of add-ons to optimize the project, and several new auxiliary libraries were installed. I also discussed the main points of our application with the designer, exchanged tips and came to a common decision.
+
+# Week 8
+
+## Adil Akhmetov
+
+Due to some reasons, our deployed services go to sleep to save our dynos (specific heroku currency). That's why I did some research about heroku dynos. Unfortunately, only hobby tier dynos are available for us. Then I tried another approach —heroku scheduler and it seems to work okay. Started working on a service that uploads audio to the store.
+
+## Timur Demenov
+
+This week I added more basic display components. Then I connected firebase to our project and through it added authorization through a phone number with the ability to verify the code that is sent to the phone number. Further, it is also planned to add new components and work on the main page.
+
+## Aruzhan Makhmutova
+
+This week I worked on additional screens, such as error screens, new action screens and their different states, etc. We also decided on the visual part of the mobile app design from all the options presented. I collected references for further design of the "sound recording" pages.
+
+## Madiyar Mukushev
+
+I made a demo version in Node.js of streaming recognition in order to test the functionality and further understand the development of this service. The service takes an LPCM audio file and splits it into small parts. The parts it sends to the yandex server and gets a response. I have developed the principle of further work of our service, we will have a separate server and a client on gRPC with streaming. The frontend will send the chunks (small audio parts) to my service, and this service will send them to the Yandex server with the necessary preprocessing.
+
+## Balzhan Jumabekova
+
+This week I have checked our MVP and conducted ux-test in order to identify bugs during onboarding. Also I have set deadlines for mvps and started research on overleaf tool. Recently I have held meeting with the team to detect problems during their work and solve them in a proper way.
+
+# Week 9
+
+## Adil Akhmetov
+
+Since we've made a decision to change our architecture I need to research how to deploy an async app with data streaming capabilities. I'm still in the proccess, but I already created a pipeline and reserved an app for our new service.
+I've read a bit about Firebase Storage and created a testing storage.
+
+## Timur Demenov
+
+This week I've been investigating how streaming works, reviewing the list of libraries, and fixing compatibility issues with the safari browser. I also added authorization through social networks and created components for the audio recording page
+
+## Madiyar Mukushev
+
+This week we tried to create a client on gRPC. But unfortunately web gRPC does not support client-side and bidirectional streaming. We have developed another architecture of communication for bidirectional streaming. And now we're researching libraries and tools for data streaming (audio and text).
+
+## Aruzhan Makhmutova
+
+This week I changed the visual elements in the design on the home page. I made revisions to the registration section at the developer's request. I drew a quote page and a menu page for adding voice recordings and mood tracking. Also in development are the main record-keeping pages
+
+## Balzhan Jumabekova
+
+This week I have held a meeting with my team for setting goals of our third MVP. Also I have set up KPIs and deadlines for the team, started the research on the diploma document and checked up on our team members' reports in order to start writing a research paper.
+
+# Week 10
+
+## Adil Akhmetov
+
+This week I did solve some problems with Heroky dynos sleepings. I had to change it from 3AM till 9AM. And also I added the deployment of diploma project which is a pdf file. I did it with a help of awesome vscode plugin called [Latex Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop). I'm still researching on how to optimize the server and looking for the way to avoid auto-pinger.
+
+## Aruzhan Makhmutova
+
+This week I did some research from the user experience point of view, in different mobile apps, which have a similar structure with record-keeping.
+As a result of the analysis, I made a low-fidelity prototype, the frameworks of the pages. I drew a design where a user records audio, pages where recordings are stored and additional pages apart from the main ones, such as delete a record, edit a record and so on. Also, there were adjustments to the ui part, changed fonts and colors of the existing design.
+
+## Balzhan Jumabekova
+
+This week I have held a meeting for the 6th sprint and set new deadlines due to new bugs and issues in the app. Then I have made a research among similar applications and highlighted their features in order to provide SUS-test next week. Also I have prepared necessary materials for customer journey map that will help us navigate further. In the middle of the week I have checked the state of our MVP and discussed current bugs and errors with frontend developer and designer.
+
+## Madiyar Mukushev
+
+This week I made a service that converts audio from ogg to wav. Safari doesn't not support the ogg audio format, so we decided to convert to another supported audio format. I also made a streaming speech recognition service. Node.js acts as a gRPC client for Yandex Speechkit API and also as a server for the websocket.
+
+## Timur Demenov
+
+This week I created components for the main page, and also connected the service to the database, which allows you to read, delete and edit content. It was possible to set up a connection using sockets for streaming voice recognition and test it on devices
+
+# Week 11
+
+## Adil Akhmetov
+
+This week I researched how to deploy ML server and created specific pipeline. Also, I fixed some CI issues in our repo. Then I added a deployment of node-srs so that our developers will be able to communicate whith each other remotely.
+
+## Balzhan Jumabekova
+
+This week I have added new changes in our backlog based on SUS results. Also I have held a meeting with the team leader in order to discuss our plan. Then checked up our finished user stories using acceptance criteria and definition of done. At the end of the week I have planned the next sprint and conducted sprint review.
+
+## Madiyar Mukushev
+
+This week I researched sentimental analysis algorithms for the mood tracker. I have found a list of datasets with Russian text (labeled and unlabeled) to train the model.
+
+## Timur Demenov
+
+This week I fixed bugs and adapted the design for our service. I laid out the main page, authorization and a page with a voice recording in several stages, and the page itself, where all the recordings are stored. Also added the ability to filter records and made minor performance improvements
+
+## Aruzhan Makhmutova
+
+This week I've been making changes to the functional part of the design. In the section recording audio and text notes. Also discussed the functionality and feasibility with the project manager and the developer. As a result, I made changes and changed the design
+
+# Week 12
+
+## Adil Akhmetov
+
+This week I helped my frontend developer with the new design on record page. Also, I refactored the code a bit. Then, I configured the new server to sleep like the other services. Finally, I researched platforms where we could write our diploma document on LaTEX and ended up with the decision to use both vscode and overleaf.
+
+## Aruzhan Makhmutova
+
+This week I approved the visual design of the new sections. Developed the design for the record review, search results, and filter by day pages. Created the functionality for the "tracker and mood analysis" section
+
+## Balzhan Jumabekova
+
+This week I have used System Usability Scale and provided UX-testing of our app in order to detect possible errors and bugs. I found some students to test three apps such as Vono, Journify and Memento. Also I have started writing an introduction to the document including some research about cognitive diseases.
+
+## Madiyar Mukushev
+
+This week I collected data and trained a baseline sentimental analysis model. I also added a separate endpoint in the backend for this service.
+
+## Timur Demenov
+
+This week I did some code refactoring, stylistic changes and added new components and pages according to the design. The main page was changed and work was done on the authorization page. Auxiliary libraries for styling the project have also been added.
+
+# Week 13
+
+## Adil Akhmetov
+
+This week I created a new deployment for a translator service. Along with this I worked on mood tracker service deployment as Heroku was not suitable for this because Heroku slugs are 500 MB max which is not enough for over 800 MB model. So, first, I tried with AWS EC2 Free tier version but it also was not sufficient because of only 1 GB RAM. Then, I tried to buy a droplet on Digital Ocean and it helped, but I needed more RAM since it appeared that pytorch creates default weights which takes another 800+ MB. But I found out a lifehack for this and just created swap file instead of buying another machine. Also I created apps for the production release.
+
+## Madiyar Mukushev
+
+I upgraded YandexSpeechKit from v2 to v3, for this I had to rewrite methods, configurations, etc. The main reason for switching to a newer version was the appearance of punctuator in the API.
+At the same time I created a new microservice in Python for text translation. I used the Google Translate API and I made it a separate microservice so that it would be independent of the failure of other services. The microservice was written in web framework FastAPI, with field validations.
+I also created a separate microservice, also in Python and FastAPI, to generate quotes and random pictures. This is needed for the main page in the PWA application. The quote generator returns the quote and also the author. The picture generator returns a random picture with specified parameters. There are three parameters: height, width and blur.s
+
+## Balzhan Jumabekova
+
+This week I have been working on research based on current health problems in Kazakhstan. I have collected essential statistics in order to use it in motivation part. There were plenty of related information and I had to opt for right and proper one. In addition, I have read about the difference between motivation and state of the research problem in order to describe them correctly. I have also added some aims and objectives for dissertation. In general, I have been working on the 1st chapter.
+
+## Timur Demenov
+
+This week I was working on finalizing the front-end part of our application. Authorization was slightly redesigned and it was decided to replace Facebook authorization with Twitter. Also on the main page, interface changes were added: new icons, dynamic cards and a calendar. The process of adding gratitude has been moved to a separate interface, where you can also add a photo. Regarding the profile page: everything is ready, the user is defined and it remains only to finalize a couple of things from the design side
+
+## Aruzhan Makhmutova
+
+I worked on the "mood tracker", "profile and settings", and "record statistics" sections. When developing the design, I worked through all of the user transitions from screens in advance, relying on heuristics and interaction patterns. I thought through the main pages and additional functionality, such as daily record reminders and mood definitions for each record by text. I made the functionality wireframes and developed the ui portion of the pages to fit our existing design, using the ui kit and style guide. In the process, there were corrections from the developers and bugs were identified as a result of testing the app with the project manager on a group of people with our target audience. Work is currently underway to improve the user experience of our design.
+
+# Week 14
+
+## Adil Akhmetov
+
+This week I created another service for quotes and images. Also, mostly I was researching on Literature Review and I have found some interesting articles. Primarily, I was using webofscience and google scholar and read more than 10 articles. And on top of that, I was trying to fix the bug with our mirroring service, and the reason behind that is that our remote repo doesn't have setup Git LFS. I'm still in progress of solving this issue.
+
+## Balzhan Jumabekova
+
+This week I did a research on the structure of the dissertation introduction. To do this, I used several sources. I also found the official statistics of psychological illnesses among Kazakhstanis. Next, I set the goal of the dissertation and tasks to achieve this goal. Then I structured the entire document, making it a brief overview in the thesis outline.
+
+## Aruzhan Makhmutova
+
+This week I made changes to the initial pages of onboardings that welcome the user. I added illustrations and worked the text to match the main benefits of our app. Made changes to the registrations under the developer's comments. Made the same design for all pages, with a pop up feature. Added new types of gratitude and free writing posts and made a user manual for users of this type of posts. Design the gratitude and free writing page itself. Also, added all new elements in the UI kit and components. Redesigned cards of various types, such as check in, gratitude and so on. Reflected new cards on all the entries. Also collected references and worked on the visual part of the mud tracker.
+
+## Madiyar Mukushev
+
+This week I added a health check for both streaming and synchronous services. While testing the application, we encountered the problem that occasionally the Speechkit API doesn't work. We currently have two services, one synchronous service, which only sends the result at the end of the recording, and a streaming one, which sends the result in real time as we record. The default is streaming mode, but if the health check reports that the service isn't working, it automatically switches to synchronous speech recognition. If synchronous doesn't work either, the application will let the client know that the speech recognition doesn't work.
+
+## Timur Demenov
+
+This week, I've been hooking up a service status check endpoint. Thanks to this, before recording audio, we have a check that allows you to switch between services. I also added a page with a choice of today's mood, it allows you to determine the current mood of the client and writes everything to the database. In the future, it is planned to display graphs using all the collected statistics. Additionally, I started finalizing the gratitude and free writing pages, the profile page was slightly changed, where dynamic fields were added
+
+# Week 15
+
+## Adil Akhmetov
+
+This week I have been working on SSL certificate for our mood tracker service. I was trying to achieve that with Let's Encrypt free SSL certificates. Also, I deployed all of our services to production and added a domain name for the main app. There were also some bug fixes. Over all, I am working on the documentation of the application.
+
+## Balzhan Jumabekova
+
+This week I have been working on diploma thesis where I have started writing Chapter 4. This chapter is about implementation of the project. It is divided into several parts with a detailed information about each member’s contribution. In addition, it contains the structure of the app, including some technology data. In order to write the 4th chapter in a proper way I have searched for similar examples of other diploma templates and highlighted the best ones. I have also added some information from our custdevs and SUS-testings for accuracy. At the end of the sprint I would like to conduct one more testing for detecting the rest of the bugs.
+
+## Aruzhan Makhmutova
+
+I've been supervising the design and layout process this week. Left comments on elements that were not done according to the drawings.There were design refinements on features to automatically add a mood to each entry, with input functions and using a filter to search for entries. Worked on the ability to edit tags and sentiment which the program detects and generates automatically by text, for the accuracy of our functions to determine the sentiment. There were also improvements on the profile pages and on the page of statistics on the use of the application.
+
+## Madiyar Mukushev
+
+This week I optimized the streaming speech recognition service. I added an automatic disconnect from gRPC SpeechKit API if the user does not send any messages. This way we save API resources and bypass potential bugs. I also did code refactoring and documentation, and optimized code where possible.
+
+## Timur Demenov
+
+This week I was busy fixing bugs and developing a page with user statistics. A beautiful graph was developed with the output of all user activities, thanks to which he will be able to understand on which days he was more active, how many entries were made, and so on. Many pages lack smooth animation, so work on this has been started. Now navigating through the application has become more pleasant
