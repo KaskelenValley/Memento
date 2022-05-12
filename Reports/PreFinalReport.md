@@ -92,10 +92,7 @@
 
 ## Adil Akhmetov
 
-- Configured mirror repo
-- Added project description
-- Added technologies
-- Added goals
+This week I configured the mirror repo with a help of Github Actions. For this I used custom action from marketplace called "Repository mirroring action". This action required me to generate SSH keys and basically what it does is trigger on any action like push delete and pushes it to charming hamsters repo. Of course, `SSH_PRIVATE_KEY`, `USERNAME` and `REPO_NAME` are hidden in the repo secrets. I have to mention that I also tried to hide the `REPO_NAME` in the main condition, but it appeared that it is not possible to get access to `secrets` in `if` statement. Plus, I updated the main README file and included "Project Description", "Technologies" and "Goals" parts. In the "Technologies" part the stack is still under consideration since there might be more suitable technology for the specific case.
 
 ## Balzhan Jumabekova
 
@@ -116,10 +113,8 @@ Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
 # Week 4
 
 ## Adil Akhmetov
-
-- Research docker
-- Research cd on heroku
-- Add more information in docs
+  
+This week I mostly research Docker and how to use Docker in CD at Heroku. It appeared that Heroku provides `container` stack for its apps so I decided to go on with it. I tried different approaches like connecting Github repo to Heroku pipeline (that's why I decided to mirror the repo), but unfortunately, it appeared that it's quite tricky in monorepo (which this repo is). There is a custom buildpack for it which declares different folders to extract to code at, but again, it triggers deployment on all the apps on any commit even if this commit doesn't touch the provided folder. So, I came up with the easiest and simpliest solution, let's say following the KISS pattern, which is just hold all CI&CD on Github Action and deploy to Heroku. Also, I added more information in the main README file.
 
 ## Timur Demenov
 
@@ -150,12 +145,8 @@ Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
 ## Adil Akhmetov
 
 ![image](https://user-images.githubusercontent.com/48881444/156602630-055e1502-1813-412d-bb58-62e86d195d8c.png)
-
-- Researched cloud services
-- Researched tech stack
-- Researched best practices
-- Drawed architecture diagram
-- Signed in necessary services
+ 
+This week I was busy with tge researching of the tech stack and cloud services. Also, as a perfectionist I wanted us to follow best practices. So, we decided to have a PWA on our front which will let us to deliver the app on any device. We also revised React Native (but I cannot code on it since I don't have Mac), Flutter (noone in our team know Dart), Xamarin (same, we do not know C#) and eventually PWA was the best approach here. The web site will be on Next JS which will give us SEO support and SSR (which will of course minimize the bundle size). For the backend part we decided to stop on three services for now which are Auth service, Main service and SRS. Auth service will let us basically to use Auth 2.0 across of all our microservices with JWT. Main service will support the main logic part. And SRS (Speech Recognition Service) will be the bridge between us and Yandex Speechkit, it will take our data and give us back the result in a way that we want. For saving the auth data we chose PostgreSQL on Heroku (which offers one free connection) and AWS S3 for holding static binary files like audio recordings. I already registered in these services and got Pro account on Heroku and FreeTier machines in AWS.
 
 ## Timur Demenov
 
@@ -201,10 +192,7 @@ The rest tasks from my plan will be completed on Friday and weekends.
 
 ## Adil Akhmetov
 
-- Prepared repo for ci&cd
-- Setup Docker container for PWA
-- Setup Docker container for Python microservice
-- Setup mongodb on mongo.com
+This week I was working on preparing the repo for CI&CD. In the previous weeks I was still experimenting on the stuff the successfully deliver the code to CD from our monorepo which as I said is tricky. I came up with an idea of delivering the code to Heroku register through Github Actions. So, the solution is quite easy, we trigger on changes in the respective folders in `Project` folder then with a help of `git subtree` we slice the repo and push **only**  the folder with the code to Heroku register. Thus, Heroku thinks that the subtree is a whole repo itself and then deploys the containter. Of course, for this to work you have to have following workflows and Dockerfiles. Hence, I configured Dockerfiles for PWA app and Python microservice. At the end I want to say that unfortunately we decided to move from Heroku Postgre and PostgreSQL itself and stop on MongoDB which is a NoSQL solution helping us to not establish the scheme and it offers free deploy on mongo.com letting us more than 1 concurrent connection. 
 
 ## Timur Demenov
 
@@ -239,7 +227,7 @@ The rest tasks from my plan will be completed on Friday and weekends.
 
 ## Adil Akhmetov
 
-This week I started researching Yandex Speechkit v3 since we decided to use Node.js for asynchronous speech recognition service. I worked on the template backend on Node.js and now we have to solve the problem with `pcm` audio format. Also, I registered aws account and created a necessary bucket. Now, I need more researching about the aws bills since it possibly may cost a lot for our team.
+This week I started researching Yandex Speechkit v3 since we decided to use Node.js for asynchronous speech recognition service. I worked on the template backend on Node.js and now we have to solve the problem with `pcm` audio format which the Yandex Speechkit requires to send. Also, I registered aws account and created a necessary bucket. Yeah, I've said earlier that we use FreeTier but now, I need more researching about the aws bills since it possibly may cost a lot for our team. Also, our team decided to not write an Auth Service and move on from MongoDB because there is a better solution called Firebase which will let us to store the data, auth apps from different social networks and in future support push notifications.
 
 ## Aruzhan Makhmutova
 
@@ -262,7 +250,7 @@ This week I added some new features to our project. An authorization page was cr
 
 ## Adil Akhmetov
 
-Due to some reasons, our deployed services go to sleep to save our dynos (specific heroku currency). That's why I did some research about heroku dynos. Unfortunately, only hobby tier dynos are available for us. Then I tried another approach —heroku scheduler and it seems to work okay. Started working on a service that uploads audio to the store.
+Due to some reasons, our deployed services go to sleep to save our dynos (specific heroku currency). That's why I did some research about heroku dynos. It appeared that hobby tier dynos have to sleep at least 6 hours per day (just like humans), I think they're just limiting us from abusing their service as VPN providers. Unfortunately, only hobby tier dynos are available for us. Then I tried another approach —heroku scheduler and it seems to work okay, but again there are some drawbacks like sleeping and manual scheduling. Eventually I found a solution called [Kaffeine](https://github.com/RomainButteaud/Kaffeine). It just sends `GET` request each 30 minutes waking up our services. Started working on a service that uploads audio to the store, but most likely Timur will work on that. One good news is that I have 1000 hours on hobby tier limit so we will be able to host our services for now.
 
 ## Timur Demenov
 
@@ -284,8 +272,7 @@ This week I have checked our MVP and conducted ux-test in order to identify bugs
 
 ## Adil Akhmetov
 
-Since we've made a decision to change our architecture I need to research how to deploy an async app with data streaming capabilities. I'm still in the proccess, but I already created a pipeline and reserved an app for our new service.
-I've read a bit about Firebase Storage and created a testing storage.
+We have made a decision to change our architecture which I will describe more in detail below. First, we made a decision to have two services for SRS (Speech Recognition Service) for Asynchronous and Synchronous recognition. We will switch between them depending on users internet speed. Thus, I need to research how to deploy an async app with data streaming capabilities. It seems that I have to turn on some configs in Dockerfile and Heroku app to open specific ports. I'm still in the proccess, but I already created a pipeline and reserved an app for our new service. Next week I will be working on the Dockerfile and workflow configs. After some research on AWS FreeTier I decided to not play with fire and just stick with Firebase which also offers storage for binaries. So, I've read a bit about Firebase Storage and created a testing storage.
 
 ## Timur Demenov
 
@@ -307,7 +294,7 @@ This week I have held a meeting with my team for setting goals of our third MVP.
 
 ## Adil Akhmetov
 
-This week I did solve some problems with Heroky dynos sleepings. I had to change it from 3AM till 9AM. And also I added the deployment of diploma project which is a pdf file. I did it with a help of awesome vscode plugin called [Latex Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop). I'm still researching on how to optimize the server and looking for the way to avoid auto-pinger.
+This week I did solve some problems with Heroku dynos sleepings. Our services went to sleep to early thus why I had to change it from 3AM till 9AM. But most importantly I was focused on our diploma documentation. I wanted to deliver the documentation as easy as our code so I researched on local deployment of LaTex files. Yeah, there is an awesome tool like Overleaf but it requires premium to use host like GitHub. So, first I installed [TexLive](https://www.tug.org/texlive/) which is an opensource alternative to deploy `.tex` files on Linux. And I found a most suitable solution to easily edit and deploy Latex.  I added the deployment of diploma project which is a pdf file. I did it with a help of awesome vscode plugin called [Latex Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop). I'm still researching on how to optimize the server and looking for the way to avoid auto-pinger.
 
 ## Aruzhan Makhmutova
 
@@ -330,7 +317,7 @@ This week I created components for the main page, and also connected the service
 
 ## Adil Akhmetov
 
-This week I researched how to deploy ML server and created specific pipeline. Also, I fixed some CI issues in our repo. Then I added a deployment of node-srs so that our developers will be able to communicate whith each other remotely.
+Since we are going to have a service which will identify the mood of the text I clearly have to deploy the ML model. So, this week I researched on how to deploy ML server and created a specific pipeline on Heroku. The model is going to be heavy, but heroku offers only 500MB limit slug size so I have to find a different solution. Plus, there might be a problem with hosting the model itself in the codebase. If we commit it directly in the monorepo, then each developer even not our ML dev (Madiyar) will have to pull this heavy model. This is not efficient, so I'm thinking to use Git LFS. Also, I fixed some CI issues in our repo. Then I added a deployment of node-srs (Synchronious Speech Recognition) so that our developers will be able to communicate whith each other remotely.
 
 ## Balzhan Jumabekova
 
@@ -352,7 +339,7 @@ This week I've been making changes to the functional part of the design. In the 
 
 ## Adil Akhmetov
 
-This week I helped my frontend developer with the new design on record page. Also, I refactored the code a bit. Then, I configured the new server to sleep like the other services. Finally, I researched platforms where we could write our diploma document on LaTEX and ended up with the decision to use both vscode and overleaf.
+This week I helped my frontend developer with the new design on record page. Also, I refactored the code a little bit to follow the clean code. Then, I configured the new server (Synchronous Speech Recognition service) to sleep like the other services. Then, we had a meeting with our designer about the new sections and I approved the design for the record view, search results and filter by day pages. I checked the current MVP on Android device and it seemed to work okay. Finally, I researched platforms where we could write our diploma document on LaTEX and ended up with the decision to use both vscode and overleaf (for collaborative editing with Balzhan).
 
 ## Aruzhan Makhmutova
 
@@ -398,7 +385,7 @@ I worked on the "mood tracker", "profile and settings", and "record statistics" 
 
 ## Adil Akhmetov
 
-This week I created another service for quotes and images. Also, mostly I was researching on Literature Review and I have found some interesting articles. Primarily, I was using webofscience and google scholar and read more than 10 articles. And on top of that, I was trying to fix the bug with our mirroring service, and the reason behind that is that our remote repo doesn't have setup Git LFS. I'm still in progress of solving this issue.
+This week I created another service for quotes and images. Also, mostly I was researching on Literature Review and I have found some interesting articles. Primarily, I was using webofscience and google scholar and read more than 10 articles. And on top of that, I was trying to fix the bug with our mirroring service, and the reason behind that is that our remote repo doesn't have setup Git LFS. I spent the whole week on it ending up with hosting my own custom action for this and moving from Git LFS to Google Drive for model hosting, because Github have such a dummy policy with the bandwidth of 1500MB for free tier repos (which we use) and it spent with like only two pulls (notice, model weight is 800MB). I'm still in progress of solving this issue.
 
 ## Balzhan Jumabekova
 
@@ -420,7 +407,7 @@ This week, I've been hooking up a service status check endpoint. Thanks to this,
 
 ## Adil Akhmetov
 
-This week I have been working on SSL certificate for our mood tracker service. I was trying to achieve that with Let's Encrypt free SSL certificates. Also, I deployed all of our services to production and added a domain name for the main app. There were also some bug fixes. Over all, I am working on the documentation of the application.
+This week I have been working on SSL certificate and custom domain name for our mood tracker service. First, I bought a custom domain name. I was trying to establish SSL with Let's Encrypt free SSL certificates. But it was quite tricky to use it on Heroku with custom domain name. So first I changed the holder of domain name service to Cloudfare and then with a help of Cloudfare I managed to add both SSL and domain name. Also, I deployed the most important of our services to production. There were also some bug fixes. Over all, I am working on the documentation of the application like fixing the refernces order (now it has random ordering). In the end, I fixed the mirroring completely getting rid of Git LFS.
 
 ## Balzhan Jumabekova
 
