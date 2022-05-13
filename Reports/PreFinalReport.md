@@ -86,9 +86,7 @@
 
 ## Timur Demenov
 
-- Created Sitemap section
-- Created Pages/Activities Section
-- Updated User Stories section
+One of the best things we can do to increase our organic traffic is creating a sitemap. This is a list of all URLs on our site with some information about them. What a site map does is make it easier for search engines to understand and index your content. In the description of the repository, you can see the sitemap, which displays all the possible paths of the site. I also updated the Pages/Activities section, which describes the functionality of each page and also the user story. A user story describes the type of user, what they want and why. A user story helps to create a simplified description of a requirement.
 
 ## Adil Akhmetov
 
@@ -118,9 +116,15 @@ This week I mostly research Docker and how to use Docker in CD at Heroku. It app
 
 ## Timur Demenov
 
-- Research PWA on mobile
-- Build test app
-- Explore methods for managing audio streaming in a web application
+I researched articles about pwa applications and realized that this is the most suitable for us. PWA stands for Progressive Web Application – a website that looks and behaves just like a mobile app. Users can add it to the main screen of their smartphones. PWAs can send push notifications, access the hardware of the mobile device, and even work offline or in an unstable connection. Benefits of PWA apps:
+1. Availability in the offline mode
+2. Mobile-like behavior
+3. Smooth installation
+4. No app store submission
+5. Use of hardware features 
+
+Progressive Web Apps can also be installed on desktop devices like native apps. PWAs stand to bring desktop users many different benefits. For starters, they’re smaller in size than native desktop apps. They easily update in the background, so there’s no need to encourage users to update their apps on their own. PWAs take no time to install and are reliable. 
+About voice recording. The MediaStream Recorder API makes media recording in the browser very easy. It allows capturing chunks of (audio) data from a microphone media stream as blobs, which can later be concatenated in a single audio file. The file can then be saved locally or uploaded/POSTed to the web server.
 
 ## Madiyar Mukushev
 
@@ -150,10 +154,13 @@ This week I was busy with tge researching of the tech stack and cloud services. 
 
 ## Timur Demenov
 
-- initialized the project with a specific tech stack
-- defined the flow of data exchanges
-- tried to connect to the backend
-- set up speech recognition in the application
+I chose React and Next.js as the original technology stack. To make Next.js app into PWA, I need the given things - next-pwa package, Service Worker, Manifest & Icons, Maskable Icon, Meta Tags. Creating a PWA can be difficult. However, with Next.js we can easily create one using the next-pwa package. Under the hook this package uses Workbox. Here are some of the features you get from using next-pwa: 
+- Zero config for registering and generating service worker
+- Optimized precache and runtime cache
+- Maximize lighthouse score
+- Use workbox and workbox-window v6
+
+To record and convert audio in the application, I used a third-party library called opus-media-recorder. Opus-media-recorder is a MediaRecorder API polyfill written in ES6 and WebAssembly. It aims for cross-browser Opus codec support with various audio formats such as Ogg and WebM. opus-media-recorder can be used as a polyfill, or it can replace the built-in MediaRecorder since opus-media-recorder supports more MIME types. Opus-media-recorder uses WebAssembly compiled from popular libraries (e.g libopus, libogg, libwebm, and speexdsp) to ensure good performance and standards-compliance.
 
 ## Madiyar Mukushev
 
@@ -196,9 +203,7 @@ This week I was working on preparing the repo for CI&CD. In the previous weeks I
 
 ## Timur Demenov
 
-- Research Web Audio API
-- Investigated the compatibility of the application with mobile browser clients
-- Set up synchronous file transfer from frontend to backend
+During the development process, I noticed some discrepancies on different platforms and corrected these shortcomings. Apple is a crucial company for the multi-device world, owning iOS, iPadOS, macOS, and Safari. While Apple has never used the term PWA in public, they've been supporting the technologies to make a PWA installable and offline-capable since 2018 on Safari for iPhones and iPads. However, Apple's implementation of the PWA specs misses many features when compared to other browsers, in particular when compared to browsers powered by the Chromium engine. In the middle, we also have Firefox and its Gecko engine with implementations including more PWA specs on Android, and fewer installation capabilities on desktop. Limitations include the lack of push notifications, integration APIs and installation promotion techniques that help users know they can install the current website to get an app experience. In addition, there are several bugs with implemented features.
 
 ## Madiyar Mukushev
 
@@ -244,7 +249,7 @@ It was decided to use Node.js as the language for streaming speech recognition. 
 
 ## Timur Demenov
 
-This week I added some new features to our project. An authorization page was created, a couple of add-ons to optimize the project, and several new auxiliary libraries were installed. I also discussed the main points of our application with the designer, exchanged tips and came to a common decision.
+This week I created an authorization page that works based on Firebase from Google. Firebase Authentication provides backend services, easy-to-use SDKs, and ready-made UI libraries to authenticate users to your app. It supports authentication using passwords, phone numbers, popular federated identity providers like Google, Facebook and Twitter, and more. To sign a user into your app, you first get authentication credentials from the user. These credentials can be the user's email address and password. Then, you pass these credentials to the Firebase Authentication SDK. Firebase backend services will then verify those credentials and return a response to the client. After a successful sign in, you can access the user's basic profile information, and you can control the user's access to data stored in other Firebase products. Also I added libraries to facilitate interface development and discussed the main points of our application with the designer, exchanged tips and came to a common decision.
 
 # Week 8
 
@@ -254,7 +259,8 @@ Due to some reasons, our deployed services go to sleep to save our dynos (specif
 
 ## Timur Demenov
 
-This week I added more basic display components. Then I connected firebase to our project and through it added authorization through a phone number with the ability to verify the code that is sent to the phone number. Further, it is also planned to add new components and work on the main page.
+I laid out the basic components for a minimal interface display using a Material UI. Material UI is a comprehensive library of components that features our implementation of Google's Material Design system. MUI Base is our library of "unstyled" components and low-level hooks. With Base, we gain complete control over your app's CSS and accessibility features.
+We can use Firebase Authentication to sign in a user by sending an SMS message to the user's phone. The user signs in using a one-time code contained in the SMS message. Authentication using only a phone number, while convenient, is less secure than the other available methods, because possession of a phone number can be easily transferred between users. Also, on devices with multiple user profiles, any user that can receive SMS messages can sign in to an account using the device's phone number. Firebase's phone number sign-in request quota is high enough that most apps won't be affected.
 
 ## Aruzhan Makhmutova
 
@@ -276,7 +282,7 @@ We have made a decision to change our architecture which I will describe more in
 
 ## Timur Demenov
 
-This week I've been investigating how streaming works, reviewing the list of libraries, and fixing compatibility issues with the safari browser. I also added authorization through social networks and created components for the audio recording page
+For the streaming I used the MediaRecorder method start(), which is part of the MediaStream Recording API, begins recording media into one or more Blob objects. We can record the entire duration of the media into a single Blob, or we can specify the number of milliseconds to record at a time. Then, each time that amount of media has been recorded, an event will be delivered to let you act upon the recorded media, while a new Blob is created to record the next slice of the media. There were also problems with the blob in the safari browser and a conversion was needed on the backend side to correct the audio format. Additionally, authorization via social networks was added and additional components for the recording page were created.
 
 ## Madiyar Mukushev
 
@@ -311,7 +317,7 @@ This week I made a service that converts audio from ogg to wav. Safari doesn't n
 
 ## Timur Demenov
 
-This week I created components for the main page, and also connected the service to the database, which allows you to read, delete and edit content. It was possible to set up a connection using sockets for streaming voice recognition and test it on devices
+To store data, we needed a database and the choice again settled on a solution from Firebase. Cloud Firestore is a flexible, scalable database for mobile, web, and server development from Firebase and Google Cloud. Like Firebase Realtime Database, it keeps our data in sync across client apps through realtime listeners and offers offline support for mobile and web so you can build responsive apps that work regardless of network latency or Internet connectivity. Cloud Firestore also offers seamless integration with other Firebase and Google Cloud products, including Cloud Functions. Cloud Firestore is a cloud-hosted, NoSQL database that our web app can access directly via native SDKs. Also we used Cloud Storage. Cloud Storage for Firebase is built for app developers who need to store and serve user-generated content, such as photos or videos. Cloud Storage for Firebase is a powerful, simple, and cost-effective object storage service built for Google scale. The Firebase SDKs for Cloud Storage add Google security to file uploads and downloads for Firebase apps, regardless of network quality. A streaming voice recording has also been added, which is in the test
 
 # Week 11
 
@@ -329,7 +335,7 @@ This week I researched sentimental analysis algorithms for the mood tracker. I h
 
 ## Timur Demenov
 
-This week I fixed bugs and adapted the design for our service. I laid out the main page, authorization and a page with a voice recording in several stages, and the page itself, where all the recordings are stored. Also added the ability to filter records and made minor performance improvements
+This week I made an adaptation to the figma design. The authorization page, the main page were improved with the addition of new cards, icons, a navigation bar and other visual things. The page with the voice recording and the page where all the recordings are stored have also been redesigned. All this has been tested on different browsers. Filter and sort options have been added to the page with all entries
 
 ## Aruzhan Makhmutova
 
@@ -355,7 +361,7 @@ This week I collected data and trained a baseline sentimental analysis model. I 
 
 ## Timur Demenov
 
-This week I did some code refactoring, stylistic changes and added new components and pages according to the design. The main page was changed and work was done on the authorization page. Auxiliary libraries for styling the project have also been added.
+This week I did some code refactoring, stylistic changes and added new components and pages according to the design. The main page was changed and work was done on the authorization page. A card with random quotes was added to the main page. To connect, an endpoint from the backend was used, which pulls up random quotes. Also on the main page is a list of recent entries for convenience and two cards: gratitude and free writing. Inside each of them is described what they do.
 
 # Week 13
 
