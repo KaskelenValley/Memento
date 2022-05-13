@@ -102,11 +102,8 @@ Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
 
 ## Aruzhan Makhmutova
 
-- Provided design research
-- Updated user personas and user stories
-- Updated sitemaps and wireframes
-
-Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
+Conducted qualitative research which helps to understand subjective experiences, beliefs and concepts. Gain in-depth knowledge about a specific context and generate new ideas. For a deep understanding of the target audience I created User Persons which helps to understand the expectations and problems of the target users to develop a product that will meet their needs and will be successful.
+Also used the User Story method to outline ideas and requirements that express what users need. Helping to identify the steps in the project path by quickly capturing the 'who', 'what' and 'why' of the product requirements.
 
 # Week 4
 
@@ -148,9 +145,7 @@ Chosen methodology: Scrum 10 weeks = 10 sprints = 5 MVPs
 
 ## Aruzhan Makhmutova
 
-- Conducted research on possible audio journaling apps' design
-- Created the conception about logo of the app
-- Conducted research on possible design tools
+Conducted a Competitor Analysis to better understand the competitive landscape. Identify actionable ideas in product strategy and come up with new ideas on how to optimize your app and make users happy. Created a logo concept that will appeal to our target audience, inspire trust and become an association of the app. Based on the app logo concept, I created a brand book for our app with colors, fonts and styles. Conducted research on various criteria for possible design tools
 
 # Week 5
 
@@ -187,12 +182,8 @@ This week I have found three respondents for customer development interviews in 
 
 ## Aruzhan Makhmutova
 
-- Gathered a mudboard and references for the design of the app
-- Created a brand book for our app, with colors, fonts and style
-- Made a jtbd / userstory for the app design
-- Studied competitor designs of similar apps
-- Createed medium fidelity prototype (wireframes)
-- Made a product logo
+I put together a mood board where I experimented with different design styles. and shared the desired aesthetic with the team to stay on the same page and not waste a lot of time and effort on a bad decision.
+I was looking for references that inspired and helped me find direction with new and unique creative ideas. Learning basic patterns and applying them to my current designs. I made a JTBD to identify what work is trying to be done on a particular page, and make it seamless for it. Also with detailed User flows make you think about how the user will navigate through your application to reach their goal, to design screens in a productive way.
 
 # Week 6
 
@@ -211,11 +202,7 @@ The SpeechKit API doesn't take all audio formats as input. It supports OggOpus (
 
 ## Aruzhan Makhmutova
 
-- Develop an application prototype using data from custdev
-- created the ux part of the design
-- implemented the logo on the pages
-- approved the ux part of our app
-- corrected some bugs in the prototype
+Based on the earlier user flow and using the data from custdev provided to me by the project manager, I created low-fi wireframes. Which are useful in the early stages of product development because they focus on pure functionality rather than aesthetics. They are executed in a monochrome palette, deliberately omitting details such as colors, fonts, logos and precise dimensions. To show what elements will eventually appear on the page. This is how I worked on the ux part of our design, putting the logo on the pages. Also on a call with the team we considered the ux part of the design and found places that can be improved or done differently. After that I corrected some bugs in the wireframes and approved the design
 
 ## Balzhan Jumabekova
 
@@ -235,8 +222,7 @@ This week I started researching Yandex Speechkit v3 since we decided to use Node
 
 ## Aruzhan Makhmutova
 
-This week, I conducted a competitive analysis of the app based on user experience and functionality. Developed detailed mobile app wireframes for the Splash screen, OnBoarding, and Registration sections.
-Also, after discussing with the team the possible options of colors, mudboard, references, and deciding on the design based on this, I created several options for the design of the home page
+This week I conducted additional competitive analysis based on user experience and functionality on upcoming work in the sections in the design. Based on low-fi wireframes I worked on Microinteractions to improve the user experience, providing reinforcement and feedback for the Splash screen, OnBoarding and Registration sections. I also drew mock-ups of several different homepage design styles. Based on the previously designed and assembled Moodboard and references. Then we organized an online meeting with the team to approve the design of the homepage and decide on the design to subsequently run all the pages in the chosen style.
 
 ## Balzhan Jumabekova
 
@@ -263,7 +249,7 @@ We can use Firebase Authentication to sign in a user by sending an SMS message t
 
 ## Aruzhan Makhmutova
 
-This week I worked on additional screens, such as error screens, new action screens and their different states, etc. We also decided on the visual part of the mobile app design from all the options presented. I collected references for further design of the "sound recording" pages.
+This week I started working on the design style chosen by the whole team. I also drew additional screens with different parts of the interface that we need to perform certain actions or move around the application. I worked on different states of the screens in the new layouts. One of the elements is the calendar, which is located on the main screen and matches the goals and design of the application screen. Created screens with feedback like if the user lost internet connection or some error occurred while using the interface.
 
 ## Madiyar Mukushev
 
@@ -290,7 +276,7 @@ This week I was developing a microservice for streaming speech recognition. As a
 
 ## Aruzhan Makhmutova
 
-This week I changed the visual elements in the design on the home page. I made revisions to the registration section at the developer's request. I drew a quote page and a menu page for adding voice recordings and mood tracking. Also in development are the main record-keeping pages
+This week I changed the visual elements in the home page design. For example, I worked on a visual hierarchy that directs the eye to the page so that the user pays attention to the different design elements in order of importance through variations in scale, size, color, spacing, placement, and a variety of other cues. In the same way, the Use contrast principle gives the eye a noticeable difference (in size or color, for example) between two objects (or between two sets of objects) to emphasize that they are different from each other. We are constantly working with the programmer during the development process to assess technical feasibility, timing, and capabilities. So we identified a few things to change and later I made changes to the registration section at the request of the developer. 
 
 ## Balzhan Jumabekova
 
@@ -304,8 +290,7 @@ This week I did solve some problems with Heroku dynos sleepings. Our services we
 
 ## Aruzhan Makhmutova
 
-This week I did some research from the user experience point of view, in different mobile apps, which have a similar structure with record-keeping.
-As a result of the analysis, I made a low-fidelity prototype, the frameworks of the pages. I drew a design where a user records audio, pages where recordings are stored and additional pages apart from the main ones, such as delete a record, edit a record and so on. Also, there were adjustments to the ui part, changed fonts and colors of the existing design.
+This week I did some research in terms of user experience on various mobile apps that have a similar structure to taking notes in the form of an audio diary. It's a convenient way to capture and articulate your thoughts. These days. Where you can easily tap the record button on your mobile device to start keeping an audio diary. As a result of the analysis, I gathered all the necessary thoughts about the functional part and made a prototype with low-precision, page frameworks. I drew a design where the user records audio by performing a targeted action , pages where the recordings are stored, and additional pages beyond the main pages. Such as delete records, edit records and so on. Adjustments were also made to the ui part.
 
 ## Balzhan Jumabekova
 
@@ -344,7 +329,7 @@ This week I made an adaptation to the figma design. The authorization page, the 
 
 ## Aruzhan Makhmutova
 
-This week I've been making changes to the functional part of the design. In the section recording audio and text notes. Also discussed the functionality and feasibility with the project manager and the developer. As a result, I made changes and changed the design
+This week I've been making design changes, mostly in functionality. I worked on the user interaction part, focusing on the moment when the user interacts with the product, and improving the interactive experience by considering all aspects of the product or system addressed to the user. The main work was in the audio notes and text notes section. I also discussed functionality and design feasibility with the project manager and developer in a meeting with the team. As a result, I made minor design changes that are responsible for feedback to users on the type of pop pages with warnings or error notifications, etc.
 
 # Week 12
 
@@ -354,7 +339,7 @@ This week I helped my frontend developer with the new design on record page. Als
 
 ## Aruzhan Makhmutova
 
-This week I approved the visual design of the new sections. Developed the design for the record review, search results, and filter by day pages. Created the functionality for the "tracker and mood analysis" section
+This week I approved with the team the visual and functional design in the new sections. Next I designed the layouts in the records review section, the search screen page drew a detailed search or with the ability to filter on a separate screen. To help those users who know what they are looking for. Search results and filter by day. Created a functional part in the "tracker and mood analysis" section.
 
 ## Balzhan Jumabekova
 
