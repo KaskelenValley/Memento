@@ -94,11 +94,11 @@ This week I configured the mirror repo with a help of Github Actions. For this I
 
 ## Balzhan Jumabekova
 
-- Created user personas
-- Provided market research
-- Provided competitor analysis
-- Created low fidelity prototypes
-- Updated Future iterations
+This week I have created user personas for our project. The target audience of our application covers people of different ages and genders, prone to mental illness and memory problems. In addition to this, I conducted a market analysis to identify our competitors, peers, market size, and scope. In the future, this will allow us to highlight our unique selling proposition, find our niche, and also find out the strengths and weaknesses of similar existing applications. Furthermore, I conducted a competitor analysis, namely, I analyzed Journify applications and applications with a voice recorder. This gave insight into what these products lack, and what we should rely on in the future when developing our own. In order to make our development team’s work much easier, I have created low-fidelity prototypes likewise. They represent the Memento’s future interface and features. 
+
+Market research, analysis, and so on: https://github.com/KaskelenValley/Memento#team-members
+
+Meeting recording: https://www.youtube.com/watch?v=ffjNIcaJ5d4
 
 ## Aruzhan Makhmutova
 
@@ -133,9 +133,18 @@ The easiest way to test speechkit is to record a speech in advance, then use the
 
 ## Balzhan Jumabekova
 
-- Conducted research on possible agile methodologies
-- Composed questions for customer development
-- Conducted a stand-up on the final revisions of the project idea and planned the following tasks for the team
+I set aside this week to choose a methodology for our project. That is why I have conducted research on possible agile methodologies. As a result, I have chosen the Scrum methodology with elements of Kanban (board). In order to identify the pains and needs of our target audience, I have compiled questions for the customer development interview. In the future, it will also help improve the functionality of the application and make changes to the interface. At the end of the week, I conducted a stand-up on the final revisions of the project idea and planned the following tasks for the team using the “MoSCoW” prioritization method.
+
+Chosen methodology: Scrum 10 weeks = 10 sprints = 5 MVPs  
+1-2 weeks: to create 1st MVP - PWA application  
+3-4 weeks: to create 2nd MVP - Connect PWA to SRS  
+5-10 weeks: to create 3,4,5th MVPs - Features from Future Iterations and Bug Fixing  
+
+3 MVP - 5 + 6 sprint - 9 + 10 weeks ==> async SRS  
+4 MVP - 7 + 8 sprint - 11 + 12 weeks ==> mood manager and analyzer  
+5 MVP - 9 + 10 sprint - 13 + 14 weeks ==> translator  
+
+*Stand-up recording*: https://youtu.be/CSRB9j0ARyc
 
 ## Aruzhan Makhmutova
 
@@ -168,19 +177,13 @@ Of the programming language, my choice is Python. Since we're originally plannin
 
 ## Balzhan Jumabekova
 
+This week I have found three respondents for customer development interviews in order to search for some insights and new ideas. That is why I have created a list of questions for the interviews beforehand. These questions are based on tips from “The mom test” book. (https://docs.google.com/document/d/1bxbYIeCK_IvK0GwQUItFhtnjSoPjDfD778IW66IQGBQ/edit?usp=sharing). Then I conducted cust dev and recorded it (https://youtu.be/uLe94i1Rhmo). For the interview, I chose three students. One of them you can see from the video. In addition, I held stand-ups and a sprint review. Since I previously chose Scrum as our methodology, I divided our project into several sprints and ran them in Jira.
+
+
 ![image](https://user-images.githubusercontent.com/48881444/156602551-d25dab62-b807-4535-a1a8-10fdc87190b7.png)
 
-- Found 2 respondents for customer development in order to search for some insights and new ideas
-
-- Created a list of qustions for interview based on tips from "The mom test" book (https://docs.google.com/document/d/1bxbYIeCK_IvK0GwQUItFhtnjSoPjDfD778IW66IQGBQ/edit?usp=sharing)
-
-- Conducted customer development and recorded it
-
-- Held stand-ups (https://youtu.be/dha8m2Irlow)
-
-- Set up jira for sprints
-
-The rest tasks from my plan will be completed on Friday and weekends.
+*Cust Dev*: https://youtu.be/uLe94i1Rhmo  
+*Stand-up recording*: https://youtu.be/dha8m2Irlow
 
 ## Aruzhan Makhmutova
 
@@ -216,12 +219,13 @@ The SpeechKit API doesn't take all audio formats as input. It supports OggOpus (
 
 ## Balzhan Jumabekova
 
-- Analysed the information received from the customer development (https://miro.com/app/board/uXjVOHuA2Gs=/?invite_link_id=19419686422)
-- Created lean canvas of Journify app (competitor analysis)
-- Highlighted their unique selling proposition
-- Identified key metrics for similar applications (NPS, DAU, MAU, WAU)
-- Highlighted the hidden advantages of competitive applications
-- Held sprint review and retrospective (https://youtu.be/aGAU258eFNI)
+This week I have analyzed the data and information received from the cust dev interview. In order to identify essential data, I have created a special Miro canvas with several parts. These parts include a research plan, purpose of the study, respondents' portraits, research hypotheses, questions to confirm/refuse hypotheses, confirmation by respondents, and research findings and insights. In addition, I have created a lean canvas of our potential competitor - the Journify app. Then I highlighted its unique selling proposition, identified key metrics for similar applications (NPS, DAU, MAU, WAU), and highlighted the hidden advantages of competitive applications. At the end of the week, I held a sprint review and retrospective. 
+
+Cust Dev results: https://miro.com/app/board/uXjVOHuA2Gs=/?invite_link_id=19419686422
+
+Lean Canvas: https://docs.google.com/presentation/d/1Gyhk78RX8n16XHadlAt6ffp6hPp8UnBz5U_tnMMqyVE/edit?usp=sharing
+
+Sprint review: https://youtu.be/aGAU258eFNI
 
 # Week 7
 
@@ -236,7 +240,7 @@ Also, after discussing with the team the possible options of colors, mudboard, r
 
 ## Balzhan Jumabekova
 
-This week I added new features to the backlog, but since we are building the wireframe, the features from the custdev are at the bottom in order of priority. We also discussed with the designer possible color options for the future application. Together with the team leader, we discussed the reasons for a slight stagnation, and also changed the product development strategy, revising the goals. I also started researching the material regarding the thesis.
+This week I have added new features to the backlog, but since we are building the MVP, the features from the cust dev are at the bottom in order of priority. We also discussed with the designer possible color options for our future application. Together with the team leader, we discussed the reasons for a slight stagnation, and also changed the product development strategy, revising the goals by SMART technique. I also started researching the material regarding the thesis. That is why, I found several reliable government websites with official statistics and data about mental diseases, especially dementia and Alzheimer’s disease. In addition, I started searching for suitable testees for usability testing. At the end of the week, I held meetings with the team in order to introduce some project and goals changes.
 
 ## Madiyar Mukushev
 
@@ -268,7 +272,7 @@ I also switched from IAM token to API key, since IAM token was temporary and I h
 
 ## Balzhan Jumabekova
 
-This week I have checked our MVP and conducted ux-test in order to identify bugs during onboarding. Also I have set deadlines for mvps and started research on overleaf tool. Recently I have held meeting with the team to detect problems during their work and solve them in a proper way.
+This week I have checked our MVP and conducted a usability test in order to identify bugs during onboarding. I decided to only do usability testing within our team to prevent possible bugs in advance and not waste time on them in subsequent tests with other respondents. In addition, we found some useful insights that can be implemented as new features in further iterations. Also, I have set deadlines for MVPs and started research on the overleaf tool. Furthermore, I have prioritized some tasks on the Kanban board and added several user stories from the customer development interview’s insights. At the end of the week, I held a meeting with the team to detect problems during their work and solve them in a proper way.
 
 # Week 9
 
@@ -290,7 +294,7 @@ This week I changed the visual elements in the design on the home page. I made r
 
 ## Balzhan Jumabekova
 
-This week I have held a meeting with my team for setting goals of our third MVP. Also I have set up KPIs and deadlines for the team, started the research on the diploma document and checked up on our team members' reports in order to start writing a research paper.
+At the beginning of this week, I held a meeting with the team for setting goals for our third MVP - async SRS. Also, I have set up KPIs and deadlines for each team member. In addition, I started the research on the diploma document and checked up on our team members' reports in order to start writing a research paper. I wrote two parts of the introduction which include the state of the problem, research objectives and aims, and the research question. In order to write them in a proper way I found and read several appropriate articles regarding diploma dissertations. At the end of the week, I held stand-ups, planned further meetings and reviews, and read some articles and books about how to provide SUS (System Usability Scale) tests.
 
 # Week 10
 
@@ -305,7 +309,11 @@ As a result of the analysis, I made a low-fidelity prototype, the frameworks of 
 
 ## Balzhan Jumabekova
 
-This week I have held a meeting for the 6th sprint and set new deadlines due to new bugs and issues in the app. Then I have made a research among similar applications and highlighted their features in order to provide SUS-test next week. Also I have prepared necessary materials for customer journey map that will help us navigate further. In the middle of the week I have checked the state of our MVP and discussed current bugs and errors with frontend developer and designer.
+This week I have held a meeting for the 6th sprint and set new deadlines due to new bugs and issues in the app. Then I have made a research among similar applications and highlighted their features in order to provide the SUS test next week. As competitors, I chose Journify (due to its interface) and VONO (due to its functions).  Also, I have prepared the necessary materials for the customer journey map that will help us navigate further. In the middle of the week, I checked the state of our third MVP and discussed current bugs and errors with the frontend developer and designer. In addition, I added a thesis outline and motivation paragraphs to the dissertation’s introduction.
+
+Journify app: https://apps.apple.com/kz/app/journify-audio-journal/id1516465094
+
+VONO app: https://apps.apple.com/kz/app/vono-for-lecture-recording-and-lecture-notes/id1112942441
 
 ## Madiyar Mukushev
 
@@ -324,7 +332,7 @@ Since we are going to have a service which will identify the mood of the text I 
 
 ## Balzhan Jumabekova
 
-This week I have added new changes in our backlog based on SUS results. Also I have held a meeting with the team leader in order to discuss our plan. Then checked up our finished user stories using acceptance criteria and definition of done. At the end of the week I have planned the next sprint and conducted sprint review.
+This week I have added new changes to our backlog based on System Usability Scale. At the beginning of the week, I agreed with three respondents to conduct usability testing using SUS. Also, I have held a meeting with the team leader in order to discuss our plan. Then checked up our finished user stories using acceptance criteria and the definition of done. At the end of the week, I planned the next sprint and conducted a sprint review. I likewise prepared a list of tasks for each respondent and a table in which I will enter the test results. The essence of the tasks is that the test-taker can make a recording of his voice, read the recording, edit it, send it to someone and delete it. For all three test subjects and for all three applications, I will use the same conditions to correctly evaluate the results.
 
 ## Madiyar Mukushev
 
@@ -350,7 +358,9 @@ This week I approved the visual design of the new sections. Developed the design
 
 ## Balzhan Jumabekova
 
-This week I have used System Usability Scale and provided UX-testing of our app in order to detect possible errors and bugs. I found some students to test three apps such as Vono, Journify and Memento. Also I have started writing an introduction to the document including some research about cognitive diseases.
+This week I have used System Usability Scale and provided UX-testing of our app in order to detect possible errors and bugs. Testing showed that the NPS metric of the VONO app was greater than that of the Journify app. Although the interface of the second application was more user-friendly, the first application met all the minimum requirements of the task. According to independent ratings of respondents, the Memento app scored the highest NPS. I have recorded one of the examples of these tests. I found some students to test three apps such as Vono, Journify, and Memento. In addition, I have continued writing an introduction to the document including some research about cognitive diseases. 
+
+Usability testing: https://youtu.be/KaOHNrzbqm4
 
 ## Madiyar Mukushev
 
