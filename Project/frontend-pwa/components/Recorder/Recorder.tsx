@@ -36,7 +36,7 @@ const App: React.FC<Props> = () => {
   const type = query.type || "default";
 
   useEffect(() => {
-    fetch("https://memento-srs-node-dev.herokuapp.com/healthcheck")
+    fetch(`${process.env.NEXT_PUBLIC_MEMENTO_SRS}/healthcheck`)
       .then((res) => res.json())
       .then((res) => {
         recorder.current = new Recorder();

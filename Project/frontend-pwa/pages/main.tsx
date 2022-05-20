@@ -78,12 +78,12 @@ const Main = () => {
 
       const fetchQuote = async () => {
         const res = await fetch(
-          "https://memento-quote-generator-dev.herokuapp.com/random_quote"
+          `${process.env.NEXT_PUBLIC_MEMENTO_QUOTE}/random_quote`
         );
         const quote = await res.json();
 
         const response = await fetch(
-          "https://memento-quote-generator-dev.herokuapp.com/random_image/353/150"
+          `${process.env.NEXT_PUBLIC_MEMENTO_QUOTE}/random_image/353/150`
         );
         const quotePic = await response.blob();
         setQuote({ ...quote, blob: URL.createObjectURL(quotePic) });

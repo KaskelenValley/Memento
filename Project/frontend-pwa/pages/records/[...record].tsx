@@ -14,7 +14,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import toast from "react-hot-toast";
 
-import CloseButton from "../../components/Button/CloseButton";
+import CloseButton from "../../components/Buttons/CloseButton";
 import { DoneIcon, EditRecordIcon, TranslateIcon } from "../../icons";
 import { auth, db, storage } from "../../utils/firebase";
 
@@ -151,7 +151,7 @@ const Record: React.FC = () => {
               <StyledIcon
                 onClick={() => {
                   fetch(
-                    "https://memento-translator-dev.herokuapp.com/translate",
+                    `${process.env.NEXT_PUBLIC_MEMENTO_TRANSLATOR}/translate`,
                     {
                       method: "POST",
                       body: JSON.stringify({
