@@ -16,7 +16,7 @@ import Slider from "react-slick";
 
 import { auth, db, storage } from "../../utils/firebase";
 import { RecordWaveIcon } from "../../icons";
-import CloseButton from "../../components/Button/CloseButton";
+import CloseButton from "../../components/Buttons/CloseButton";
 import { RecordCard } from "../../components/RecordCard";
 import { groupByDate } from "../../utils";
 

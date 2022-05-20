@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Slider from "react-slick";
 
-import CloseButton from "../components/Button/CloseButton";
+import CloseButton from "../components/Buttons/CloseButton";
 import { auth, db } from "../utils/firebase";
 
 enum Mood {

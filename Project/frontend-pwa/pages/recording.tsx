@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import { useRouter } from "next/router";
 import { FC } from "react";
 
-import CloseButton from "../components/Button/CloseButton";
+import CloseButton from "../components/Buttons/CloseButton";
 import Recorder from "../components/Recorder/Recorder";
 
 export const StyledContainer = styled(Container)`
