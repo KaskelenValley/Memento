@@ -93,7 +93,6 @@ const Main = () => {
       fetchQuote();
     }
   }, [loading, user]);
-  console.log(currentMood);
 
   return (
     <>

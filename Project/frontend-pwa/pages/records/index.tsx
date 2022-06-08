@@ -104,8 +104,14 @@ const Records = (props) => {
       navigator
         .share({
           title: record.title,
-          text: record.result,
-          // url: window.location.href,
+          text: `${record.title}\n\n${record.result}\n\n${record.date
+            .toDate()
+            .toLocaleString("en-US", {
+              weekday: "long",
+            })}/${record.date.toDate().toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+          })}`,
         })
         .then(() => console.log("Successful share"))
         .catch((error) => console.log("Error sharing", error));
