@@ -16,11 +16,11 @@ import {
   createUserWithEmailAndPassword,
   setPersistence,
 } from "firebase/auth";
+import toast from "react-hot-toast";
 
 import { ArrowIcon } from "../../icons";
 import passwordIcon from "../../public/icons/password.svg";
 import { auth, db } from "../../utils/firebase";
-import toast from "react-hot-toast";
 
 export const FormPassword = ({ nextStep, prevStep, state }) => {
   const {
@@ -74,7 +74,7 @@ export const FormPassword = ({ nextStep, prevStep, state }) => {
           }}
         >
           To keep your data safe, come up with a strong password. The password
-          must be at least 8 characters long
+          must be at least 6 characters long
         </Typography>
         <StyledInput
           {...register("password", {
@@ -123,7 +123,7 @@ export const FormPassword = ({ nextStep, prevStep, state }) => {
           setPersistence(auth, browserLocalPersistence).then(() =>
             createUserWithEmailAndPassword(
               auth,
-              `${user.phoneNumber.split(" ").join("")}@gmail.com`,
+              state.email,
               getValues("password")
             )
               .then((userCredential) => {
@@ -135,19 +135,16 @@ export const FormPassword = ({ nextStep, prevStep, state }) => {
                   verified: user.emailVerified,
                   emailAddress: state.email,
                   name: state.name,
+                  mood: [],
                 });
-                console.log(user);
 
-                toast.success("Account created! Please sign in");
+                nextStep();
               })
               .catch((error) => {
-                const errorCode = error.code;
                 const errorMessage = error.message;
                 toast.error(errorMessage);
               })
           );
-
-          nextStep();
         }}
       >
         Continue
@@ -156,7 +153,7 @@ export const FormPassword = ({ nextStep, prevStep, state }) => {
   );
 };
 
-const StyledBox = styled("div")`
+const StyledBox = styled("form")`
   display: flex !important;
   flex-direction: column;
   justify-content: center;

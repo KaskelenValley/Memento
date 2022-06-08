@@ -145,7 +145,7 @@ export class Recorder {
     );
     const moodRes = await response.json();
 
-    fetch(`${process.env.NEXT_PUBLIC_MEMENTO_SPEECH}/ogg_to_wav/`, {
+    return fetch(`${process.env.NEXT_PUBLIC_MEMENTO_SPEECH}/ogg_to_wav/`, {
       method: "POST",
       body: formData,
     }).then((response) =>

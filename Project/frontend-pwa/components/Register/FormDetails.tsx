@@ -3,19 +3,22 @@ import { styled } from "@mui/material/styles";
 import { Typography, Button, OutlinedInput } from "@mui/material";
 
 import { ArrowIcon } from "../../icons";
+import { useRouter } from "next/router";
 
-export const FormDetails = ({ nextStep, prevStep, setState }) => {
+export const FormDetails = ({ nextStep, setState }) => {
   const {
     register,
-    handleSubmit,
     getValues,
     formState: { errors, isValid, isDirty },
   } = useForm({ mode: "onChange" });
-  console.log(errors);
+  const { push } = useRouter();
+
+  const re = /\S+@\S+\.\S+/;
+
   return (
     <>
       <StyledBox>
-        <ArrowContainer onClick={() => prevStep()}>
+        <ArrowContainer onClick={() => push("/")}>
           <ArrowIcon />
         </ArrowContainer>
         <Typography
@@ -27,7 +30,7 @@ export const FormDetails = ({ nextStep, prevStep, setState }) => {
             mb: 1.5,
           }}
         >
-          Fill in the information
+          Registration
         </Typography>
         <Typography
           sx={{
@@ -36,12 +39,13 @@ export const FormDetails = ({ nextStep, prevStep, setState }) => {
             mb: 3.5,
           }}
         >
-          Enter your information to
-          <br />
-          To sign up for the app
+          Enter your information to sign up for the app
         </Typography>
         <StyledInput
-          {...register("email", { required: true })}
+          {...register("email", {
+            required: true,
+            validate: (val) => re.test(val),
+          })}
           type="mail"
           error={!!errors.email}
           placeholder="Email"
