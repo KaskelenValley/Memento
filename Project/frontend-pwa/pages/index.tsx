@@ -31,7 +31,6 @@ import Link from "next/link";
 
 import mementoIcon from "../public/memento.svg";
 import passwordIcon from "../public/icons/password.svg";
-import { countries } from "../utils/countries";
 import { auth, db } from "../utils/firebase";
 import { FacebookIcon, GoogleIcon } from "../icons";
 import { CustomErrorToast, Toaster } from "../components/Toaster";
@@ -70,7 +69,7 @@ const Index: FC = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && router.pathname !== "register") {
         router.push("main");
       }
       setOpenBackdrop(false);
@@ -97,6 +96,7 @@ const Index: FC = () => {
               id: user.uid,
               emailAddress: user.email,
               verified: user.emailVerified,
+              mood: [],
             });
           }
 

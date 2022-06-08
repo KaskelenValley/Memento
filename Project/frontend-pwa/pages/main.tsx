@@ -4,6 +4,7 @@ import {
   Container,
   css,
   Grid,
+  Skeleton,
   styled,
   Typography,
 } from "@mui/material";
@@ -29,7 +30,8 @@ import { RecordCard } from "../components/RecordCard";
 const Main = () => {
   const [user, loading] = useAuthState(auth);
   const [records, setRecords] = useState([]);
-  const [spinner, setSpinner] = useState(false);
+  const [isRecordsLoading, setIsRecordsLoading] = useState(true);
+  const [isQuoteLoading, setIsQuoteLoading] = useState(true);
   const [latestDate, setLatestDate] = useState("");
   const [quote, setQuote] = useState<any>({});
   const [currentMood, setCurrentMood] = useState();
@@ -42,13 +44,17 @@ const Main = () => {
 
     if (!loading) {
       const fetchRecords = async () => {
-        setSpinner(true);
         const arr = [];
         const q = query(collection(db, "users"), where("id", "==", user.uid));
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach(async (doc) => {
-          if (!doc.data().records) return;
+          if (!doc.data().records) {
+            setIsRecordsLoading(false);
+            return;
+          }
+
+          console.log(doc.data());
 
           for (const d of doc.data().records) {
             const date = d.date.toDate();
@@ -72,7 +78,7 @@ const Main = () => {
           }
 
           setRecords(arr);
-          setSpinner(false);
+          setIsRecordsLoading(false);
         });
       };
 
@@ -87,6 +93,7 @@ const Main = () => {
         );
         const quotePic = await response.blob();
         setQuote({ ...quote, blob: URL.createObjectURL(quotePic) });
+        setIsQuoteLoading(false);
       };
 
       fetchRecords();
@@ -308,7 +315,7 @@ const Main = () => {
             </StyledCard>
           </Link>
         </CardContainer>
-        {records.length !== 0 && !spinner && (
+        {records.length !== 0 && !isRecordsLoading && (
           <>
             <Typography
               sx={{ fontFamily: "Georgia", fontSize: 20, fontWeight: 700 }}
@@ -322,17 +329,31 @@ const Main = () => {
           </>
         )}
         <EntriesContainer>
-          {!spinner ? (
+          {!isRecordsLoading ? (
             records.reverse().map((rec, i) => (
               <CardWrapper key={i}>
                 <RecordCard record={rec} />
               </CardWrapper>
             ))
           ) : (
-            <StyledCircularProgress />
+            <StyledSkeleton variant="rectangular" height={150} />
+          )}
+          {!isRecordsLoading && !records.length && (
+            <PlaceholderCard className="placeholder-card">
+              <Typography
+                sx={{
+                  fontFamily: "Georgia",
+                  fontSize: 20,
+                  fontWeight: 700,
+                }}
+                gutterBottom
+              >
+                No new records
+              </Typography>
+            </PlaceholderCard>
           )}
         </EntriesContainer>
-        {quote && (
+        {!isQuoteLoading ? (
           <QuoteBlock src={quote?.blob}>
             <Typography
               sx={{
@@ -356,6 +377,8 @@ const Main = () => {
               {quote?.author}
             </Typography>
           </QuoteBlock>
+        ) : (
+          <StyledSkeleton variant="rectangular" height={150} />
         )}
       </StyledContainer>
       <Navbar />
@@ -372,7 +395,7 @@ export const getServerSideProps = async function ({ req, res }) {
 const StyledContainer = styled(Container)`
   ${({ theme }) => css`
     padding: 0 ${theme.spacing(2.5)};
-    height: 88vh;
+    height: 140vh;
     overflow: scroll;
 
     & .datepicker-strip {
@@ -460,6 +483,10 @@ const EntriesContainer = styled("div")`
 
     & > div {
       width: 290px !important;
+
+      &.placeholder-card {
+        width: 100% !important;
+      }
     }
 
     &::-webkit-scrollbar {
@@ -489,4 +516,18 @@ const QuoteBlock = styled("div")<{ src: string }>`
   padding: 20px 16px;
   margin-bottom: 30px;
   height: 150px;
+`;
+
+const StyledSkeleton = styled(Skeleton)`
+  border-radius: 20px;
+  width: 100%;
+`;
+
+const PlaceholderCard = styled("div")`
+  height: 150px;
+  border-radius: 20px;
+  border: 1px solid #ebebeb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
