@@ -131,7 +131,6 @@ export const FormPassword = ({ nextStep, prevStep, state }) => {
 
                 setDoc(doc(db, "users", user.uid), {
                   id: user.uid,
-                  phoneAddress: user.email,
                   verified: user.emailVerified,
                   emailAddress: state.email,
                   name: state.name,

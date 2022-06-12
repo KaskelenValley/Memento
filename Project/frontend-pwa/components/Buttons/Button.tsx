@@ -15,6 +15,10 @@ const StyledMuiButton = styled(MuiButton)`
   width: 100%;
   padding: 15px 0;
   text-transform: none;
+
+  &:hover {
+    background: #2c2c2c;
+  }
 `;
 
 const ButtonTypography = styled(Typography)`

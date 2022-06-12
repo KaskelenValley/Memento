@@ -1,5 +1,13 @@
-import { Button, styled, TextField, Typography } from "@mui/material";
+import {
+  Backdrop,
+  CircularProgress,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { Button } from "../Buttons/Button";
 
 import { StyledContainer } from "./Recorder.styles";
 
@@ -17,6 +25,7 @@ const RecordPreview: React.FC<Props> = ({
   save,
 }) => {
   const { push } = useRouter();
+  const [openBackdrop, setOpenBackdrop] = useState(false);
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -34,6 +43,12 @@ const RecordPreview: React.FC<Props> = ({
         justifyContent: "space-between",
       }}
     >
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+      >
+        <CircularProgress />
+      </Backdrop>
       <DateTypography>
         {new Date().toLocaleString("en-US", {
           weekday: "long",
@@ -51,28 +66,19 @@ const RecordPreview: React.FC<Props> = ({
           multiline
         />
       </TextFieldContainer>
-      <StyledButton onClick={() => save().then(() => push("/records"))}>
+      <Button
+        onClick={() => {
+          setOpenBackdrop(true);
+          save().then(() => push("/records"));
+        }}
+      >
         Save Note
-      </StyledButton>
+      </Button>
     </StyledContainer>
   );
 };
 
 export default RecordPreview;
-
-const StyledButton = styled(Button)`
-  background: #000000;
-  border-radius: 12px;
-  color: #fff;
-  width: 100%;
-  height: 49px;
-  text-transform: none;
-
-  :disabled {
-    background: #f3f3f3;
-    color: #8f8f8f;
-  }
-`;
 
 const DateTypography = styled(Typography)`
   font-weight: 500;

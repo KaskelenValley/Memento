@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { styled } from "@mui/material/styles";
-import { Typography, Button, OutlinedInput } from "@mui/material";
+import { Typography, OutlinedInput } from "@mui/material";
 
 import { ArrowIcon } from "../../icons";
 import { useRouter } from "next/router";
+import { Button } from "../Buttons/Button";
 
 export const FormDetails = ({ nextStep, setState }) => {
   const {
@@ -56,7 +57,7 @@ export const FormDetails = ({ nextStep, setState }) => {
           placeholder="Name"
         />
       </StyledBox>
-      <StyledButton
+      <Button
         id="btn"
         disabled={!isDirty || !isValid}
         variant="contained"
@@ -72,7 +73,7 @@ export const FormDetails = ({ nextStep, setState }) => {
         }}
       >
         Continue
-      </StyledButton>
+      </Button>
     </>
   );
 };
@@ -114,25 +115,6 @@ const ArrowContainer = styled("div")`
   width: fit-content;
   padding: 8px;
   display: flex;
-`;
-
-const StyledButton = styled(Button)`
-  text-transform: none;
-  background: #1d2022;
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: none;
-  padding: 16px;
-  margin: 16px 0 24px;
-  font-size: 16px;
-
-  &:disabled {
-    background: #e2e5e8;
-  }
-
-  &:hover {
-    background: #1d2022;
-  }
 `;
 
 const StyledInput = styled(OutlinedInput)`
