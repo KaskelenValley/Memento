@@ -109,7 +109,6 @@ const Main = () => {
             fontFamily: "Georgia",
             fontSize: 24,
             fontWeight: 700,
-            mt: 4.375,
             mb: 1,
           }}
         >
@@ -394,8 +393,7 @@ export const getServerSideProps = async function ({ req, res }) {
 
 const StyledContainer = styled(Container)`
   ${({ theme }) => css`
-    padding: 0 ${theme.spacing(2.5)};
-    height: 140vh;
+    padding: 35px ${theme.spacing(2.5)} 14vh;
     overflow: scroll;
 
     & .datepicker-strip {
@@ -495,10 +493,6 @@ const EntriesContainer = styled("div")`
   `}
 `;
 
-const StyledCircularProgress = styled(CircularProgress)`
-  margin: 0 auto;
-`;
-
 const CardWrapper = styled("div")`
   min-width: 290px;
   margin-right: 8px;
@@ -515,7 +509,6 @@ const QuoteBlock = styled("div")<{ src: string }>`
   border-radius: 20px;
   padding: 20px 16px;
   margin-bottom: 30px;
-  height: 150px;
 `;
 
 const StyledSkeleton = styled(Skeleton)`

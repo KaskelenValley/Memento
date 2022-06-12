@@ -4,6 +4,7 @@ import {
   CircularProgress,
   Container,
   css,
+  InputAdornment,
   styled,
   TextField,
   Typography,
@@ -15,7 +16,7 @@ import { useRouter } from "next/router";
 import Slider from "react-slick";
 
 import { auth, db, storage } from "../../utils/firebase";
-import { RecordWaveIcon } from "../../icons";
+import { RecordWaveIcon, SearchIcon } from "../../icons";
 import CloseButton from "../../components/Buttons/CloseButton";
 import { RecordCard } from "../../components/RecordCard";
 import { groupByDate } from "../../utils";
@@ -23,7 +24,6 @@ import { groupByDate } from "../../utils";
 const Records = (props) => {
   const [records, setRecords] = useState<any>();
   const [filtered, setFiltered] = useState<any>();
-  const [text, setText] = useState<any>([]);
 
   const [user, loading] = useAuthState(auth);
   const { push } = useRouter();
@@ -57,7 +57,6 @@ const Records = (props) => {
 
           setRecords(arr);
           setFiltered(groupByDate(arr));
-          setText(arr);
         }
       );
 
@@ -70,12 +69,6 @@ const Records = (props) => {
       (e.result + e.title).toLowerCase().includes(event.target.value)
     );
     setFiltered(groupByDate(filteredArr));
-  };
-
-  const handleChangeInput = (event: any, id: string) => {
-    const arr = text.filter((t) => t.id !== id);
-
-    setText([...arr, { id, result: event.target.value }]);
   };
 
   const deleteRecord = async (id) => {
@@ -128,82 +121,92 @@ const Records = (props) => {
           fontWeight: 500,
           fontSize: "54px",
           color: "rgba(44, 44, 44, 0.1)",
-          mt: 6,
+          mb: 4,
         }}
         align="center"
       >
         Your entries
       </Typography>
-      <TextField
+      <SearchTextField
         onChange={handleChange}
-        label="Search"
+        placeholder="Search"
         type="search"
-        variant="standard"
         sx={{ width: "100%" }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <RecordsContainer>
         {filtered && Object.keys(filtered).length === 0 && (
           <Typography>There is no records</Typography>
         )}
         {filtered ? (
-          Object.entries(filtered).map(([date, arr]) => (
-            <>
-              <DateContainer>
-                <Typography
-                  sx={{
-                    fontFamily: "Georgia",
-                    fontWeight: 700,
-                    fontSize: 13,
-                  }}
-                >
-                  {`${new Date(date).toLocaleString("en-US", {
-                    weekday: "long",
-                  })}/${new Date(date).toLocaleString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })}`}
-                </Typography>
-              </DateContainer>
-              {(arr as any).map((record, i) => {
-                return (
-                  <RecordContainer key={i}>
-                    <Slider {...settings}>
-                      <div>
-                        <CardContainer>
-                          <RecordWaveIcon />
-                          <Typography
-                            sx={{
-                              fontWeight: 500,
-                              fontSize: "13px",
-                              color: "#69696A",
-                              ml: 1,
-                            }}
-                          >
-                            {record.date.toDate().toLocaleTimeString("en-US", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </Typography>
-                        </CardContainer>
-                        <CardWrapper>
-                          <StyledHr />
-                          <RecordCard record={record} />
-                        </CardWrapper>
-                      </div>
-                      <ButtonsContainer>
-                        <Button onClick={() => deleteRecord(record.id)}>
-                          Delete
-                        </Button>
-                        <Button onClick={() => shareRecord(record)}>
-                          Share
-                        </Button>
-                      </ButtonsContainer>
-                    </Slider>
-                  </RecordContainer>
-                );
-              })}
-            </>
-          ))
+          Object.entries(filtered)
+            .reverse()
+            .map(([date, arr]) => (
+              <>
+                <DateContainer>
+                  <Typography
+                    sx={{
+                      fontFamily: "Georgia",
+                      fontWeight: 700,
+                      fontSize: 13,
+                    }}
+                  >
+                    {`${new Date(date).toLocaleString("en-US", {
+                      weekday: "long",
+                    })}/${new Date(date).toLocaleString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                    })}`}
+                  </Typography>
+                </DateContainer>
+                {(arr as any).map((record, i) => {
+                  return (
+                    <RecordContainer key={i}>
+                      <Slider {...settings}>
+                        <div>
+                          <CardContainer>
+                            <RecordWaveIcon />
+                            <Typography
+                              sx={{
+                                fontWeight: 500,
+                                fontSize: "13px",
+                                color: "#69696A",
+                                ml: 1,
+                              }}
+                            >
+                              {record.date
+                                .toDate()
+                                .toLocaleTimeString("en-US", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                            </Typography>
+                          </CardContainer>
+                          <CardWrapper>
+                            <StyledHr />
+                            <RecordCard record={record} />
+                          </CardWrapper>
+                        </div>
+                        <ButtonsContainer>
+                          <Button onClick={() => deleteRecord(record.id)}>
+                            Delete
+                          </Button>
+                          <Button onClick={() => shareRecord(record)}>
+                            Share
+                          </Button>
+                        </ButtonsContainer>
+                      </Slider>
+                    </RecordContainer>
+                  );
+                })}
+              </>
+            ))
         ) : (
           <CircularProgress />
         )}
@@ -222,7 +225,7 @@ export const getServerSideProps = async function ({ req, res }) {
 
 const StyledContainer = styled(Container)`
   ${({ theme }) => css`
-    padding: 0 ${theme.spacing(2.5)};
+    padding: 60px ${theme.spacing(2.5)};
   `}
 `;
 
@@ -278,4 +281,18 @@ const ButtonsContainer = styled("div")`
   align-items: center;
   height: 100%;
   flex-direction: column;
+`;
+
+const SearchTextField = styled(TextField)`
+  .MuiOutlinedInput-root,
+  .Mui-focused {
+    .MuiOutlinedInput-notchedOutline {
+      border: 1px solid #cccaca;
+      border-radius: 10px;
+    }
+
+    .MuiOutlinedInput-input {
+      padding: 14px 14px 14px 0;
+    }
+  }
 `;
