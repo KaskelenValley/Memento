@@ -53,15 +53,12 @@ export class Recorder {
     if (!this.isStream) {
       const formData = new FormData();
       formData.append("file", this.data[this.data.length - 1]);
-      await fetch(
-        "https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_MEMENTO_SPEECH}/ogg_to_wav/`, {
+        method: "POST",
+        body: formData,
+      });
       const res = await fetch(
-        "https://memento-speech-recognition-dev.herokuapp.com/stt_sync/",
+        `${process.env.NEXT_PUBLIC_MEMENTO_SPEECH}/stt_sync/`,
         {
           method: "POST",
           body: formData,
@@ -78,8 +75,6 @@ export class Recorder {
       if (blob.size !== 0 && this.ws.readyState === 1) {
         console.log("Sending message");
         this.ws.send(blob);
-      } else {
-        console.error("couldn't send message");
       }
     }
   }
@@ -136,7 +131,7 @@ export class Recorder {
     formData.append("file", b);
 
     const response = await fetch(
-      "https://tasty-olives-fry-159-223-3-201.loca.lt/predict_mood",
+      `${process.env.NEXT_PUBLIC_MEMENTO_MOOD_TRACKER}/predict_mood`,
       {
         method: "POST",
         body: JSON.stringify({ text: result }),
@@ -148,7 +143,7 @@ export class Recorder {
     );
     const moodRes = await response.json();
 
-    fetch("https://memento-speech-recognition-dev.herokuapp.com/ogg_to_wav/", {
+    return fetch(`${process.env.NEXT_PUBLIC_MEMENTO_SPEECH}/ogg_to_wav/`, {
       method: "POST",
       body: formData,
     }).then((response) =>

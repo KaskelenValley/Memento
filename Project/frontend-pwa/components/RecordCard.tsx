@@ -15,10 +15,12 @@ import { LeaveIcon } from "../icons/LeaveIcon";
 
 interface Props {
   record: any;
+  handleOpen?: (record) => void;
 }
 
 export const RecordCard: FC<Props> = ({
-  record: { title, result, blob, id, mood },
+  record: { title, result, blob, id, mood, date },
+  handleOpen,
 }) => {
   const [duration, setDuration] = useState<number>();
 
@@ -67,9 +69,13 @@ export const RecordCard: FC<Props> = ({
             </Typography>
           </TagCard>
         </TagCardContainer>
-        <StyledOptionButton href={`/records/${id}`}>
-          <ThreeDotsIcon />
-        </StyledOptionButton>
+        {handleOpen && (
+          <StyledOptionButton
+            onClick={() => handleOpen({ title, result, blob, id, mood, date })}
+          >
+            <ThreeDotsIcon />
+          </StyledOptionButton>
+        )}
       </ActionsContainer>
     </EntryCard>
   );

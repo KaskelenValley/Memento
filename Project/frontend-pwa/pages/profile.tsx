@@ -15,25 +15,28 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
-import { ArrowIcon, SettingsIcon, SupportIcon } from "../icons";
 
+import { Navbar } from "../components/Navbar/Navbar";
+import { ArrowIcon, SettingsIcon, SupportIcon } from "../icons";
 import { auth, db } from "../utils/firebase";
 
 const EditPage = () => {
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
   const [stat, setStat] = useState<any>();
+  const [displayName, setDisplayName] = useState();
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && user) {
       const fetchStats = async () => {
         const docRef = doc(db, "users", user?.uid);
         const docSnap = await getDoc(docRef);
         let writing = 0;
         let gratitude = 0;
+        setDisplayName(docSnap?.data().name);
 
         if (docSnap?.data()?.records) {
-          docSnap.data().records.map((rec) => {
+          docSnap.data().records.forEach((rec) => {
             if (rec.type === "writing") writing += 1;
             else if (rec.type === "gratitude") gratitude += 1;
           });
@@ -95,7 +98,7 @@ const EditPage = () => {
               }}
               align="center"
             >
-              {user?.displayName || "No name :("}
+              {user?.displayName || displayName || "No name :("}
             </Typography>
             <StatisticsContainer>
               <StatisticsWrapper>
@@ -207,6 +210,7 @@ const EditPage = () => {
           </Grid>
         </Grid>
       </ProfileInfoContainer>
+      <Navbar />
     </StyledContainer>
   );
 };
@@ -242,8 +246,9 @@ const ProfileInfoContainer = styled("div")`
 const ProfileAvatarContainer = styled("div")<{ url?: string }>`
   width: 120px;
   height: 120px;
-  background-image: ${(props) => (props?.url ? `url(${props.url})` : "gray")};
-  background-size: cover;
+  background-image: ${(props) =>
+    `url(${props?.url ? props.url : "/avatar.png"})`};
+  background-size: contain;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   border-radius: 17px;
   top: -60px;

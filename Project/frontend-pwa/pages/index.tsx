@@ -10,7 +10,6 @@ import {
   Select,
   InputAdornment,
   TextField,
-  MenuItem,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
@@ -24,17 +23,16 @@ import {
   signInWithRedirect,
   getRedirectResult,
 } from "firebase/auth";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { collection, doc, getDocs, query, setDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 import mementoIcon from "../public/memento.svg";
 import passwordIcon from "../public/icons/password.svg";
-import { countries } from "../utils/countries";
 import { auth, db } from "../utils/firebase";
 import { FacebookIcon, GoogleIcon } from "../icons";
-import Link from "next/link";
 import { CustomErrorToast, Toaster } from "../components/Toaster";
 
 const Index: FC = () => {
@@ -51,7 +49,6 @@ const Index: FC = () => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isValid, isDirty },
   } = useForm({ mode: "onChange" });
 
@@ -70,11 +67,9 @@ const Index: FC = () => {
     event.preventDefault();
   };
 
-  const mainCountry = countries.find((c) => c.code === "KZ");
-
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && router.pathname !== "register") {
         router.push("main");
       }
       setOpenBackdrop(false);
@@ -101,6 +96,7 @@ const Index: FC = () => {
               id: user.uid,
               emailAddress: user.email,
               verified: user.emailVerified,
+              mood: [],
             });
           }
 
@@ -110,6 +106,14 @@ const Index: FC = () => {
       .catch((error) => {
         notify(error.code);
       });
+  }, [router]);
+
+  useEffect(() => {
+    fetch(process.env.NEXT_PUBLIC_MEMENTO_SPEECH);
+    fetch(process.env.NEXT_PUBLIC_MEMENTO_SRS);
+    fetch(process.env.NEXT_PUBLIC_MEMENTO_TRANSLATOR);
+    fetch(process.env.NEXT_PUBLIC_MEMENTO_QUOTE);
+    fetch(process.env.NEXT_PUBLIC_MEMENTO_MOOD_TRACKER);
   }, []);
 
   const onSubmit = (data) => {
@@ -208,9 +212,6 @@ const Index: FC = () => {
           >
             <GoogleIcon />
           </StyledIconButton>
-          <StyledIconButton variant="outlined">
-            <FacebookIcon />
-          </StyledIconButton>
         </Box>
         <Typography
           sx={{
@@ -264,45 +265,6 @@ const StyledInput = styled(OutlinedInput)`
   }
 `;
 
-const StyledTextField = styled(TextField)`
-  width: 100%;
-
-  & > div {
-    border-radius: 12px;
-  }
-
-  margin-bottom: 8px;
-
-  .MuiSelect-select {
-    font-weight: 500;
-  }
-
-  .MuiOutlinedInput-input {
-    padding: 16px;
-  }
-
-  .MuiOutlinedInput-notchedOutline,
-  &.MuiOutlinedInput-root.Mui-focused fieldset {
-    border: 1px solid #c5ccd1;
-  }
-`;
-
-const StyledSelect = styled(Select)`
-  border: none;
-  width: 60px;
-
-  &.MuiSelect-select,
-  .MuiSelect-standard,
-  .MuiInput-input {
-    padding-right: 14px !important;
-  }
-
-  &::before,
-  &::after {
-    border: none;
-  }
-`;
-
 const StyledButton = styled(Button)`
   text-transform: none;
   background: #1d2022;
@@ -336,8 +298,4 @@ const StyledIconButton = styled(Button)`
   padding-bottom: 14px;
   border-radius: 12px;
   border: 1px solid #c5ccd1;
-
-  &:first-of-type {
-    margin-right: 8px;
-  }
 `;

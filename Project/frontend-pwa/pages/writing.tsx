@@ -1,17 +1,12 @@
-import {
-  Button,
-  Container,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Container, styled, TextField, Typography } from "@mui/material";
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import CloseButton from "../components/Button/CloseButton";
+import { Button } from "../components/Buttons/Button";
+import CloseButton from "../components/Buttons/CloseButton";
 import { UploadIcon } from "../icons";
 import { auth, db, storage } from "../utils/firebase";
 
@@ -155,9 +150,9 @@ const WritingPage = () => {
               </DescriptionContent>
             </Description>
           </DescriptionContainer>
-          <StyledButton sx={{ mt: 4 }} onClick={() => setIsStart(true)}>
+          <Button sx={{ mt: 4 }} onClick={() => setIsStart(true)}>
             Let's start
-          </StyledButton>
+          </Button>
         </>
       ) : (
         <>
@@ -199,7 +194,7 @@ const WritingPage = () => {
             Add a photo
             <input type="file" onChange={(e) => handleSetImage(e)} hidden />
           </UploadButton>
-          <StyledButton
+          <Button
             variant="contained"
             sx={{
               position: "absolute",
@@ -238,7 +233,7 @@ const WritingPage = () => {
             }}
           >
             Save Reflection
-          </StyledButton>
+          </Button>
         </>
       )}
     </StyledContainer>
@@ -268,26 +263,6 @@ const Description = styled("div")`
 `;
 
 const DescriptionContent = styled("div")``;
-
-const StyledButton = styled(Button)`
-  background: #000000;
-  border-radius: 12px;
-  color: #fff;
-  width: 100%;
-  height: 49px;
-  text-transform: none;
-  font-weight: 500;
-  font-size: 16px;
-
-  :disabled {
-    background: #f3f3f3;
-    color: #8f8f8f;
-  }
-
-  &:hover {
-    background: #000;
-  }
-`;
 
 const StyledTextField = styled(TextField)`
   width: 100%;

@@ -1,6 +1,7 @@
 import {
   Container,
   IconButton,
+  Skeleton,
   styled,
   TextField,
   Typography,
@@ -14,7 +15,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
 import toast from "react-hot-toast";
 
-import CloseButton from "../../components/Button/CloseButton";
+import CloseButton from "../../components/Buttons/CloseButton";
 import { DoneIcon, EditRecordIcon, TranslateIcon } from "../../icons";
 import { auth, db, storage } from "../../utils/firebase";
 
@@ -96,20 +97,52 @@ const Record: React.FC = () => {
 
     toast.success("Record updated successfully");
   };
-  console.log(record, res);
+
+  const translate = (record) => {
+    fetch(`${process.env.NEXT_PUBLIC_MEMENTO_TRANSLATOR}/translate`, {
+      method: "POST",
+      body: JSON.stringify({
+        text: record.result,
+        source_lang: "ru",
+        target_lang: "en",
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setRes(res.text);
+        setTranslated(true);
+      });
+  };
+
   return (
     <StyledContainer>
       <CloseButton position="top-right" onClick={() => push("/records")} />
       <DateTypography align="center">
-        {record &&
+        {record ? (
           new Date(record.date.toDate()).toLocaleString("en-US", {
             weekday: "long",
             month: "long",
             day: "numeric",
-          })}
+          })
+        ) : (
+          <Typography component="div" variant={"h4"} ml={6} mr={6}>
+            <Skeleton />
+          </Typography>
+        )}
       </DateTypography>
       {!updateMode ? (
         <>
+          {!record && (
+            <>
+              <Skeleton />
+              <Skeleton
+                variant="rectangular"
+                height={118}
+                style={{ marginTop: 60 }}
+              />
+            </>
+          )}
           {record?.imgSrc && (
             <Image
               src={record.imgSrc}
@@ -148,30 +181,15 @@ const Record: React.FC = () => {
               >
                 {record.title}
               </Typography>
-              <StyledIcon
-                onClick={() => {
-                  fetch(
-                    "https://memento-translator-dev.herokuapp.com/translate",
-                    {
-                      method: "POST",
-                      body: JSON.stringify({
-                        text: record.result,
-                        source_lang: "ru",
-                        target_lang: "en",
-                      }),
-                      headers: { "Content-Type": "application/json" },
-                    }
-                  )
-                    .then((res) => res.json())
-                    .then((res) => {
-                      setRes(res.text);
-                      setTranslated(true);
-                    });
-                }}
-              >
+              <StyledIcon onClick={() => translate(record)}>
                 <TranslateIcon />
               </StyledIcon>
             </StyledBox>
+          )}
+          {record && !record.title && (
+            <StyledIcon onClick={() => translate(record)}>
+              <TranslateIcon />
+            </StyledIcon>
           )}
           <Typography
             sx={{ fontWeight: 300, fontSize: "16px", lineHeight: "30px" }}
@@ -350,6 +368,7 @@ const StyledBox = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0;
 `;
 
 const StyledIcon = styled(IconButton)`

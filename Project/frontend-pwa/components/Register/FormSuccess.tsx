@@ -1,49 +1,9 @@
-import { useForm } from "react-hook-form";
 import { styled } from "@mui/material/styles";
-import {
-  Typography,
-  Button,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
-import { useState } from "react";
-import Image from "next/image";
-
-import { ArrowIcon } from "../../icons";
-import passwordIcon from "../../public/icons/password.svg";
+import { Typography, Button } from "@mui/material";
 
 export const FormSuccess = () => {
-  const {
-    register,
-    handleSubmit,
-    control,
-    getValues,
-    formState: { errors, isValid, isDirty },
-  } = useForm({ mode: "onChange" });
-
-  const [values, setValues] = useState({
-    textmask: "(100) 000-0000",
-    numberformat: "1320",
-    showPassword: false,
-  });
-
-  const handleClickShowPassword = () => {
-    setValues({
-      ...values,
-      showPassword: !values.showPassword,
-    });
-  };
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
   return (
     <>
-      <section></section>
       <StyledBox>
         <Typography
           sx={{
@@ -65,9 +25,7 @@ export const FormSuccess = () => {
           }}
           textAlign="center"
         >
-          Password has been successfully
-          <br />
-          changed!
+          Success!
         </Typography>
       </StyledBox>
       <StyledButton id="btn" href="main" variant="contained">
@@ -108,14 +66,6 @@ const StyledBox = styled("div")`
   }
 `;
 
-const ArrowContainer = styled("div")`
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  width: fit-content;
-  padding: 8px;
-  display: flex;
-`;
-
 const StyledButton = styled(Button)`
   text-transform: none;
   background: #1d2022;
@@ -132,15 +82,5 @@ const StyledButton = styled(Button)`
 
   &:hover {
     background: #1d2022;
-  }
-`;
-
-const StyledInput = styled(OutlinedInput)`
-  border-radius: 12px;
-  width: 100%;
-  margin-bottom: 8px;
-
-  .MuiOutlinedInput-input {
-    padding: 16px;
   }
 `;

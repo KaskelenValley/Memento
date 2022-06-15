@@ -4,27 +4,30 @@ import {
   CircularProgress,
   Container,
   css,
+  InputAdornment,
+  Modal,
   styled,
   TextField,
   Typography,
+  Box,
 } from "@mui/material";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { deleteObject, getBlob, ref } from "firebase/storage";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
-import Slider from "react-slick";
 
 import { auth, db, storage } from "../../utils/firebase";
-import { RecordWaveIcon } from "../../icons";
-import CloseButton from "../../components/Button/CloseButton";
+import { DeleteIcon, RecordWaveIcon, SearchIcon, ShareIcon } from "../../icons";
+import CloseButton from "../../components/Buttons/CloseButton";
 import { RecordCard } from "../../components/RecordCard";
 import { groupByDate } from "../../utils";
+import { Navbar } from "../../components/Navbar/Navbar";
 
 const Records = (props) => {
   const [records, setRecords] = useState<any>();
   const [filtered, setFiltered] = useState<any>();
-  const [text, setText] = useState<any>([]);
-
+  const [open, setOpen] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState<any>();
   const [user, loading] = useAuthState(auth);
   const { push } = useRouter();
 
@@ -33,6 +36,13 @@ const Records = (props) => {
   if (user) {
     docRef = doc(db, "users", user.uid);
   }
+
+  const handleOpen = (record) => {
+    setOpen(true);
+    setCurrentRecord(record);
+  };
+
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     if (!loading) {
@@ -57,7 +67,6 @@ const Records = (props) => {
 
           setRecords(arr);
           setFiltered(groupByDate(arr));
-          setText(arr);
         }
       );
 
@@ -72,12 +81,6 @@ const Records = (props) => {
     setFiltered(groupByDate(filteredArr));
   };
 
-  const handleChangeInput = (event: any, id: string) => {
-    const arr = text.filter((t) => t.id !== id);
-
-    setText([...arr, { id, result: event.target.value }]);
-  };
-
   const deleteRecord = async (id) => {
     const docSnap: any = await getDoc(docRef);
     const records = docSnap.data().records;
@@ -85,18 +88,9 @@ const Records = (props) => {
     updateDoc(doc(db, "users", user.uid), {
       records: filtered,
     });
-    deleteObject(ref(storage, id));
+    deleteObject(ref(storage, id)).catch((err) => console.log(err));
     alert("Deleted!");
-  };
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 1000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    className: "center",
-    arrows: false,
+    handleClose();
   };
 
   const shareRecord = (record: any) => {
@@ -104,15 +98,19 @@ const Records = (props) => {
       navigator
         .share({
           title: record.title,
-          text: record.result,
-          // url: window.location.href,
+          text: `${record.title}\n\n${record.result}\n\n${record.date
+            .toDate()
+            .toLocaleString("en-US", {
+              weekday: "long",
+            })}/${record.date.toDate().toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+          })}`,
         })
-        .then(() => console.log("Successful share"))
+        .then(handleClose)
         .catch((error) => console.log("Error sharing", error));
     }
   };
-
-  console.log(records);
 
   return (
     <StyledContainer>
@@ -122,18 +120,24 @@ const Records = (props) => {
           fontWeight: 500,
           fontSize: "54px",
           color: "rgba(44, 44, 44, 0.1)",
-          mt: 6,
+          mb: 4,
         }}
         align="center"
       >
         Your entries
       </Typography>
-      <TextField
+      <SearchTextField
         onChange={handleChange}
-        label="Search"
+        placeholder="Search"
         type="search"
-        variant="standard"
         sx={{ width: "100%" }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
       />
       <RecordsContainer>
         {filtered && Object.keys(filtered).length === 0 && (
@@ -161,38 +165,26 @@ const Records = (props) => {
               {(arr as any).map((record, i) => {
                 return (
                   <RecordContainer key={i}>
-                    <Slider {...settings}>
-                      <div>
-                        <CardContainer>
-                          <RecordWaveIcon />
-                          <Typography
-                            sx={{
-                              fontWeight: 500,
-                              fontSize: "13px",
-                              color: "#69696A",
-                              ml: 1,
-                            }}
-                          >
-                            {record.date.toDate().toLocaleTimeString("en-US", {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </Typography>
-                        </CardContainer>
-                        <CardWrapper>
-                          <StyledHr />
-                          <RecordCard record={record} />
-                        </CardWrapper>
-                      </div>
-                      <ButtonsContainer>
-                        <Button onClick={() => deleteRecord(record.id)}>
-                          Delete
-                        </Button>
-                        <Button onClick={() => shareRecord(record)}>
-                          Share
-                        </Button>
-                      </ButtonsContainer>
-                    </Slider>
+                    <CardContainer>
+                      <RecordWaveIcon />
+                      <Typography
+                        sx={{
+                          fontWeight: 500,
+                          fontSize: "13px",
+                          color: "#69696A",
+                          ml: 1,
+                        }}
+                      >
+                        {record.date.toDate().toLocaleTimeString("en-US", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </Typography>
+                    </CardContainer>
+                    <CardWrapper>
+                      <StyledHr />
+                      <RecordCard record={record} handleOpen={handleOpen} />
+                    </CardWrapper>
                   </RecordContainer>
                 );
               })}
@@ -202,6 +194,27 @@ const Records = (props) => {
           <CircularProgress />
         )}
       </RecordsContainer>
+      <StyledModal open={open} onClose={handleClose}>
+        <StyledBox>
+          <ModalButton
+            variant="text"
+            style={{ fontWeight: 500, fontSize: 16 }}
+            startIcon={<ShareIcon />}
+            onClick={() => shareRecord(currentRecord)}
+          >
+            Share
+          </ModalButton>
+          <ModalButton
+            variant="text"
+            style={{ fontWeight: 500, fontSize: 16 }}
+            startIcon={<DeleteIcon />}
+            onClick={() => deleteRecord(currentRecord.id)}
+          >
+            Delete
+          </ModalButton>
+        </StyledBox>
+      </StyledModal>
+      <Navbar />
     </StyledContainer>
   );
 };
@@ -216,7 +229,7 @@ export const getServerSideProps = async function ({ req, res }) {
 
 const StyledContainer = styled(Container)`
   ${({ theme }) => css`
-    padding: 0 ${theme.spacing(2.5)};
+    padding: 60px ${theme.spacing(2.5)} 120px;
   `}
 `;
 
@@ -266,10 +279,48 @@ const CardWrapper = styled("div")`
   }
 `;
 
-const ButtonsContainer = styled("div")`
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  flex-direction: column;
+const SearchTextField = styled(TextField)`
+  .MuiOutlinedInput-root,
+  .Mui-focused {
+    .MuiOutlinedInput-notchedOutline {
+      border: 1px solid #cccaca;
+      border-radius: 10px;
+    }
+
+    .MuiOutlinedInput-input {
+      padding: 14px 14px 14px 0;
+    }
+  }
+`;
+
+const StyledModal = styled(Modal)`
+  .MuiBackdrop-root {
+    background: rgba(44, 44, 44, 0.1);
+  }
+`;
+
+const StyledBox = styled(Box)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  background: white;
+  box-shadow: 0px 10px 20px rgba(44, 44, 44, 0.2);
+  border-radius: 16px;
+`;
+
+const ModalButton = styled(Button)`
+  font-weight: 500;
+  border-radius: 16px;
+  font-size: 16px;
+  color: #2c2c2c;
+  text-transform: none;
+  padding: 0;
+  width: 100%;
+  padding: 16px;
+
+  &:first-of-type {
+    border-bottom: 1px solid #efefef;
+  }
 `;

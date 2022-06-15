@@ -1,11 +1,12 @@
-import { Button, Container, styled, Typography } from "@mui/material";
+import { Container, styled, Typography } from "@mui/material";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Slider from "react-slick";
 
-import CloseButton from "../components/Button/CloseButton";
+import { Button } from "../components/Buttons/Button";
+import CloseButton from "../components/Buttons/CloseButton";
 import { auth, db } from "../utils/firebase";
 
 enum Mood {
@@ -65,7 +66,7 @@ const CheckinPage = () => {
         <CheckinBlock src={"/icons/neutral-mood.png"} />
         <CheckinBlock src={"/icons/sad-mood.png"} />
       </StyledSlider>
-      <StyledButton
+      <Button
         onClick={async () => {
           const date = new Date().toLocaleString("en-US").split(",")[0];
 
@@ -86,7 +87,7 @@ const CheckinPage = () => {
         }}
       >
         Continue
-      </StyledButton>
+      </Button>
     </StyledContainer>
   );
 };
@@ -128,19 +129,5 @@ const StyledSlider = styled(Slider)`
         height: 360px;
       }
     }
-  }
-`;
-
-const StyledButton = styled(Button)`
-  background: #000000;
-  border-radius: 12px;
-  color: #fff;
-  width: 100%;
-  height: 49px;
-  text-transform: none;
-
-  :disabled {
-    background: #f3f3f3;
-    color: #8f8f8f;
   }
 `;
