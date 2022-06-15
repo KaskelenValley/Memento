@@ -15,7 +15,7 @@ import { LeaveIcon } from "../icons/LeaveIcon";
 
 interface Props {
   record: any;
-  handleOpen: (record) => void;
+  handleOpen?: (record) => void;
 }
 
 export const RecordCard: FC<Props> = ({
@@ -69,11 +69,13 @@ export const RecordCard: FC<Props> = ({
             </Typography>
           </TagCard>
         </TagCardContainer>
-        <StyledOptionButton
-          onClick={() => handleOpen({ title, result, blob, id, mood, date })}
-        >
-          <ThreeDotsIcon />
-        </StyledOptionButton>
+        {handleOpen && (
+          <StyledOptionButton
+            onClick={() => handleOpen({ title, result, blob, id, mood, date })}
+          >
+            <ThreeDotsIcon />
+          </StyledOptionButton>
+        )}
       </ActionsContainer>
     </EntryCard>
   );
