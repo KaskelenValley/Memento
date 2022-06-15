@@ -1,6 +1,6 @@
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
-export const StatisticsIcon = (props: SvgIconProps) => {
+export const StatisticsIcon = (props: SvgIconProps & { isActive: boolean }) => {
   return (
     <SvgIcon {...props}>
       <svg
@@ -13,20 +13,20 @@ export const StatisticsIcon = (props: SvgIconProps) => {
         <path d="M24 0H0V24H24V0Z" fill="white" fillOpacity="0.01" />
         <path
           d="M8.5 9H2V21H8.5V9Z"
-          stroke="#ACCEC8"
+          stroke={`${props.isActive ? "#2c2c2c" : "#ACCEC8"}`}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
         <path
           d="M15 3H8.5V21H15V3Z"
-          stroke="#ACCEC8"
+          stroke={`${props.isActive ? "#2c2c2c" : "#ACCEC8"}`}
           strokeWidth="2"
           strokeLinejoin="round"
         />
         <path
           d="M21.5 13H15V21H21.5V13Z"
-          stroke="#ACCEC8"
+          stroke={`${props.isActive ? "#2c2c2c" : "#ACCEC8"}`}
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
