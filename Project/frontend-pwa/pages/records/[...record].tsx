@@ -1,6 +1,7 @@
 import {
   Container,
   IconButton,
+  Skeleton,
   styled,
   TextField,
   Typography,
@@ -96,20 +97,35 @@ const Record: React.FC = () => {
 
     toast.success("Record updated successfully");
   };
-  console.log(record, res);
+
   return (
     <StyledContainer>
       <CloseButton position="top-right" onClick={() => push("/records")} />
       <DateTypography align="center">
-        {record &&
+        {record ? (
           new Date(record.date.toDate()).toLocaleString("en-US", {
             weekday: "long",
             month: "long",
             day: "numeric",
-          })}
+          })
+        ) : (
+          <Typography component="div" variant={"h4"} ml={6} mr={6}>
+            <Skeleton />
+          </Typography>
+        )}
       </DateTypography>
       {!updateMode ? (
         <>
+          {!record && (
+            <>
+              <Skeleton />
+              <Skeleton
+                variant="rectangular"
+                height={118}
+                style={{ marginTop: 60 }}
+              />
+            </>
+          )}
           {record?.imgSrc && (
             <Image
               src={record.imgSrc}
