@@ -90,6 +90,7 @@ const Records = (props) => {
     });
     deleteObject(ref(storage, id)).catch((err) => console.log(err));
     alert("Deleted!");
+    handleClose();
   };
 
   const shareRecord = (record: any) => {
@@ -106,7 +107,7 @@ const Records = (props) => {
             day: "numeric",
           })}`,
         })
-        .then(() => console.log("Successful share"))
+        .then(handleClose)
         .catch((error) => console.log("Error sharing", error));
     }
   };
@@ -199,10 +200,7 @@ const Records = (props) => {
             variant="text"
             style={{ fontWeight: 500, fontSize: 16 }}
             startIcon={<ShareIcon />}
-            onClick={() => {
-              shareRecord(currentRecord);
-              handleClose();
-            }}
+            onClick={() => shareRecord(currentRecord)}
           >
             Share
           </ModalButton>
@@ -210,10 +208,7 @@ const Records = (props) => {
             variant="text"
             style={{ fontWeight: 500, fontSize: 16 }}
             startIcon={<DeleteIcon />}
-            onClick={() => {
-              deleteRecord(currentRecord.id);
-              handleClose();
-            }}
+            onClick={() => deleteRecord(currentRecord.id)}
           >
             Delete
           </ModalButton>
@@ -317,6 +312,7 @@ const StyledBox = styled(Box)`
 
 const ModalButton = styled(Button)`
   font-weight: 500;
+  border-radius: 16px;
   font-size: 16px;
   color: #2c2c2c;
   text-transform: none;
