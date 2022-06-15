@@ -1,15 +1,17 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from google.cloud import translate
-from google.api_core.exceptions import GoogleAPIError
+import requests
+import json
 
 from models import TranslateRequest, TranslateResponse
+from settings import api_config
 
+
+FOLDER_ID = api_config["FOLDER_ID"]
+API_KEY = api_config["API_KEY"]
 
 app = FastAPI()
-
 origins = ["*"]
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -18,13 +20,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-translator_client = translate.TranslationServiceClient()
 request_template = {
-    "parent": "projects/mood-tracker-348214/locations/global",
-    "contents": [],
-    "mime_type": "text/plain",
-    "source_language_code": "ru",
-    "target_language_code": "kk",
+    "sourceLanguageCode": "ru",
+    "targetLanguageCode": "kk",
+    "texts": [0],
+    "folderId": FOLDER_ID,
+}
+
+headers = {
+    "Content-Type": "application/json",
+    "Authorization": "Api-Key {0}".format(API_KEY),
 }
 
 
@@ -35,14 +40,14 @@ async def root():
 
 @app.post("/translate", response_model=TranslateResponse)
 async def translate_text(request: TranslateRequest):
-    request_template["contents"] = [request.text]
-    request_template["source_language_code"] = request.source_lang
-    request_template["target_language_code"] = request.target_lang
+    request_template["texts"] = [request.text]
+    request_template["sourceLanguageCode"] = request.source_lang
+    request_template["targetLanguageCode"] = request.target_lang
 
-    try:
-        response = translator_client.translate_text(request_template)
-        translated_text = response.translations[0].translated_text
-    except GoogleAPIError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-    return TranslateResponse(text=translated_text)
+    response = requests.post(
+        "https://translate.api.cloud.yandex.net/translate/v2/translate",
+        json=request_template,
+        headers=headers,
+    )
+    response = json.loads(response.text)
+    return TranslateResponse(text=response["translations"][0]["text"])
