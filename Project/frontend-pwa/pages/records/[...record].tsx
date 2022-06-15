@@ -366,6 +366,7 @@ const StyledBox = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 30px 0 0;
 `;
 
 const StyledIcon = styled(IconButton)`
