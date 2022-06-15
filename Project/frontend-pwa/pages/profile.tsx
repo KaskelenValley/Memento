@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
 
+import { Navbar } from "../components/Navbar/Navbar";
 import { ArrowIcon, SettingsIcon, SupportIcon } from "../icons";
 import { auth, db } from "../utils/firebase";
 
@@ -209,6 +210,7 @@ const EditPage = () => {
           </Grid>
         </Grid>
       </ProfileInfoContainer>
+      <Navbar />
     </StyledContainer>
   );
 };
