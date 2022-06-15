@@ -4,11 +4,14 @@ import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { sendPasswordResetEmail } from "firebase/auth";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 import { ArrowIcon } from "../icons";
 import { auth } from "../utils/firebase";
 
 const RecoverPage: FC = () => {
+  const { push } = useRouter();
   const {
     register,
     getValues,
@@ -50,7 +53,10 @@ const RecoverPage: FC = () => {
         disabled={!isDirty || !isValid}
         onClick={() => {
           sendPasswordResetEmail(auth, getValues("email"))
-            .then(() => {})
+            .then(() => {
+              toast.success("Password reset email sent!");
+              push("/");
+            })
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
