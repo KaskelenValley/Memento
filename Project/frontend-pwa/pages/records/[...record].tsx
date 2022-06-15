@@ -98,6 +98,23 @@ const Record: React.FC = () => {
     toast.success("Record updated successfully");
   };
 
+  const translate = (record) => {
+    fetch(`${process.env.NEXT_PUBLIC_MEMENTO_TRANSLATOR}/translate`, {
+      method: "POST",
+      body: JSON.stringify({
+        text: record.result,
+        source_lang: "ru",
+        target_lang: "en",
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        setRes(res.text);
+        setTranslated(true);
+      });
+  };
+
   return (
     <StyledContainer>
       <CloseButton position="top-right" onClick={() => push("/records")} />
@@ -164,30 +181,15 @@ const Record: React.FC = () => {
               >
                 {record.title}
               </Typography>
-              <StyledIcon
-                onClick={() => {
-                  fetch(
-                    `${process.env.NEXT_PUBLIC_MEMENTO_TRANSLATOR}/translate`,
-                    {
-                      method: "POST",
-                      body: JSON.stringify({
-                        text: record.result,
-                        source_lang: "ru",
-                        target_lang: "en",
-                      }),
-                      headers: { "Content-Type": "application/json" },
-                    }
-                  )
-                    .then((res) => res.json())
-                    .then((res) => {
-                      setRes(res.text);
-                      setTranslated(true);
-                    });
-                }}
-              >
+              <StyledIcon onClick={() => translate(record)}>
                 <TranslateIcon />
               </StyledIcon>
             </StyledBox>
+          )}
+          {record && !record.title && (
+            <StyledIcon onClick={() => translate(record)}>
+              <TranslateIcon />
+            </StyledIcon>
           )}
           <Typography
             sx={{ fontWeight: 300, fontSize: "16px", lineHeight: "30px" }}
@@ -366,7 +368,7 @@ const StyledBox = styled("div")`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 30px 0 0;
+  margin: 0;
 `;
 
 const StyledIcon = styled(IconButton)`
