@@ -212,9 +212,6 @@ const Index: FC = () => {
           >
             <GoogleIcon />
           </StyledIconButton>
-          <StyledIconButton variant="outlined">
-            <FacebookIcon />
-          </StyledIconButton>
         </Box>
         <Typography
           sx={{
@@ -301,8 +298,4 @@ const StyledIconButton = styled(Button)`
   padding-bottom: 14px;
   border-radius: 12px;
   border: 1px solid #c5ccd1;
-
-  &:first-of-type {
-    margin-right: 8px;
-  }
 `;
