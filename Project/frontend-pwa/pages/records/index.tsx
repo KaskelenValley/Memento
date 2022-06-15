@@ -20,6 +20,7 @@ import { RecordWaveIcon, SearchIcon } from "../../icons";
 import CloseButton from "../../components/Buttons/CloseButton";
 import { RecordCard } from "../../components/RecordCard";
 import { groupByDate } from "../../utils";
+import { Navbar } from "../../components/Navbar/Navbar";
 
 const Records = (props) => {
   const [records, setRecords] = useState<any>();
@@ -111,8 +112,6 @@ const Records = (props) => {
     }
   };
 
-  console.log(records);
-
   return (
     <StyledContainer>
       <CloseButton position="top-right" onClick={() => push("main")} />
@@ -145,72 +144,69 @@ const Records = (props) => {
           <Typography>There is no records</Typography>
         )}
         {filtered ? (
-          Object.entries(filtered)
-            .reverse()
-            .map(([date, arr]) => (
-              <>
-                <DateContainer>
-                  <Typography
-                    sx={{
-                      fontFamily: "Georgia",
-                      fontWeight: 700,
-                      fontSize: 13,
-                    }}
-                  >
-                    {`${new Date(date).toLocaleString("en-US", {
-                      weekday: "long",
-                    })}/${new Date(date).toLocaleString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                    })}`}
-                  </Typography>
-                </DateContainer>
-                {(arr as any).map((record, i) => {
-                  return (
-                    <RecordContainer key={i}>
-                      <Slider {...settings}>
-                        <div>
-                          <CardContainer>
-                            <RecordWaveIcon />
-                            <Typography
-                              sx={{
-                                fontWeight: 500,
-                                fontSize: "13px",
-                                color: "#69696A",
-                                ml: 1,
-                              }}
-                            >
-                              {record.date
-                                .toDate()
-                                .toLocaleTimeString("en-US", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })}
-                            </Typography>
-                          </CardContainer>
-                          <CardWrapper>
-                            <StyledHr />
-                            <RecordCard record={record} />
-                          </CardWrapper>
-                        </div>
-                        <ButtonsContainer>
-                          <Button onClick={() => deleteRecord(record.id)}>
-                            Delete
-                          </Button>
-                          <Button onClick={() => shareRecord(record)}>
-                            Share
-                          </Button>
-                        </ButtonsContainer>
-                      </Slider>
-                    </RecordContainer>
-                  );
-                })}
-              </>
-            ))
+          Object.entries(filtered).map(([date, arr]) => (
+            <>
+              <DateContainer>
+                <Typography
+                  sx={{
+                    fontFamily: "Georgia",
+                    fontWeight: 700,
+                    fontSize: 13,
+                  }}
+                >
+                  {`${new Date(date).toLocaleString("en-US", {
+                    weekday: "long",
+                  })}/${new Date(date).toLocaleString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                  })}`}
+                </Typography>
+              </DateContainer>
+              {(arr as any).map((record, i) => {
+                return (
+                  <RecordContainer key={i}>
+                    <Slider {...settings}>
+                      <div>
+                        <CardContainer>
+                          <RecordWaveIcon />
+                          <Typography
+                            sx={{
+                              fontWeight: 500,
+                              fontSize: "13px",
+                              color: "#69696A",
+                              ml: 1,
+                            }}
+                          >
+                            {record.date.toDate().toLocaleTimeString("en-US", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </Typography>
+                        </CardContainer>
+                        <CardWrapper>
+                          <StyledHr />
+                          <RecordCard record={record} />
+                        </CardWrapper>
+                      </div>
+                      <ButtonsContainer>
+                        <Button onClick={() => deleteRecord(record.id)}>
+                          Delete
+                        </Button>
+                        <Button onClick={() => shareRecord(record)}>
+                          Share
+                        </Button>
+                      </ButtonsContainer>
+                    </Slider>
+                  </RecordContainer>
+                );
+              })}
+            </>
+          ))
         ) : (
           <CircularProgress />
         )}
       </RecordsContainer>
+      <Navbar />
     </StyledContainer>
   );
 };

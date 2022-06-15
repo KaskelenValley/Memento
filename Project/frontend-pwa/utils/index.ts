@@ -35,9 +35,9 @@ export const groupByDate = (arr) => {
   }, {});
 
   return Object.keys(obj)
-    .sort()
+    .sort((a, b) => Date.parse(a) - Date.parse(b))
     .reverse()
-    .reduce(function (result, key) {
+    .reduce((result, key) => {
       result[key] = obj[key];
       return result;
     }, {});
