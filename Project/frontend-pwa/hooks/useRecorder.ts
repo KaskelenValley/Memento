@@ -75,8 +75,6 @@ export class Recorder {
       if (blob.size !== 0 && this.ws.readyState === 1) {
         console.log("Sending message");
         this.ws.send(blob);
-      } else {
-        console.error("couldn't send message");
       }
     }
   }
